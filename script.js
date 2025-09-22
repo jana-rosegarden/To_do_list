@@ -176,10 +176,11 @@ if(workingFoldersContainer) {
                     <button type="button" class="done-task-btn" data-id=${newTask.id}> Done </button> 
                     <button type="button" class="delete-task-btn" data-id=${newTask.id}> Delete </button>
                     <button type="button" class="add-badge-btn" data-id=${newTask.id}> Add badge </button>
+
                     <div class="task-badge-container hide" data-id=${newTask.id}> 
-                        <button type="button"> Urgent </button>
-                        <button type="button"> Datum  </button>
-                        <button type="button"> Optional </button>
+                        <button type="button" class="badge-urgent" data-id=${newTask.id}> Urgent </button>
+                        <button type="button" data-id=${newTask.id}> Datum  </button>
+                        <button type="button" data-id=${newTask.id}> Optional </button>
                     </div>
             `;
 
@@ -192,7 +193,9 @@ if(workingFoldersContainer) {
         //badges 
         if(e.target.classList.contains("add-badge-btn")){
             document.querySelector(`.task-badge-container[data-id=${newTask.id}]`).classList.remove("hide")
-
+             
+                
+            
             //create badges array or update it
 
             //create date badge with date object???
@@ -203,6 +206,12 @@ if(workingFoldersContainer) {
 
 
         }
+
+        //Test mit Urgent badge
+
+        if(e.target.classList.contains("badge-urgent")){
+                    console.log("Urgent")
+                } // works!
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){
