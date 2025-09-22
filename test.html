@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <h1>My To Do List</h1>
+
+            <!--div with folders-->
+        <div id="list-wrapper">
+
+        
+            <div id="folders-container">
+                
+                <div class="folder-div">
+                    <h2>Urgent</h2>
+
+                    <div class="folders-statistik">
+                        <h3>Completed: </h3>
+                        <div class="statistik-num""></div>
+                    </div>
+
+                    <div class="folders-statistik">
+                        <h3>To do: </h3>
+                        <div class="statistik-num""></div>
+                    </div>
+  
+                </div>
+
+                <button type="button" id="add-folder-btn">Add folder</button>
+
+                <div id="rendering-folder-div" class="hide">
+                    <label for="folders-name" >Folders name</label>
+                    <input type="text" id="folders-name">
+                    
+                    <button type="button" id="create-folder-btn">Create folder</button>
+                    <button type="button" id="close-add-folder">close</button>
+                </div>
+            </div>
+
+            <!--Working fonders div-->
+
+            <div id="working-folders-container">
+                
+            </div>
+
+        </div>
+        <script src="script.js" type="module"></script>
+    </body>
+</html>

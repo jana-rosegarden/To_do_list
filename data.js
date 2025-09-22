@@ -1,0 +1,1 @@
+import myFolders from "./script";

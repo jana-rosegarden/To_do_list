@@ -1,0 +1,60 @@
+#list-wrapper{
+    display: flex;
+    gap: 20px;
+}
+
+
+#folders-container{
+    padding: 20px;
+    width: 300px;
+    border: solid 3px plum;
+}
+.folder-div{
+    border: solid 2px lightgreen;
+    padding: 10px;
+}
+.folders-statistik{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.statistik-num{
+    width: 30px;
+    height: 30px;
+    border: solid 2px gray;
+}
+#add-folder-btn{
+    margin-top: 20px;
+}
+
+#working-folders-container{
+    width: 400px;
+    height: 600px;
+    border: solid 2px royalblue;
+}
+
+.hide{
+    display: none;
+}
+.show{
+    display: block;
+}
+
+
+#rendering-folder-div{
+    margin-top: 20px;
+    padding: 10px;
+    border: solid 2px orange;
+    
+}
+.task-container{
+    height: 250px;
+    width: 250px;
+    background-color: pink;
+}
+.task-done{
+    color: orange;
+}
+.completed-task-ul{
+    border: solid 3px red;
+}
