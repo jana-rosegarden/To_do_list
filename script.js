@@ -232,8 +232,7 @@ if(workingFoldersContainer) {
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){
-            //countOnTask()
-            //countCompletedTask()
+            
             let targetTaskId = e.target.dataset.id
             let targetFolderId = e.target.parentNode.dataset.id
             
@@ -251,6 +250,29 @@ if(workingFoldersContainer) {
             //delete li element from the DOM:
             e.target.parentNode.remove();
             console.log(targetFolder)
+            countOnTask()
+            countCompletedTask()
+            /*function countOnTask(){
+    onTaskAmount = targetFolder.tasks.filter(task =>{
+                return(task.isOn === true)
+            }).length;
+
+    document.querySelector(`.on-statistik[data-id=${targetFolder.id}]`).innerHTML=`
+                To do: ${onTaskAmount}
+            `
+}
+
+function countCompletedTask() {
+    completedTaskAmount = targetFolder.tasks.filter(task =>{
+                return task.isCompleted === true
+            }).length;
+
+            document.querySelector(`.completed-statistik[data-id=${targetFolder.id}]`).innerHTML = `
+                Completed: ${completedTaskAmount}
+            `
+} */
+
+
         }
 
         //mark the task as "Done"
