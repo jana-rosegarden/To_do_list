@@ -20,6 +20,7 @@ let myFolders = []
 let targetFolder = ""
 let newTaskInput = ""
 let newTask = {}
+let targetTaskBadge = ""
 
 //statistik
 
@@ -174,7 +175,7 @@ if(workingFoldersContainer) {
             newTaskElement.dataset.id = folderId
             newTaskElement.innerHTML = `
                     <h5 class="task-name" data-id=${newTask.id}> ${newTask.name}</h5>
-                    <div class="chosen-badge-container" data-id=${folderId}> </div> 
+                    <div class="chosen-badge-container" data-id=${newTask.id}> </div> 
                     <button type="button" class="done-task-btn" data-id=${newTask.id}> Done </button> 
                     <button type="button" class="delete-task-btn" data-id=${newTask.id}> Delete </button>
                     <button type="button" class="add-badge-btn" data-id=${newTask.id}> Add badge </button>
@@ -189,20 +190,20 @@ if(workingFoldersContainer) {
             document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
             //clear the input
             document.querySelector(`.input-task[data-id=${folderId}]`).value = ""
-
+            console.log("Task id from add task is " + newTask.id)
         }
 
         //Show badges:
         if(e.target.classList.contains("add-badge-btn")){
-            document.querySelector(`.task-badge-container[data-id=${newTask.id}]`).classList.remove("hide")
-             
+            document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide")
+             //console.log(e.target.dataset.id) 
             //create date badge with date object???
 
             //show the chosen badge
 
             //let delete badge if not needed any more
 
-
+            
         }
 
         //Test mit Urgent badge
@@ -215,15 +216,27 @@ if(workingFoldersContainer) {
                     //show folder:
                     //console.log(targetFolder)
 
+
+                    // 22.09 - Problem hier
+
                     //update badge arr
-                    let targetTaskBadge = targetFolder.tasks.filter(item=>{
-                        return item.id = e.target.dataset.id
-                    })[0]
-                    let targetTaskIdBadge = targetTaskBadge.id
-                    targetTaskBadge.badge.push(e.target.innerHTML)
+                    //find target task OBJEKT:
+                    //console.log(e.target.dataset.id) // - gibt richtige Daten! - richtige TaskID
+                    let targetTaskObjekt = targetFolder.tasks.find(item=>{
+                        return item.id === e.target.dataset.id
+                    })
+                    
+                    targetTaskObjekt.badge.push(e.target.innerHTML) 
+                    
+                    console.log("Task Id from Badge Urgent is..." + e.target.dataset.id)
+                    
+
+
+                    let targetTaskIdBadgeId = targetTaskBadge.id
+                    
 
                     //show badge near the task, create Element with the badge:
-                    document.querySelector(`.chosen-badge-container[data-id=${targetFolder.id}]`).innerHTML = `
+                    document.querySelector(`.chosen-badge-container[data-id=${targetTaskObjekt.id}]`).innerHTML = `
                         <span> ${e.target.innerHTML} </span>
                     `
                     
@@ -246,12 +259,15 @@ if(workingFoldersContainer) {
                 return task.id !== targetTaskId
             });
 
-            
+            console.log(targetFolder.tasks) 
+            console.log("Target task id from Delete is  " + targetTaskId)
             //delete li element from the DOM:
             e.target.parentNode.remove();
-            console.log(targetFolder)
+            
             countOnTask()
             countCompletedTask()
+            
+            //console.log(targetFolder)
             /*function countOnTask(){
     onTaskAmount = targetFolder.tasks.filter(task =>{
                 return(task.isOn === true)
