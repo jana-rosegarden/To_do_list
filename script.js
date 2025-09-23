@@ -190,64 +190,32 @@ if(workingFoldersContainer) {
             document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
             //clear the input
             document.querySelector(`.input-task[data-id=${folderId}]`).value = ""
-            console.log("Task id from add task is " + newTask.id)
         }
 
-        //Show badges:
+        //show badges container:
         if(e.target.classList.contains("add-badge-btn")){
-            document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide")
-             //console.log(e.target.dataset.id) 
-            //create date badge with date object???
-
-            //show the chosen badge
-
-            //let delete badge if not needed any more
-
-            
+            document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide");
         }
-
-        //Test mit Urgent badge
-
+        //handling Urgent badge
         if(e.target.classList.contains("badge-urgent")){
-                    //show badge:
-                    //console.log("Urgent")
-                    //show task:
-                    //console.log(e.target.dataset.id)
-                    //show folder:
-                    //console.log(targetFolder)
-
-
-                    // 22.09 - Problem hier
-
-                    //update badge arr
-                    //find target task OBJEKT:
-                    //console.log(e.target.dataset.id) // - gibt richtige Daten! - richtige TaskID
+                    
                     let targetTaskObjekt = targetFolder.tasks.find(item=>{
                         return item.id === e.target.dataset.id
-                    })
+                    });
                     
-                    targetTaskObjekt.badge.push(e.target.innerHTML) 
+                    targetTaskObjekt.badge.push(e.target.innerHTML);
                     
-                    console.log("Task Id from Badge Urgent is..." + e.target.dataset.id)
-                    
-
-
-                    let targetTaskIdBadgeId = targetTaskBadge.id
-                    
-
                     //show badge near the task, create Element with the badge:
                     document.querySelector(`.chosen-badge-container[data-id=${targetTaskObjekt.id}]`).innerHTML = `
                         <span> ${e.target.innerHTML} </span>
                     `
-                    
-
                 } 
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){
             
-            let targetTaskId = e.target.dataset.id
-            let targetFolderId = e.target.parentNode.dataset.id
+            let targetTaskId = e.target.dataset.id;
+            let targetFolderId = e.target.parentNode.dataset.id;
             
             //find in myFolders targetFolder:
             targetFolder = myFolders.filter(item => {
@@ -259,36 +227,12 @@ if(workingFoldersContainer) {
                 return task.id !== targetTaskId
             });
 
-            console.log(targetFolder.tasks) 
-            console.log("Target task id from Delete is  " + targetTaskId)
             //delete li element from the DOM:
             e.target.parentNode.remove();
             
-            countOnTask()
-            countCompletedTask()
+            countOnTask();
+            countCompletedTask();
             
-            //console.log(targetFolder)
-            /*function countOnTask(){
-    onTaskAmount = targetFolder.tasks.filter(task =>{
-                return(task.isOn === true)
-            }).length;
-
-    document.querySelector(`.on-statistik[data-id=${targetFolder.id}]`).innerHTML=`
-                To do: ${onTaskAmount}
-            `
-}
-
-function countCompletedTask() {
-    completedTaskAmount = targetFolder.tasks.filter(task =>{
-                return task.isCompleted === true
-            }).length;
-
-            document.querySelector(`.completed-statistik[data-id=${targetFolder.id}]`).innerHTML = `
-                Completed: ${completedTaskAmount}
-            `
-} */
-
-
         }
 
         //mark the task as "Done"
@@ -303,33 +247,21 @@ function countCompletedTask() {
             });
 
 
-            countOnTask()
-            countCompletedTask()
+            countOnTask();
+            countCompletedTask();
 
-
-            //Versuch ul mit done task zu machen:
-           /* document.querySelector(`.completed-task-ul[data-id=${targetFolder.id}]`).innerHTML = `
-                ${document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).innerHTML}
-            `*/
-           
-            let newCompletedTaskLi = document.createElement("li")
-            newCompletedTaskLi.dataset.id = targetFolder.id
+            let newCompletedTaskLi = document.createElement("li");
+            newCompletedTaskLi.dataset.id = targetFolder.id;
             newCompletedTaskLi.innerHTML = `
                 ${document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).innerHTML}
             `
-            document.querySelector(`.completed-task-ul[data-id=${targetFolder.id}]`).appendChild(newCompletedTaskLi)
-            document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).parentNode.remove()
-
+            document.querySelector(`.completed-task-ul[data-id=${targetFolder.id}]`).appendChild(newCompletedTaskLi);
+            document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).parentNode.remove();
         }
-
-
-        
+      
     })
         
 }
-
-
-
 
 
 export default myFolders
