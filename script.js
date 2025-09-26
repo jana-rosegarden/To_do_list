@@ -18,14 +18,26 @@ const testDate = document.getElementById("test-date")
 const usersDate = document.getElementById("users-date")
 
 //getting today data:
+
+const minute = 1000 * 60;
+const hour = minute * 60;
+const day = hour * 24;
+const year = day * 365;
+
+
 const date = new Date()
-const day = date.getDate()
+const dayToday = date.getDate()
 const month = date.getMonth() + 1
-testDate.innerHTML = day + " " + month
+testDate.innerHTML = dayToday + " " + month
 
 //getting users data:
-const usersDay = new Date("2025-11-06")
-usersDate.innerHTML = usersDay
+const usersDay = new Date("2025-11-09")
+const milisec = usersDay.getTime() - date.getTime()
+const dayTill = Math.ceil(milisec / 86400000)
+
+
+
+usersDate.innerHTML = dayTill
 //input date benutzen!
 
 /*Blue Working container */
