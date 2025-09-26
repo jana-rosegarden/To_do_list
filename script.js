@@ -9,6 +9,11 @@ let foldersNameInput = document.getElementById("folders-name")
 //let usersFolderName = document.getElementById("users-folder-name")
 const createFolderBtn = document.getElementById("create-folder-btn")
 
+//Removing white spaces from string for taskId:
+/*let text = "Wash the dishes"
+let output = text.replace(/\s/g, "").slice(0,6) */
+
+
 /*Blue Working container */
 
 const workingFoldersContainer = document.getElementById("working-folders-container")
@@ -157,12 +162,12 @@ if(workingFoldersContainer) {
             newTask = {
                 name: newTaskInput,
                 folder: targetFolder.name,
-                id: newTaskInput + targetFolder.tasks.length,
+                id: newTaskInput.replace(/\s/g, "").slice(0,6) + targetFolder.tasks.length,
                 isOn: true,
                 isCompleted: false,
                 badge:[]
             }
-            
+            console.log(newTask.id)
             //update tasks array:
             targetFolder.tasks.push(newTask);
             
