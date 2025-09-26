@@ -13,6 +13,20 @@ const createFolderBtn = document.getElementById("create-folder-btn")
 /*let text = "Wash the dishes"
 let output = text.replace(/\s/g, "").slice(0,6) */
 
+// testing von Date :
+const testDate = document.getElementById("test-date")
+const usersDate = document.getElementById("users-date")
+
+//getting today data:
+const date = new Date()
+const day = date.getDate()
+const month = date.getMonth() + 1
+testDate.innerHTML = day + " " + month
+
+//getting users data:
+const usersDay = new Date("2025-11-06")
+usersDate.innerHTML = usersDay
+//input date benutzen!
 
 /*Blue Working container */
 
