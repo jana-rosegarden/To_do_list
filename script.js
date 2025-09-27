@@ -19,26 +19,33 @@ const usersDate = document.getElementById("users-date")
 
 //getting today data:
 
-const minute = 1000 * 60;
-const hour = minute * 60;
-const day = hour * 24;
-const year = day * 365;
-
-
+const myDate = document.getElementById("my-date")
 const date = new Date()
-const dayToday = date.getDate()
-const month = date.getMonth() + 1
-testDate.innerHTML = dayToday + " " + month
+const currentYear = date.getFullYear()
+const currentMonth = date.getMonth() + 1
+const currentDay = date.getDate()
+
+const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
+console.log(dayToday)
+myDate.setAttribute("min", `${dayToday}`)
+
+//testDate.innerHTML = dayToday + " " + month
 
 //getting users data:
-const usersDay = new Date("2025-11-09")
-const milisec = usersDay.getTime() - date.getTime()
-const dayTill = Math.ceil(milisec / 86400000)
+let chosenDate = ""
+usersDate.innerHTML = ""
 
-
-
-usersDate.innerHTML = dayTill
-//input date benutzen!
+if(document.getElementById("submit-date-btn")) { 
+document.getElementById("submit-date-btn").addEventListener("click", function(e){
+            e.preventDefault()
+            chosenDate = myDate.value
+            const usersDay = new Date(`${chosenDate}`)
+            const milisec = usersDay.getTime() - date.getTime()
+            const dayTill = Math.ceil(milisec / 86400000)
+            usersDate.innerHTML = dayTill
+    }
+)
+}
 
 /*Blue Working container */
 
