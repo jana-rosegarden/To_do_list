@@ -13,39 +13,10 @@ const createFolderBtn = document.getElementById("create-folder-btn")
 /*let text = "Wash the dishes"
 let output = text.replace(/\s/g, "").slice(0,6) */
 
-// testing von Date :
-const testDate = document.getElementById("test-date")
-const usersDate = document.getElementById("users-date")
+let targetTaskObjekt = ""
 
-//getting today data:
 
-const myDate = document.getElementById("my-date")
-const date = new Date()
-const currentYear = date.getFullYear()
-const currentMonth = date.getMonth() + 1
-const currentDay = date.getDate()
 
-const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
-console.log(dayToday)
-myDate.setAttribute("min", `${dayToday}`)
-
-//testDate.innerHTML = dayToday + " " + month
-
-//getting users data:
-let chosenDate = ""
-usersDate.innerHTML = ""
-
-if(document.getElementById("submit-date-btn")) { 
-document.getElementById("submit-date-btn").addEventListener("click", function(e){
-            e.preventDefault()
-            chosenDate = myDate.value
-            const usersDay = new Date(`${chosenDate}`)
-            const milisec = usersDay.getTime() - date.getTime()
-            const dayTill = Math.ceil(milisec / 86400000)
-            usersDate.innerHTML = dayTill
-    }
-)
-}
 
 /*Blue Working container */
 
@@ -87,6 +58,55 @@ function countCompletedTask() {
                 Completed: ${completedTaskAmount}
             `
 }
+
+//handling Badges  function:
+
+function addBadge(e){
+
+    const folderId = e.target.dataset.folder;   // <-- NEU
+    const taskId   = e.target.dataset.id;
+
+                // richtigen Folder aus myFolders finden
+    const currentFolder = myFolders.find(f => f.id === folderId);
+
+                // richtigen Task in diesem Folder finden
+    const currentTask = currentFolder.tasks.find(t => t.id === taskId);
+
+    const newBadge = e.target.textContent.trim();
+
+    if (!currentTask.badge.includes(newBadge)) {
+                    currentTask.badge.push(newBadge);
+                }
+
+    // Badge im DOM anzeigen
+                document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML +=
+                    `<span data-id=${taskId}>${newBadge}</span>`;
+
+
+                    
+                   /*targetTaskObjekt = targetFolder.tasks.find(item=>{
+                        return item.id === e.target.dataset.id
+                    });
+                    let newBadge = e.target.innerHTML
+
+                    if(targetTaskObjekt) {
+                        if(!targetTaskObjekt.badge.includes(newBadge)) {
+                        targetTaskObjekt.badge.push(newBadge);
+                    }
+                    }
+                    
+                    console.log(targetTaskObjekt)
+                    //show badge near the task, create Element with the badge:
+                   
+                    document.querySelector(`.chosen-badge-container[data-id=${targetTaskObjekt.id}]`).innerHTML += `
+                        <span data-id=${targetTaskObjekt.id}> ${newBadge} </span> */
+                    
+                    let classPart = newBadge.toLowerCase().trim()
+                    
+                    document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = true
+            
+                    }
+                    
 
 /*Events */
 
@@ -200,7 +220,7 @@ if(workingFoldersContainer) {
                 isCompleted: false,
                 badge:[]
             }
-            console.log(newTask.id)
+            
             //update tasks array:
             targetFolder.tasks.push(newTask);
             
@@ -219,9 +239,9 @@ if(workingFoldersContainer) {
                     <button type="button" class="add-badge-btn" data-id=${newTask.id}> Add badge </button>
 
                     <div class="task-badge-container hide" data-id=${newTask.id}> 
-                        <button type="button" class="badge-urgent" data-id=${newTask.id}> Urgent </button>
-                        <button type="button" data-id=${newTask.id}> Datum  </button>
-                        <button type="button" data-id=${newTask.id}> Optional </button>
+                        <button type="button" class="badge-urgent" data-id=${newTask.id} data-folder=${folderId}> Urgent </button>
+                        <button type="button" class="badge-datum" data-id=${newTask.id} data-folder=${folderId}> Datum  </button>
+                        <button type="button" class="badge-optional" data-id=${newTask.id} data-folder=${folderId}> Optional </button>
                     </div>
             `;
 
@@ -234,20 +254,69 @@ if(workingFoldersContainer) {
         if(e.target.classList.contains("add-badge-btn")){
             document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide");
         }
-        //handling Urgent badge
+        //handling Badges
         if(e.target.classList.contains("badge-urgent")){
-                    
-                    let targetTaskObjekt = targetFolder.tasks.find(item=>{
-                        return item.id === e.target.dataset.id
-                    });
-                    
-                    targetTaskObjekt.badge.push(e.target.innerHTML);
-                    
-                    //show badge near the task, create Element with the badge:
-                    document.querySelector(`.chosen-badge-container[data-id=${targetTaskObjekt.id}]`).innerHTML = `
-                        <span> ${e.target.innerHTML} </span>
+                    addBadge(e)
+                    console.log(document.querySelector(`.badge-urgent[data-id=${e.target.dataset.id}]`))
+                   };
+        if(e.target.classList.contains("badge-optional")){
+                    addBadge(e)
+                   };             
+         if(e.target.classList.contains("badge-datum")){
+                    addBadge(e)
+                    document.querySelector(`span[data-id=${e.target.dataset.id}]`).remove()
+                    document.querySelector(`.chosen-badge-container[data-id=${e.target.dataset.id}]`).innerHTML += 
                     `
-                } 
+                    <form action="" class="datum-form">
+                        <label for="my-date">Choose date: </label>
+                        <input type="date" id="my-date" min="">
+                        <input type="submit" id="submit-date-btn">
+                    </form>
+                     <h4 id="users-date"></h4>
+                    ` 
+                    
+                    // testing von Date :
+                        //const testDate = document.getElementById("test-date")
+                        const usersDate = document.getElementById("users-date")
+
+                        //getting today data:
+
+                        const myDate = document.getElementById("my-date")
+                        const date = new Date()
+                        const currentYear = date.getFullYear()
+                        const currentMonth = date.getMonth() + 1
+                        const currentDay = date.getDate()
+                        const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
+                        myDate.setAttribute("min", `${dayToday}`)
+                        //getting users data:
+                        let chosenDate = ""
+                        usersDate.innerHTML = ""
+
+                        if(document.getElementById("submit-date-btn")) { 
+                         document.getElementById("submit-date-btn").addEventListener("click", function(e){
+                                    e.preventDefault()
+
+                                    chosenDate = myDate.value
+                                    const usersDay = new Date(`${chosenDate}`)
+                                    const milisec = usersDay.getTime() - date.getTime()
+                                    const dayTill = Math.ceil(milisec / 86400000)
+
+
+                                    usersDate.innerHTML = `
+                                     <h3> Datum: ${chosenDate}</h3>
+                                     <h4> ${dayTill} left </h4>
+                                    
+                                    `
+
+
+                         })
+                                    
+                            
+                        
+                        }
+
+                   };          
+        
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){

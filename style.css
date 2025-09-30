@@ -58,3 +58,6 @@
 .completed-task-ul{
     border: solid 3px red;
 }
+.block{
+    display: block;
+}
