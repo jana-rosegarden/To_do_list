@@ -268,16 +268,42 @@ if(workingFoldersContainer) {
                     const taskId = e.target.dataset.id;
                     document.querySelector(`span[data-id=${taskId}]`).remove();
                     const badgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+
                     const datumForm = document.createElement("form");
                     datumForm.classList.add("datum-form");
                     datumForm.dataset.id = taskId;
+
+                    console.log(datumForm)
 
                     const datumLabel = document.createElement("label");
                     datumLabel.classList.add("datum-label");
                     datumLabel.dataset.id = taskId;
                     datumLabel.htmlFor = taskId;
+                    datumLabel.textContent = "Choose date:"
 
+                    const datumInput = document.createElement("input");
+                    datumInput.type = "date";
+                    datumInput.classList.add("datum-input");
+                    datumInput.dataset.id = taskId;
+                    
+                    const datumSubmitBtn = document.createElement("input");
+                    datumSubmitBtn.type = "submit";
+                    datumSubmitBtn.classList.add("datum-submit-btn");
+                    datumSubmitBtn.value = "OK";
+                    datumSubmitBtn.dataset.id = taskId;
+                    
+                    const userDate = document.createElement("h4");
+                    userDate.classList.add("users-datum-el");
+                    userDate.dataset.id = taskId;
+                    
+                    datumForm.appendChild(datumLabel);
+                    datumForm.appendChild(datumInput);
+                    datumForm.appendChild(datumSubmitBtn);
 
+                    badgeContainer.appendChild(datumForm);
+                    badgeContainer.appendChild(userDate);
+
+                    /*
                     document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML += 
                     `
                     <form action="" class="datum-form" data-id=${taskId}>
@@ -288,41 +314,41 @@ if(workingFoldersContainer) {
                     </form>
                      <h4 class="users-datum-el" data-id=${taskId}></h4>
                     ` ;
+                    */
                     
                     // testing von Date :
                         //const testDate = document.getElementById("test-date")
-                    const usersDate = document.querySelector(`.users-datum-el[data-id=${taskId}]`);
+                    //const usersDate = document.querySelector(`.users-datum-el[data-id=${taskId}]`);
 
                     //getting today data:
 
-                    const datumInputId = document.querySelector(`.datum-input[data-id=${taskId}]`)
+                    //const datumInputId = document.querySelector(`.datum-input[data-id=${taskId}]`)
     
                     const date = new Date()
                     const currentYear = date.getFullYear()
                     const currentMonth = date.getMonth() + 1
                     const currentDay = date.getDate()
                     const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
-                    datumInputId.setAttribute("min", `${dayToday}`)
+                    datumInput.setAttribute("min", `${dayToday}`)
                         //getting users data:
                     let chosenDate = ""
-                    usersDate.innerHTML = ""
+                    userDate.innerHTML = ""
 
-                    if(document.querySelector(".datum-submit-btn")) { 
-                    document.querySelector(".datum-submit-btn").addEventListener("click", function(e){
+                    
+                    datumForm.addEventListener("submit", function(e){
                         e.preventDefault()
 
-                        chosenDate = datumInputId.value
+                        chosenDate = datumInput.value;
+                        if(!chosenDate) return;
                         const usersDay = new Date(`${chosenDate}`)
                         const milisec = usersDay.getTime() - date.getTime()
                         const dayTill = Math.ceil(milisec / 86400000)
-                        usersDate.innerHTML = `
+                        userDate.innerHTML = `
                           <h3> Datum: ${chosenDate}</h3>
                           <h4> ${dayTill} days left </h4>
                            `
                          })
-                            
                         
-                        }
 
                    };          
         
