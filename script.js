@@ -63,49 +63,58 @@ function countCompletedTask() {
 
 function addBadge(e){
 
-    const folderId = e.target.dataset.folder;   // <-- NEU
+    const folderId = e.target.dataset.folder;   
     const taskId   = e.target.dataset.id;
-
-                // richtigen Folder aus myFolders finden
+    let chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+    
+    // richtigen Folder aus myFolders finden
     const currentFolder = myFolders.find(f => f.id === folderId);
-
-                // richtigen Task in diesem Folder finden
+    // richtigen Task in diesem Folder finden
     const currentTask = currentFolder.tasks.find(t => t.id === taskId);
-
     const newBadge = e.target.textContent.trim();
 
     if (!currentTask.badge.includes(newBadge)) {
                     currentTask.badge.push(newBadge);
-                }
+                };
 
+    const spanBadge = document.createElement("span");
+    spanBadge.dataset.id = taskId;
+    spanBadge.classList.add("spanBadge");
+    spanBadge.textContent = newBadge;
+
+    chosenBadgeContainer.appendChild(spanBadge);
+    let classPart = newBadge.toLowerCase().trim();
+    document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = true;
+    spanBadge.classList.add("spanBadge", `badge-${classPart}`);
+
+    //remove badge Option:
+    const removeBtn = document.createElement("button");
+    removeBtn.classList.add("remove-badge-btn");
+    removeBtn.type = "button";
+    removeBtn.dataset.id= newBadge;
+    removeBtn.textContent = "*";
+
+    spanBadge.appendChild(removeBtn);
+
+    removeBtn.addEventListener("click", function(e){
+        currentTask.badge = currentTask.badge.filter(item =>{
+            return item !== newBadge
+        })
+
+        e.target.parentNode.remove()
+        document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = false;
+    })
+    /*
     // Badge im DOM anzeigen
                 document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML +=
                     `<span data-id=${taskId}>${newBadge}</span>`;
 
-
                     
-                   /*targetTaskObjekt = targetFolder.tasks.find(item=>{
-                        return item.id === e.target.dataset.id
-                    });
-                    let newBadge = e.target.innerHTML
-
-                    if(targetTaskObjekt) {
-                        if(!targetTaskObjekt.badge.includes(newBadge)) {
-                        targetTaskObjekt.badge.push(newBadge);
-                    }
-                    }
-                    
-                    console.log(targetTaskObjekt)
-                    //show badge near the task, create Element with the badge:
-                   
-                    document.querySelector(`.chosen-badge-container[data-id=${targetTaskObjekt.id}]`).innerHTML += `
-                        <span data-id=${targetTaskObjekt.id}> ${newBadge} </span> */
-                    
-                    let classPart = newBadge.toLowerCase().trim()
-                    
-                    document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = true
-            
-                    }
+                    let classPart = newBadge.toLowerCase().trim();
+                    document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = true;
+     */
+      
+     };
                     
 
 /*Events */
@@ -257,7 +266,6 @@ if(workingFoldersContainer) {
         //handling Badges
         if(e.target.classList.contains("badge-urgent")){
                     addBadge(e)
-                    console.log(document.querySelector(`.badge-urgent[data-id=${e.target.dataset.id}]`))
                    };
         if(e.target.classList.contains("badge-optional")){
                     addBadge(e)
@@ -266,14 +274,16 @@ if(workingFoldersContainer) {
                     addBadge(e)
                     
                     const taskId = e.target.dataset.id;
-                    document.querySelector(`span[data-id=${taskId}]`).remove();
-                    const badgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+                    const currentFolderId = e.target.dataset.folder;
+                    console.log(currentFolderId)
+                    document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
+
+
+                    const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
 
                     const datumForm = document.createElement("form");
                     datumForm.classList.add("datum-form");
                     datumForm.dataset.id = taskId;
-
-                    console.log(datumForm)
 
                     const datumLabel = document.createElement("label");
                     datumLabel.classList.add("datum-label");
@@ -300,8 +310,8 @@ if(workingFoldersContainer) {
                     datumForm.appendChild(datumInput);
                     datumForm.appendChild(datumSubmitBtn);
 
-                    badgeContainer.appendChild(datumForm);
-                    badgeContainer.appendChild(userDate);
+                    chosenBadgeContainer.appendChild(datumForm);
+                    chosenBadgeContainer.appendChild(userDate);
 
                     /*
                     document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML += 
@@ -316,14 +326,6 @@ if(workingFoldersContainer) {
                     ` ;
                     */
                     
-                    // testing von Date :
-                        //const testDate = document.getElementById("test-date")
-                    //const usersDate = document.querySelector(`.users-datum-el[data-id=${taskId}]`);
-
-                    //getting today data:
-
-                    //const datumInputId = document.querySelector(`.datum-input[data-id=${taskId}]`)
-    
                     const date = new Date()
                     const currentYear = date.getFullYear()
                     const currentMonth = date.getMonth() + 1
@@ -331,10 +333,15 @@ if(workingFoldersContainer) {
                     const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
                     datumInput.setAttribute("min", `${dayToday}`)
                         //getting users data:
-                    let chosenDate = ""
-                    userDate.innerHTML = ""
+                    const removeBtn = document.createElement("button");
+                    removeBtn.classList.add("remove-badge-btn");
+                    removeBtn.type = "button";
+                    removeBtn.dataset.id= "Datum".trim();
+                    removeBtn.textContent = "*";
 
-                    
+                    let chosenDate = "";
+                    userDate.appendChild(removeBtn);
+
                     datumForm.addEventListener("submit", function(e){
                         e.preventDefault()
 
@@ -343,13 +350,33 @@ if(workingFoldersContainer) {
                         const usersDay = new Date(`${chosenDate}`)
                         const milisec = usersDay.getTime() - date.getTime()
                         const dayTill = Math.ceil(milisec / 86400000)
+
+                        const datumH3 = document.createElement("h3");
+                        datumH3.textContent = `Datum: ${chosenDate}`;
+
+                        const datumH4 = document.createElement("h4");
+                        datumH4.textContent = `${dayTill} days left`;
+
+                        userDate.appendChild(datumH3);
+                        userDate.appendChild(datumH4);
+
+                        
+                        removeBtn.addEventListener("click", ()=>{
+                            
+                            taskId.badge = taskId.badge.filter(item =>{
+                            return item !== removeBtn.dataset.id
+                          })
+                        e.target.parentNode.remove()
+                        document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = false;
+                        }) 
+                        /*
                         userDate.innerHTML = `
                           <h3> Datum: ${chosenDate}</h3>
                           <h4> ${dayTill} days left </h4>
-                           `
-                         })
+                           `*/
+                        datumForm.remove()
+                         });
                         
-
                    };          
         
 
@@ -406,4 +433,3 @@ if(workingFoldersContainer) {
 }
 
 
-export default myFolders
