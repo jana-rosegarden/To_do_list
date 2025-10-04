@@ -273,11 +273,16 @@ if(workingFoldersContainer) {
          if(e.target.classList.contains("badge-datum")){
                     addBadge(e)
                     
-                    const taskId = e.target.dataset.id;
                     const currentFolderId = e.target.dataset.folder;
-                    console.log(currentFolderId)
-                    document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
+                    const currentFolder = myFolders.find(item =>{
+                        return item.id === currentFolderId
+                    });
+                    const taskId = e.target.dataset.id;
+                    const currentTask = currentFolder.tasks.find(item =>{
+                        return item.id === taskId
+                    });
 
+                    document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
 
                     const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
 
@@ -289,7 +294,7 @@ if(workingFoldersContainer) {
                     datumLabel.classList.add("datum-label");
                     datumLabel.dataset.id = taskId;
                     datumLabel.htmlFor = taskId;
-                    datumLabel.textContent = "Choose date:"
+                    datumLabel.textContent = "Choose date:";
 
                     const datumInput = document.createElement("input");
                     datumInput.type = "date";
@@ -313,35 +318,24 @@ if(workingFoldersContainer) {
                     chosenBadgeContainer.appendChild(datumForm);
                     chosenBadgeContainer.appendChild(userDate);
 
-                    /*
-                    document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML += 
-                    `
-                    <form action="" class="datum-form" data-id=${taskId}>
-                        <label for=${taskId} class="datum-label" data-id=${taskId}>Choose date: </label>
-
-                        <input type="date" class="datum-input" data-id=${taskId} min="">
-                        <input type="submit" class="datum-submit-btn" data-id=${taskId} >
-                    </form>
-                     <h4 class="users-datum-el" data-id=${taskId}></h4>
-                    ` ;
-                    */
-                    
                     const date = new Date()
                     const currentYear = date.getFullYear()
                     const currentMonth = date.getMonth() + 1
                     const currentDay = date.getDate()
                     const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
                     datumInput.setAttribute("min", `${dayToday}`)
-                        //getting users data:
+
                     const removeBtn = document.createElement("button");
-                    removeBtn.classList.add("remove-badge-btn");
-                    removeBtn.type = "button";
-                    removeBtn.dataset.id= "Datum".trim();
-                    removeBtn.textContent = "*";
+                        removeBtn.classList.add("remove-badge-btn");
+                        removeBtn.type = "button";
+                        removeBtn.dataset.id= "Datum".trim();
+                        removeBtn.textContent = "*";
+                        
 
+                        //getting users data:
+                    
                     let chosenDate = "";
-                    userDate.appendChild(removeBtn);
-
+                    
                     datumForm.addEventListener("submit", function(e){
                         e.preventDefault()
 
@@ -359,26 +353,38 @@ if(workingFoldersContainer) {
 
                         userDate.appendChild(datumH3);
                         userDate.appendChild(datumH4);
-
+                        userDate.appendChild(removeBtn);
                         
-                        removeBtn.addEventListener("click", ()=>{
-                            
-                            taskId.badge = taskId.badge.filter(item =>{
-                            return item !== removeBtn.dataset.id
-                          })
-                        e.target.parentNode.remove()
-                        document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = false;
-                        }) 
-                        /*
-                        userDate.innerHTML = `
-                          <h3> Datum: ${chosenDate}</h3>
-                          <h4> ${dayTill} days left </h4>
-                           `*/
                         datumForm.remove()
                          });
+                         
+                         
+                         removeBtn.addEventListener("click", ()=>{
+                            currentTask.badge = currentTask.badge.filter(item =>{
+                                return item !== removeBtn.dataset.id
+                            });
+                            console.log(currentTask.badge)
+                            document.querySelector(`.badge-datum[data-id=${taskId}]`).disabled = false;
+                            removeBtn.parentNode.remove();
+                         })
+                         
                         
                    };          
         
+
+                    /*
+                    document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML += 
+                    `
+                    <form action="" class="datum-form" data-id=${taskId}>
+                        <label for=${taskId} class="datum-label" data-id=${taskId}>Choose date: </label>
+
+                        <input type="date" class="datum-input" data-id=${taskId} min="">
+                        <input type="submit" class="datum-submit-btn" data-id=${taskId} >
+                    </form>
+                     <h4 class="users-datum-el" data-id=${taskId}></h4>
+                    ` ;
+                    */
+
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){
