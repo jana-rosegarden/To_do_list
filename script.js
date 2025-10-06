@@ -1,14 +1,14 @@
-const foldersContainer = document.getElementById("folders-container")
-const renderingFolderDiv = document.getElementById("rendering-folder-div")
+const foldersContainer = document.getElementById("folders-container");
+const renderingFolderDiv = document.getElementById("rendering-folder-div");
 
-const addFolderBtn = document.getElementById("add-folder-btn")
+const addFolderBtn = document.getElementById("add-folder-btn");
 
-const closeAddFolder = document.getElementById("close-add-folder")
+const closeAddFolder = document.getElementById("close-add-folder");
 
-let foldersNameInput = document.getElementById("folders-name")
+let foldersNameInput = document.getElementById("folders-name");
 //let usersFolderName = document.getElementById("users-folder-name")
-const createFolderBtn = document.getElementById("create-folder-btn")
-
+const createFolderBtn = document.getElementById("create-folder-btn");
+const folderDisplayDiv = document.getElementById("folder-display-div");
 //Removing white spaces from string for taskId:
 /*let text = "Wash the dishes"
 let output = text.replace(/\s/g, "").slice(0,6) */
@@ -26,7 +26,7 @@ let renderedFolder = document.getElementById("rendered-folder")
 /* Saving data */
 
 let myFolders = []
-let targetFolder = ""
+//let targetFolder = ""
 let newTaskInput = ""
 let newTask = {}
 let targetTaskBadge = ""
@@ -39,17 +39,34 @@ let folderCompletedTasks = ""; ///??
 let onTaskAmount = ""
 let completedTaskAmount = ""
 
-function countOnTask(){
+function countOnTask(e){
+    console.log(e.target.dataset)
+    const targetFolderId = e.target.dataset.folder;
+    
+    const targetFolder = myFolders.find(item =>{
+        return item.id === targetFolderId
+    })
+    
+    
     onTaskAmount = targetFolder.tasks.filter(task =>{
                 return(task.isOn === true)
             }).length;
 
+     /*       
     document.querySelector(`.on-statistik[data-id=${targetFolder.id}]`).innerHTML=`
                 To do: ${onTaskAmount}
-            `
+            `*/
+    document.querySelector(`.folder-on-stata[data-id=${targetFolderId}]`).innerHTML = `
+            To do: ${onTaskAmount} tasks
+    `
 }
 
-function countCompletedTask() {
+function countCompletedTask(e) {
+    const targetFolderId = e.target.dataset.folder;
+    
+    const targetFolder = myFolders.find(item =>{
+        return item.id === targetFolderId
+    })
     completedTaskAmount = targetFolder.tasks.filter(task =>{
                 return task.isCompleted === true
             }).length;
@@ -57,6 +74,9 @@ function countCompletedTask() {
             document.querySelector(`.completed-statistik[data-id=${targetFolder.id}]`).innerHTML = `
                 Completed: ${completedTaskAmount}
             `
+            document.querySelector(`.folder-completed-stata[data-id=${targetFolderId}]`).innerHTML = `
+            Completed: ${completedTaskAmount} tasks
+    `
 }
 
 //handling Badges  function:
@@ -153,7 +173,6 @@ if (renderingFolderDiv) {
 
         renderFolder.innerHTML = `
             
-
                     <h2>${newFolder.name}</h2>
                     <button type="button" data-id=${newFolder.id} class="folder-delete-btn"> Delete Folder </button>
                     <button type="button" data-id=${newFolder.id} class="folder-add-task-btn"> Create task </button>
@@ -161,7 +180,7 @@ if (renderingFolderDiv) {
                     <div class="task-container hide" data-id=${newFolder.id}> 
 
                         <input type="text" class="input-task" data-id=${newFolder.id} required>
-                        <button type="button" class="add-task-btn" data-id=${newFolder.id}> add </button> 
+                        <button type="button" class="add-task-btn" data-id=${newFolder.id} data-folder=${newFolder.id}> add </button> 
                         <ul class="task-list" data-id=${newFolder.id}> </ul>
 
                     </div>
@@ -169,18 +188,63 @@ if (renderingFolderDiv) {
                         <div class="folders-statistik" data-id=${newFolder.id}>
                             <h3 class="completed-statistik" data-id=${newFolder.id}>Completed: ${newFolder.completedTasks}</h3>
                         </div>
-
-                        <div class="folders-statistik" data-id=${newFolder.id}>
-                            <h3 class="on-statistik" data-id=${newFolder.id}>To do: ${newFolder.onTasks}</h3>
-                        </div>
+                        
+                        
                 
                     </div>
           
         `
+        /*Diese Abschnitt rausgemonnem:
+
+        <div class="folders-statistik" data-id=${newFolder.id}>
+                            <h3 class="on-statistik" data-id=${newFolder.id}>To do: ${newFolder.onTasks}</h3>
+                        </div> */
 
         workingFoldersContainer.appendChild(renderFolder) 
         foldersNameInput.value = ""
-        //console.log(myFolders)
+        
+        //Stattistik Folder:
+        const displayFolderEl = document.createElement("div");
+        displayFolderEl.classList.add("display-folder-el");
+        displayFolderEl.dataset.id = newFolder.id;
+
+        folderDisplayDiv.appendChild(displayFolderEl);
+
+        const displayFolderHeader = document.createElement("h3");
+        displayFolderHeader.classList.add("display-folder-header");
+        displayFolderHeader.dataset.id = newFolder.id;
+        displayFolderHeader.textContent = `${newFolder.name}`;
+        
+        displayFolderEl.appendChild(displayFolderHeader);
+
+        //add Statistik Data:
+
+        const folderUrgentStata = document.createElement("h4");
+        folderUrgentStata.classList.add("folder-urgent-stata");
+        folderUrgentStata.dataset.id = newFolder.id;
+        folderUrgentStata.textContent = `Urgent task: `;
+
+        const folderOnStata = document.createElement("h4");
+        folderOnStata.classList.add("folder-on-stata");
+        folderOnStata.dataset.id = newFolder.id;
+        folderOnStata.textContent = `To do:  task`;
+
+        const folderCompletedStata = document.createElement("h4");
+        folderCompletedStata.classList.add("folder-completed-stata");
+        folderCompletedStata.dataset.id = newFolder.id;
+        folderCompletedStata.textContent = `Completed task: `;
+
+        displayFolderEl.appendChild(folderUrgentStata);
+        displayFolderEl.appendChild(folderOnStata);
+        displayFolderEl.appendChild(folderCompletedStata);
+        
+        /*
+            div
+              h3 Folder Name
+              h4 Urgent task: ...
+              h4 To do: ... task
+              h4 Completed task: ...
+        */ 
     })
 
     
@@ -213,13 +277,17 @@ if(workingFoldersContainer) {
 
         // Add Task Btn
         if(e.target.classList.contains("add-task-btn")){
-            
+            console.log(e.target)
             newTaskInput = document.querySelector(`.input-task[data-id=${folderId}]`).value.trim();
             if(!newTaskInput) return
 
-            targetFolder = myFolders.filter(item => {
+            const targetFolder = myFolders.filter(item => {
                 return item.id === folderId
             })[0];
+
+            /*targetFolder = myFolders.filter(item => {
+                return item.id === folderId
+            })[0]; */
 
             newTask = {
                 name: newTaskInput,
@@ -230,11 +298,13 @@ if(workingFoldersContainer) {
                 badge:[]
             }
             
+            const targetTaskId = newTask.id;
+
+
             //update tasks array:
             targetFolder.tasks.push(newTask);
             
-            //how many on tasks?:
-               countOnTask()
+            
             
             //create new task element:
             let newTaskElement= document.createElement("li");
@@ -243,7 +313,7 @@ if(workingFoldersContainer) {
             newTaskElement.innerHTML = `
                     <h5 class="task-name" data-id=${newTask.id}> ${newTask.name}</h5>
                     <div class="chosen-badge-container" data-id=${newTask.id}> </div> 
-                    <button type="button" class="done-task-btn" data-id=${newTask.id}> Done </button> 
+                    <button type="button" class="done-task-btn" data-folder=${targetFolder.id} data-id=${newTask.id}> Done </button> 
                     <button type="button" class="delete-task-btn" data-id=${newTask.id}> Delete </button>
                     <button type="button" class="add-badge-btn" data-id=${newTask.id}> Add badge </button>
 
@@ -253,7 +323,8 @@ if(workingFoldersContainer) {
                         <button type="button" class="badge-optional" data-id=${newTask.id} data-folder=${folderId}> Optional </button>
                     </div>
             `;
-
+            //how many on tasks?:
+               countOnTask(e)
             document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
             //clear the input
             document.querySelector(`.input-task[data-id=${folderId}]`).value = ""
@@ -412,7 +483,12 @@ if(workingFoldersContainer) {
 
         //mark the task as "Done"
         if(e.target.classList.contains("done-task-btn")){
-            
+            console.log(e.target.dataset.folder);
+
+            const targetFolder = myFolders.find(item =>{
+                return item.id === e.target.dataset.folder
+            });
+            console.log(targetFolder)
             //update myFolders arr:
             targetFolder.tasks.forEach(item =>{
                 if(item.id === e.target.dataset.id) {
@@ -422,8 +498,8 @@ if(workingFoldersContainer) {
             });
 
 
-            countOnTask();
-            countCompletedTask();
+            countOnTask(e);
+            countCompletedTask(e);
 
             let newCompletedTaskLi = document.createElement("li");
             newCompletedTaskLi.dataset.id = targetFolder.id;
