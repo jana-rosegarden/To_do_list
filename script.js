@@ -40,13 +40,11 @@ let onTaskAmount = ""
 let completedTaskAmount = ""
 
 function countOnTask(e){
-    console.log(e.target.dataset)
-    const targetFolderId = e.target.dataset.folder;
     
+    const targetFolderId = e.target.dataset.folder;
     const targetFolder = myFolders.find(item =>{
         return item.id === targetFolderId
-    })
-    
+    });
     
     onTaskAmount = targetFolder.tasks.filter(task =>{
                 return(task.isOn === true)
@@ -80,13 +78,12 @@ function countCompletedTask(e) {
 }
 
 //handling Badges  function:
-
 function addBadge(e){
 
     const folderId = e.target.dataset.folder;   
     const taskId   = e.target.dataset.id;
     let chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
-    
+    let urgentTaskAmount = 0;
     // richtigen Folder aus myFolders finden
     const currentFolder = myFolders.find(f => f.id === folderId);
     // richtigen Task in diesem Folder finden
@@ -95,6 +92,18 @@ function addBadge(e){
 
     if (!currentTask.badge.includes(newBadge)) {
                     currentTask.badge.push(newBadge);
+                    if (newBadge === "Urgent"){
+                        currentTask.isUrgent = true
+                        urgentTaskAmount = currentFolder.tasks.filter(item=>{
+                            return item.isUrgent === true
+                        }).length
+                        console.log(urgentTaskAmount)
+                        
+                        //Testen: 
+                        document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = 
+                        `Urgent task: ${urgentTaskAmount}  `
+
+                    }
                 };
 
     const spanBadge = document.createElement("span");
@@ -117,10 +126,14 @@ function addBadge(e){
     spanBadge.appendChild(removeBtn);
 
     removeBtn.addEventListener("click", function(e){
+        if(newBadge === "Urgent"){
+            currentTask.isUrgent = false
+            console.log(currentTask)
+        }
         currentTask.badge = currentTask.badge.filter(item =>{
             return item !== newBadge
         })
-
+        
         e.target.parentNode.remove()
         document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = false;
     })
@@ -277,7 +290,7 @@ if(workingFoldersContainer) {
 
         // Add Task Btn
         if(e.target.classList.contains("add-task-btn")){
-            console.log(e.target)
+            
             newTaskInput = document.querySelector(`.input-task[data-id=${folderId}]`).value.trim();
             if(!newTaskInput) return
 
@@ -285,27 +298,21 @@ if(workingFoldersContainer) {
                 return item.id === folderId
             })[0];
 
-            /*targetFolder = myFolders.filter(item => {
-                return item.id === folderId
-            })[0]; */
-
             newTask = {
                 name: newTaskInput,
                 folder: targetFolder.name,
                 id: newTaskInput.replace(/\s/g, "").slice(0,6) + targetFolder.tasks.length,
                 isOn: true,
                 isCompleted: false,
+                isUrgent: false,
                 badge:[]
-            }
+            };
             
             const targetTaskId = newTask.id;
 
-
             //update tasks array:
             targetFolder.tasks.push(newTask);
-            
-            
-            
+             
             //create new task element:
             let newTaskElement= document.createElement("li");
             newTaskElement.classList.add(".task-li")
@@ -488,7 +495,7 @@ if(workingFoldersContainer) {
             const targetFolder = myFolders.find(item =>{
                 return item.id === e.target.dataset.folder
             });
-            console.log(targetFolder)
+            
             //update myFolders arr:
             targetFolder.tasks.forEach(item =>{
                 if(item.id === e.target.dataset.id) {
