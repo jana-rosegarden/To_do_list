@@ -40,7 +40,6 @@ let onTaskAmount = ""
 let completedTaskAmount = ""
 
 function countOnTask(e){
-    
     const targetFolderId = e.target.dataset.folder;
     const targetFolder = myFolders.find(item =>{
         return item.id === targetFolderId
@@ -50,10 +49,6 @@ function countOnTask(e){
                 return(task.isOn === true)
             }).length;
 
-     /*       
-    document.querySelector(`.on-statistik[data-id=${targetFolder.id}]`).innerHTML=`
-                To do: ${onTaskAmount}
-            `*/
     document.querySelector(`.folder-on-stata[data-id=${targetFolderId}]`).innerHTML = `
             To do: ${onTaskAmount} tasks
     `
@@ -77,6 +72,21 @@ function countCompletedTask(e) {
     `
 }
 
+function countUrgentTask(e){
+    const targetFolderId = e.target.dataset.folder;
+    const targetTaskId = e.target.dataset.id;
+    const targetFolder = myFolders.find(item=>{
+        return item.id === targetFolderId
+    });
+    let urgentTaskAmount = 0;
+    urgentTaskAmount = myFolders.filter(item=>{
+        return item.isUrgent === true
+    }).length;
+    document.querySelector(`.folder-urgent-stata[data-id=${targetFolderId}]`).innerHTML = `
+            Urgent: ${urgentTaskAmount} tasks
+    `;
+}
+
 //handling Badges  function:
 function addBadge(e){
 
@@ -97,7 +107,6 @@ function addBadge(e){
                         urgentTaskAmount = currentFolder.tasks.filter(item=>{
                             return item.isUrgent === true
                         }).length
-                        console.log(urgentTaskAmount)
                         
                         //Testen: 
                         document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = 
@@ -321,8 +330,8 @@ if(workingFoldersContainer) {
                     <h5 class="task-name" data-id=${newTask.id}> ${newTask.name}</h5>
                     <div class="chosen-badge-container" data-id=${newTask.id}> </div> 
                     <button type="button" class="done-task-btn" data-folder=${targetFolder.id} data-id=${newTask.id}> Done </button> 
-                    <button type="button" class="delete-task-btn" data-id=${newTask.id}> Delete </button>
-                    <button type="button" class="add-badge-btn" data-id=${newTask.id}> Add badge </button>
+                    <button type="button" class="delete-task-btn" data-folder=${targetFolder.id} data-id=${newTask.id}> Delete </button>
+                    <button type="button" class="add-badge-btn" data-folder=${targetFolder.id} data-id=${newTask.id}> Add badge </button>
 
                     <div class="task-badge-container hide" data-id=${newTask.id}> 
                         <button type="button" class="badge-urgent" data-id=${newTask.id} data-folder=${folderId}> Urgent </button>
@@ -469,6 +478,9 @@ if(workingFoldersContainer) {
             
             let targetTaskId = e.target.dataset.id;
             let targetFolderId = e.target.parentNode.dataset.id;
+            let targetFolder = myFolders.find(item=>{
+                return item.id === targetFolderId
+            })
             
             //find in myFolders targetFolder:
             targetFolder = myFolders.filter(item => {
@@ -482,10 +494,10 @@ if(workingFoldersContainer) {
 
             //delete li element from the DOM:
             e.target.parentNode.remove();
-            
-            countOnTask();
-            countCompletedTask();
-            
+
+            countOnTask(e);
+            countCompletedTask(e);
+            countUrgentTask(e);
         }
 
         //mark the task as "Done"
