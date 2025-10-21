@@ -160,16 +160,20 @@ function addBadge(e){
                     
 
 /*Events */
-
-addFolderBtn.addEventListener("click", function(){
+if(addFolderBtn) {
+    addFolderBtn.addEventListener("click", function(){
     renderingFolderDiv.classList.remove("hide")
 })
+}
 
-closeAddFolder.addEventListener("click", function(){
+if(closeAddFolder) {
+    closeAddFolder.addEventListener("click", function(){
     renderingFolderDiv.classList.add("hide")
     foldersNameInput.value = ""
     
 })
+}
+
 
 if (renderingFolderDiv) {
     createFolderBtn.addEventListener("click", function(){
