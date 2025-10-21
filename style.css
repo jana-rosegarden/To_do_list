@@ -2,19 +2,52 @@
 *{
     box-sizing: border-box;
 }
+
+/*
 body{
     background-color: #FAFFF4;
+    background: url("images/background-green.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top center;
+    background-size: 120%;
 }
 
-/* Ab Tablet */
-@media only screen and (min-width: 768px){
+
+@media (max-width: 1024px) {
+  body {
+    background-size: 150%; 
+    background-position: top center;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    background-size: 200%; 
+    background-position: 70% top;
+  }
+}
+*/
+body{
+    background-color: #FAFFF4;
+    height: 100%;
+}
+
+@media (min-width: 767px){
     body{
-        background: url("images/background-green.png");
-        background-repeat: no-repeat;
+        background: url("images/background-green-tablet.png");
         background-size: cover;
-        
+        background-repeat: no-repeat;
+    }
 }
+
+@media (min-width: 1024px){
+    body{
+        background: url("images/background-green-desktop.png");
+        background-size: cover;
+    }
 }
+
 #list-wrapper{
     display: flex;
     gap: 20px;
