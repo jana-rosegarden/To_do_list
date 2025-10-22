@@ -1,6 +1,8 @@
 
 *{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 /*
@@ -33,6 +35,7 @@ body{
     height: 100%;
 }
 
+/*
 @media (min-width: 767px){
     body{
         background: url("images/background-green-tablet.png");
@@ -46,6 +49,46 @@ body{
         background: url("images/background-green-desktop.png");
         background-size: cover;
     }
+}
+    */
+
+/*Test Taschenlicht */
+
+.wrapper {
+      position: relative;
+      width: 300px;
+      height: 600px;
+      overflow: hidden;
+      border: 2px solid rgb(83, 16, 16);
+    }
+    /*
+.content {
+      padding: 20px;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      border: solid 3px red;
+    } */
+.wrapper-header{
+    position: relative;
+    background-color: white;
+    width: 70%;
+    margin: auto;
+    padding: 30px;
+    z-index: 1;
+}
+.overlay{
+      position: absolute;
+      inset: 0;
+      pointer-events: none; /* wichtig: Maus geht durch */
+      background: radial-gradient(
+        circle 80px at center,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0) 40%,
+       /* rgba(0,0,0,0.9) 100% */
+       rgb(33, 84, 67, 0.9) 100%
+      );
+      transition: background 0.2s ease;
+
 }
 
 #list-wrapper{

@@ -537,4 +537,26 @@ if(workingFoldersContainer) {
         
 }
 
+/*Test Taschenlicht */
+    const overlay = document.querySelector('.overlay');
+    const wrapper = document.querySelector('.wrapper');
 
+    wrapper.addEventListener('mousemove', (e) => {
+      const rect = wrapper.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      overlay.style.background = `
+        radial-gradient(circle 80px at ${x}px ${y}px,
+          rgba(0,0,0,0) 0%,
+          rgba(0,0,0,0) 40%,
+          rgb(33, 84, 67, 1) 100%)
+      `;
+    });
+
+/* overlay.style.background = `
+        radial-gradient(circle 80px at ${x}px ${y}px,
+          rgba(0,0,0,0) 0%,
+          rgba(0,0,0,0) 40%,
+          rgba(0,0,0,0.9) 100%)
+      `; */
