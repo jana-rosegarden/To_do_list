@@ -539,10 +539,10 @@ if(workingFoldersContainer) {
 
 /*Test Taschenlicht */
     const overlay = document.querySelector('.overlay');
-    const wrapper = document.querySelector('.wrapper');
+    const wrapperDesktop = document.querySelector('.wrapper-desktop');
 
-    wrapper.addEventListener('mousemove', (e) => {
-      const rect = wrapper.getBoundingClientRect();
+    wrapperDesktop.addEventListener('mousemove', (e) => {
+      const rect = wrapperDesktop.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
