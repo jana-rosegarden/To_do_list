@@ -17,21 +17,18 @@
 
 body{
     font-family: "Inria Serif", serif;
-    background: url("images/background-green-desktop.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top center;
-    background-size: 120%;
+    background-color: #FAFFF4;
 } 
 a{
   text-decoration: none;
 }
 .wrapper-desktop {
       position: relative;
-      width: 300px;
-      height: 600px;
+      width: 45%;
+      height: clamp(600px, 63vw, 800px);
       overflow: hidden;
-      margin: 0 auto;
+      border: solid 3px red;
+      border-radius: var(--10px);
     }
 
 .wrapper-header{
@@ -45,6 +42,10 @@ a{
 
 .wrapper-mobile{
   padding: var(--20px);
+  background: url(images/background-green-tablet-three.png);
+  background-size: cover;
+  background-position: center bottom;
+  
 }
 
 .header-mobile{
@@ -92,8 +93,8 @@ a{
 .deko-div-mobile{
   position: relative;
   width: 100%;
-  height: 400px;
-  background-image: url(images/deko-mobile.png);
+  height: 550px;
+  background-image: url(images/deko-mobile-two.png);
   background-size: cover;
   z-index: 1;
   top: -300px;
@@ -103,56 +104,82 @@ a{
 
 /*Media Query*/
 
+/*Mobile */
+
 @media only screen and (max-width: 600px) {
-  body {
-    background-color: #FAFFF4;
-    background-image: url("images/background-green-tablet.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: 150%;
-    background-position: top center;
-  }
   .wrapper-desktop{
     display: none;
   }
-  
-  
+
 } 
 
+/*Tablet */
+
 @media only screen and (min-width: 601px) {
-  body {
-    background-image: url("images/background-green-tablet.png");
-    background-position: top center;
-  }
+  
   .wrapper-desktop{
     display: none;
+  }
+  .wrapper-mobile{
+    padding: var(--50px);
+    
+    background-position: left bottom;
+  }
+  .main-mobile{
+    max-width: 80%;
+  }
+  .header-mobile{
+    max-width: 80%;
+    margin-bottom: var(--30px);
+    padding: var(--40px);
+  }
+  .start-btn-mobile{
+    max-width: 80%;
+    margin: var(--50px) 0;
+  }
+  .deko-div-mobile{
+    
+    background-size: 65%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    
   }
 }
 
-
+/*Desktop*/
 
 @media only screen and (min-width: 1024px) {
   body {
+    background-color: #FAFFF4;
+    border: solid 4px blue;
     
-    background-position: top center;
   }
   .wrapper-mobile{
     display: none;
   }
+  .index-wrapper{
+    background: url("images/background-green-desktop.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vw;
+  }
   .wrapper-desktop{
     display: block;
+    position: relative;
+    margin: 0 auto;
+    top: 150px;
   }
 }
 
     
-.content {
+.content-desktop {
       padding: 20px;
       font-size: 1.2rem;
       line-height: 1.5;
       
     } 
 
-.overlay{
+.overlay-desktop{
       position: absolute;
       inset: 0;
       pointer-events: none; /* wichtig: Maus geht durch */
