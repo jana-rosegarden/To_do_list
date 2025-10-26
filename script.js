@@ -538,7 +538,7 @@ if(workingFoldersContainer) {
 }
 
 /*Test Taschenlicht */
-    const overlay = document.querySelector('.overlay');
+    const overlay = document.querySelector('.overlay-desktop');
     const wrapperDesktop = document.querySelector('.wrapper-desktop');
 
     wrapperDesktop.addEventListener('mousemove', (e) => {
