@@ -23,17 +23,24 @@ a{
   text-decoration: none;
 }
 .wrapper-desktop {
-
-      width: 45%;
-      height: fit-content;
-      overflow: hidden;
-      
-      border-radius: var(--10px);
+    width: clamp(580px, 54vw, 800px);
+    height: fit-content;
+    overflow: hidden;
+    border-radius: var(--10px);
     }
+.desktop-container{
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: clamp(100px, 15vw, 150px);
+}
 
 .header-desktop{
     position: relative;
     background-color: white;
+    text-align: center;
     width: 70%;
     margin: auto;
     padding: 30px;
@@ -41,7 +48,7 @@ a{
     font-size: 2.2rem;
 } 
 .content-desktop {
-      padding: var(--30px);
+      padding: var(--40px);
       font-size: 1.5rem;
       line-height: 1.5;
       
@@ -123,7 +130,9 @@ a{
   top: -300px;
   opacity: 0.9;
 }
-
+.desktop-btn{
+    display: none;
+  }
 
 /*Media Query*/
 
@@ -133,7 +142,7 @@ a{
   .wrapper-desktop{
     display: none;
   }
-
+ 
 } 
 
 /*Tablet */
@@ -161,7 +170,6 @@ a{
     margin: var(--50px) 0;
   }
   .deko-div-mobile{
-    
     background-size: 65%;
     background-repeat: no-repeat;
     background-position: top center;
@@ -183,12 +191,24 @@ a{
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vw;
+    
   }
-  .wrapper-desktop{
+  .wrapper-desktop, .desktop-btn{
     display: block;
     position: relative;
-    margin: 0 auto;
-    top: 150px;
+  }
+  .desktop-btn{
+    height: clamp(580px, 62vw, 650px);
+    max-width: clamp(110px, 13vw, 130px);
+    background: linear-gradient(to bottom,  #FBFB86, #69D7D5, #E63493);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .start-btn-desktop-text {
+    display: inline-block;
+    font-size: clamp(3rem, 5.8vw, 3.75rem);
+    transform: rotate(90deg);
   }
 }
 

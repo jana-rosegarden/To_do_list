@@ -547,7 +547,7 @@ if(workingFoldersContainer) {
       const y = e.clientY - rect.top;
 
       overlay.style.background = `
-        radial-gradient(circle 80px at ${x}px ${y}px,
+        radial-gradient(circle clamp(80px, 9.8vw, 100px) at ${x}px ${y}px,
           rgba(0,0,0,0) 0%,
           rgba(0,0,0,0) 40%,
           rgb(33, 84, 67, 1) 100%)
