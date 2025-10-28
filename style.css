@@ -22,6 +22,9 @@ body{
 a{
   text-decoration: none;
 }
+
+/*  Stil Index-Seite  */
+
 .wrapper-desktop {
     width: clamp(580px, 54vw, 800px);
     height: fit-content;
@@ -134,6 +137,48 @@ a{
     display: none;
   }
 
+/* Stil List-Seite */
+
+#list-container{
+  padding: var(--30px);
+  border: solid 5px red;
+  background-color: #FAFFF4;
+  
+}
+.list-wrapper{
+  display: flex;
+  flex-direction: column;
+}
+.list-header{
+  letter-spacing: 0.3rem;
+  padding: var(--50px);
+  border: solid 3px palevioletred;
+}
+.list-example-folder > h2{
+  
+  padding: var(--20px) var(--10px);
+  font-size: 1.3rem;
+  letter-spacing: 0.2rem;
+}
+.list-example-folder-content{
+  background-color: #D9D9D9;
+  padding: var(--30px);
+}
+.list-example-folder-content p{
+  margin-bottom: var(--10px);
+}
+.list-example-folder-content p:nth-child(4){
+  margin-bottom: var(--50px);
+}
+.list-example-folder-content h3{
+  font-size: 20px;
+}
+#folders-container{
+  max-width: fit-content;
+  border: solid 3px orange;
+  padding: var(--30px);
+}
+
 /*Media Query*/
 
 /*Mobile */
@@ -214,16 +259,11 @@ a{
 
 
 #list-wrapper{
-    display: flex;
     gap: 20px;
 }
 
 
-#folders-container{
-    padding: 20px;
-    width: 300px;
-    border: solid 3px plum;
-}
+
 .folder-div{
     border: solid 2px lightgreen;
     padding: 10px;

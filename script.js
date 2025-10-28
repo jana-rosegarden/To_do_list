@@ -541,7 +541,8 @@ if(workingFoldersContainer) {
     const overlay = document.querySelector('.overlay-desktop');
     const wrapperDesktop = document.querySelector('.wrapper-desktop');
 
-    wrapperDesktop.addEventListener('mousemove', (e) => {
+    if(wrapperDesktop) {
+        wrapperDesktop.addEventListener('mousemove', (e) => {
       const rect = wrapperDesktop.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -553,10 +554,6 @@ if(workingFoldersContainer) {
           rgb(33, 84, 67, 1) 100%)
       `;
     });
+    }
+    
 
-/* overlay.style.background = `
-        radial-gradient(circle 80px at ${x}px ${y}px,
-          rgba(0,0,0,0) 0%,
-          rgba(0,0,0,0) 40%,
-          rgba(0,0,0,0.9) 100%)
-      `; */
