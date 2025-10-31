@@ -9,6 +9,7 @@ let foldersNameInput = document.getElementById("folders-name");
 //let usersFolderName = document.getElementById("users-folder-name")
 const createFolderBtn = document.getElementById("create-folder-btn");
 const folderDisplayDiv = document.getElementById("folder-display-div");
+
 //Removing white spaces from string for taskId:
 /*let text = "Wash the dishes"
 let output = text.replace(/\s/g, "").slice(0,6) */
@@ -181,6 +182,8 @@ if (renderingFolderDiv) {
         const folderName = foldersNameInput.value.trim();
         if(!folderName) return;
 
+        
+
         const newFolder = {
             name: folderName,
             id: foldersNameInput.value + myFolders.length,
@@ -230,10 +233,12 @@ if (renderingFolderDiv) {
         foldersNameInput.value = ""
         
         //Stattistik Folder:
+
         const displayFolderEl = document.createElement("div");
         displayFolderEl.classList.add("display-folder-el");
         displayFolderEl.dataset.id = newFolder.id;
 
+        //Bag hier? 31.10.25
         folderDisplayDiv.appendChild(displayFolderEl);
 
         const displayFolderHeader = document.createElement("h3");

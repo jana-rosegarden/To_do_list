@@ -151,12 +151,11 @@ a{
 }
 .list-header{
   letter-spacing: 0.3rem;
-  padding: var(--50px);
+  padding: var(--30px);
   border: solid 3px palevioletred;
 }
 .list-example-folder > h2{
-  
-  padding: var(--20px) var(--10px);
+  padding: 0 var(--20px);
   font-size: 1.3rem;
   letter-spacing: 0.2rem;
 }
@@ -178,6 +177,18 @@ a{
   border: solid 3px orange;
   padding: var(--30px);
 }
+
+#add-folder-btn{
+    margin-top: var(--20px);
+    display: block;
+    background-color: #215543;
+    color: white;
+    border: none;
+    padding: var(--10px) var(--40px);
+    font-size: 20px;
+    border-radius: 5px;
+}
+
 
 /*Media Query*/
 
@@ -278,9 +289,7 @@ a{
     height: 30px;
     border: solid 2px gray;
 }
-#add-folder-btn{
-    margin-top: 20px;
-}
+
 
 #working-folders-container{
     width: 400px;
