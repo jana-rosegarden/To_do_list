@@ -12,7 +12,8 @@
   --40px: clamp(38px, 10vw, 40px);
   --50px: clamp(48px, 13vw, 51px);
   --60px: clamp(58px, 15vw, 60px);
-
+  --dark-grey: rgb(47, 47, 41);
+  --18pxFontSize: clamp(1.125rem, 3vw, 1.25rem);
 }
 
 body{
@@ -140,7 +141,7 @@ a{
 /* Stil List-Seite */
 
 #list-container{
-  padding: var(--30px);
+  padding: var(--10px);
   border: solid 5px red;
   background-color: #FAFFF4;
   
@@ -150,43 +151,61 @@ a{
   flex-direction: column;
 }
 .list-header{
-  letter-spacing: 0.3rem;
-  padding: var(--30px);
+  letter-spacing: 0.1rem;
+  padding: var(--10px);
   border: solid 3px palevioletred;
+  max-width: fit-content;
+}
+.list-header h1{
+  font-size: 1.625rem;
 }
 .list-example-folder > h2{
-  padding: 0 var(--20px);
+  padding: 0 var(--10px) var(--10px);
   font-size: 1.3rem;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.1rem;
+  color: var(--dark-grey);
 }
 .list-example-folder-content{
-  background-color: #D9D9D9;
-  padding: var(--30px);
+  background-color: #d9d9d9;
+  max-width: 90%;
+  padding: var(--10px);
+  margin: 0 auto;
+  border: grey 1.5px dotted;
+  border-radius: 5px;
 }
 .list-example-folder-content p{
   margin-bottom: var(--10px);
 }
 .list-example-folder-content p:nth-child(4){
-  margin-bottom: var(--50px);
+  margin-bottom: var(--20px);
 }
 .list-example-folder-content h3{
-  font-size: 20px;
+  font-size: var(--18pxFontSize);
+  
+}
+.list-example-folder-content h4{
+  margin-bottom: 10px;
+  letter-spacing: 0.1rem;
+  
 }
 #folders-container{
   max-width: fit-content;
   border: solid 3px orange;
-  padding: var(--30px);
+  padding: var(--10px);
 }
 
 #add-folder-btn{
-    margin-top: var(--20px);
+    margin: var(--20px) auto 0;
     display: block;
-    background-color: #215543;
+    background-color: #2a6c55;
     color: white;
+    font-size: var(--18pxFontSize);
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    padding: var(--10px) var(--30px);
     border: none;
-    padding: var(--10px) var(--40px);
-    font-size: 20px;
     border-radius: 5px;
+    
 }
 
 
@@ -204,7 +223,12 @@ a{
 /*Tablet */
 
 @media only screen and (min-width: 601px) {
-  
+  #list-container{
+    padding: var(--20px);
+  }
+  .list-header h1{
+    font-size: 1.75rem;
+  }
   .wrapper-desktop{
     display: none;
   }
@@ -229,7 +253,9 @@ a{
     background-size: 65%;
     background-repeat: no-repeat;
     background-position: top center;
-    
+  }
+  #folders-container{
+    padding: var(--20px);
   }
 }
 
