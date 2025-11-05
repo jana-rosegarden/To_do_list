@@ -161,17 +161,19 @@ function addBadge(e){
                     
 
 /*Events */
+
+
 if(addFolderBtn) {
     addFolderBtn.addEventListener("click", function(){
     renderingFolderDiv.classList.remove("hide")
 })
-}
+};
 
 if(closeAddFolder) {
     closeAddFolder.addEventListener("click", function(){
     renderingFolderDiv.classList.add("hide")
     foldersNameInput.value = ""
-    
+
 })
 }
 
