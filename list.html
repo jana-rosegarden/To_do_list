@@ -70,14 +70,26 @@
                             <button type="button" id="close-add-folder">schließen</button>
                         </div>
 
-                        
-                        
                     </div>
 
                     <!--Working fonders div-->
 
                     <div id="working-folders-container">
-                    
+                        <section id="only-task-container"  class="hide"> 
+                            
+                             <div id="only-task-header"> 
+                                <h3>Neue Aufgabe hinzufügen</h3>
+                                <label for="input-only-task-name">Name </label>
+                                <input type="text" id="input-only-task-name" class="input-task-name"  required>
+                                <button type="button" id="add-only-task-btn" > <span> &#10003; </span> </button> 
+                                <ul class="only-task-list" data-id=""> </ul>
+                             </div>
+
+                            
+                            <div class="statistik hide" data-id="">
+                               <h3 class="completed-statistik" data-id="">Completed: </h3>
+                            </div>
+                        </section>
                     </div>
 
                 </div>

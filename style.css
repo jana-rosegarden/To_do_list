@@ -255,8 +255,9 @@ a{
 
 
 #working-folders-container{
-    width: 400px;
-    height: 600px;
+    width: fit-content;
+    height: fit-content;
+    padding: var(--20px);
     border: solid 2px royalblue;
 }
 

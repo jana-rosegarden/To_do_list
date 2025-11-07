@@ -2,6 +2,9 @@ const foldersContainer = document.getElementById("folders-container");
 const renderingFolderDiv = document.getElementById("rendering-folder-div");
 
 const addFolderBtn = document.getElementById("add-folder-btn");
+const addTaskOnlyBtn = document.getElementById("add-task-only-btn");
+
+const onlyTaskContainer = document.getElementById("only-task-container");
 
 const closeAddFolder = document.getElementById("close-add-folder");
 
@@ -21,12 +24,13 @@ let targetTaskObjekt = ""
 
 /*Blue Working container */
 
-const workingFoldersContainer = document.getElementById("working-folders-container")
-let renderedFolder = document.getElementById("rendered-folder")
+const workingFoldersContainer = document.getElementById("working-folders-container");
+let renderedFolder = document.getElementById("rendered-folder");
 
 /* Saving data */
 
-let myFolders = []
+let myFolders = [];
+let myOnlyTaskList = [];
 //let targetFolder = ""
 let newTaskInput = ""
 let newTask = {}
@@ -163,11 +167,47 @@ function addBadge(e){
 /*Events */
 
 
-if(addFolderBtn) {
+if(addFolderBtn || addTaskOnlyBtn) {
     addFolderBtn.addEventListener("click", function(){
     renderingFolderDiv.classList.remove("hide")
     document.querySelector(".list-example-folder").classList.add("hide") //entfernt Example folder wenn btn klicked
-})
+});
+    addTaskOnlyBtn.addEventListener("click", function(){
+        document.querySelector(".list-example-folder").classList.add("hide");
+
+        //HIER Feld ohne Ordner: 7.11.25
+        //Show Task-Ordner:
+        onlyTaskContainer.classList.remove("hide");
+        onlyTaskContainer.addEventListener("click", function(){
+            console.log("clicked") //Pause, 7.11.25
+        })
+        /* HTML Struktur:
+        <section class="task-only-container hide"> 
+            Input - Task-Name
+            Btn - Add new Task
+            Ul - wo die Tasks aufgelistet sind
+             Tasks:
+               Name + Badges + Remove Task
+             Statistik:
+               Completed:
+               Urgent:
+               Optional:
+               Mit Datum
+        </section>
+        
+        JS Logik: 
+            taskOnly = []
+            jede Task = {
+                id:
+                name:
+                isOn:
+                isUrgent:
+                isCompleted: 
+                badges: []
+            }
+        
+        */
+    });
 };
 
 if(closeAddFolder) {
@@ -184,8 +224,6 @@ if (renderingFolderDiv) {
         //usersFolderName.innerText = foldersNameInput.value
         const folderName = foldersNameInput.value.trim();
         if(!folderName) return;
-
-        
 
         const newFolder = {
             name: folderName,
