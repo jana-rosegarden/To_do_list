@@ -166,6 +166,7 @@ function addBadge(e){
 if(addFolderBtn) {
     addFolderBtn.addEventListener("click", function(){
     renderingFolderDiv.classList.remove("hide")
+    document.querySelector(".list-example-folder").classList.add("hide") //entfernt Example folder wenn btn klicked
 })
 };
 

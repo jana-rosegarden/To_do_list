@@ -138,9 +138,10 @@ a{
     display: none;
   }
 
-/* Stil List-Seite */
+/* Stile List-Seite */
 
 #list-container{
+  width: fit-content;
   padding: var(--10px);
   border: solid 5px red;
   background-color: #FAFFF4;
@@ -151,9 +152,11 @@ a{
   flex-direction: column;
 }
 .list-header{
+  text-align: center;
   letter-spacing: 0.1rem;
   padding: var(--10px);
   border: solid 3px palevioletred;
+  
 }
 .list-header h1{
   font-size: 1.625rem;
@@ -207,7 +210,8 @@ a{
   padding: var(--10px);
 }
 
-#add-folder-btn{
+#add-folder-btn, #add-task-only-btn{
+    
     margin: var(--20px) auto 0;
     display: block;
     background-color: #2a6c55;
@@ -218,6 +222,14 @@ a{
     padding: var(--10px) var(--30px);
     border: none;
     border-radius: 5px;
+    cursor: pointer;
+    width: 90%;
+}
+#add-task-only-btn.task-only-btn{
+  
+  color: #2a6c55;
+  background-color: white;
+  border: solid 3px #2a6c55;
 }
 
 #list-wrapper{
