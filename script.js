@@ -2,25 +2,24 @@ const foldersContainer = document.getElementById("folders-container");
 const renderingFolderDiv = document.getElementById("rendering-folder-div");
 
 const addFolderBtn = document.getElementById("add-folder-btn");
-const addTaskOnlyBtn = document.getElementById("add-task-only-btn");
-
-const onlyTaskContainer = document.getElementById("only-task-container");
-
 const closeAddFolder = document.getElementById("close-add-folder");
-
 let foldersNameInput = document.getElementById("folders-name");
 //let usersFolderName = document.getElementById("users-folder-name")
 const createFolderBtn = document.getElementById("create-folder-btn");
 const folderDisplayDiv = document.getElementById("folder-display-div");
+
+//Only-Tasks Elenemte:
+const addTaskOnlyBtn = document.getElementById("add-task-only-btn");
+const onlyTaskContainer = document.getElementById("only-task-container");
+const inputOnlyTaskName = document.getElementById("input-only-task-name");
+const pushOnlyTaskBtn = document.getElementById("push-only-task-btn");
+const onlyTaskList = document.getElementById("only-task-list");
 
 //Removing white spaces from string for taskId:
 /*let text = "Wash the dishes"
 let output = text.replace(/\s/g, "").slice(0,6) */
 
 let targetTaskObjekt = ""
-
-
-
 
 /*Blue Working container */
 
@@ -166,21 +165,92 @@ function addBadge(e){
 
 /*Events */
 
-
+//Ordner erstellen oder mit Only-Task List erstellen:
 if(addFolderBtn || addTaskOnlyBtn) {
     addFolderBtn.addEventListener("click", function(){
     renderingFolderDiv.classList.remove("hide")
     document.querySelector(".list-example-folder").classList.add("hide") //entfernt Example folder wenn btn klicked
 });
+    //Only-Task List initialisieren:
     addTaskOnlyBtn.addEventListener("click", function(){
         document.querySelector(".list-example-folder").classList.add("hide");
 
         //HIER Feld ohne Ordner: 7.11.25
         //Show Task-Ordner:
         onlyTaskContainer.classList.remove("hide");
-        onlyTaskContainer.addEventListener("click", function(){
-            console.log("clicked") //Pause, 7.11.25
-        })
+        
+            //<ul class="only-task-list" data-id=""> </ul> -- hier neue Tasks platzieren
+            
+        onlyTaskContainer.addEventListener("click", function(e){
+
+            //close container:
+            if(e.target.classList.contains("close-btn-x")){
+                onlyTaskContainer.classList.add("hide");
+                myOnlyTaskList = [];
+            }
+
+            //Add Task in Only-Task-List:
+            if(pushOnlyTaskBtn) {
+                if(!inputOnlyTaskName.value) return
+            
+            let randomNumber = Math.floor((Math.random() * 10) + 1);
+           
+            const newOnlyTask = {
+                id: inputOnlyTaskName.value + randomNumber,
+                name: inputOnlyTaskName.value,
+                isOn: true,
+                isCompleted: false,
+                isUrgent: false,
+                badges:[]
+            };
+            myOnlyTaskList.push(newOnlyTask);
+            inputOnlyTaskName.value = "";
+
+            const liTask = document.createElement("li");
+            liTask.dataset.id = newOnlyTask.id;
+            liTask.textContent = newOnlyTask.name;
+
+            onlyTaskList.appendChild(liTask);
+            
+            //Buttons:
+            const addTaskBadge = document.createElement("button");
+            addTaskBadge.dataset.id = newOnlyTask.id;
+            addTaskBadge.textContent = "Badge hinzufügen";
+
+            const completedTaskBtn = document.createElement("button");
+            completedTaskBtn.dataset.id = newOnlyTask.id;
+            completedTaskBtn.textContent = "Erledigt";
+
+            const delTaskBtn = document.createElement("button");
+            delTaskBtn.dataset.id = newOnlyTask.id;
+            delTaskBtn.textContent = "Entfernen";
+
+            liTask.appendChild(addTaskBadge);
+            liTask.appendChild(completedTaskBtn);
+            liTask.appendChild(delTaskBtn);
+            }
+            
+            
+
+            //HTML ergänzen:
+            /*Struktur:
+                ul 
+                 li badge
+                 li badge
+                div statistik
+                 h4 To Do:
+                 h4 Urgent:
+                 h4 Completed: 
+            
+            */ 
+
+
+
+                })
+            
+            
+            
+        
         /* HTML Struktur:
         <section class="task-only-container hide"> 
             Input - Task-Name
