@@ -6,14 +6,21 @@
 }
 
 :root{
+  --5px: clamp(4px, 1.2vw, 5px);
   --10px: clamp(8px,2.6vw, 10px);
+  --15px: clamp(13px, 3.6vw, 15px);
   --20px: clamp(18px, 5vw, 22px);
+  --25px: clamp(23px, 6vw, 25px);
   --30px: clamp(28px, 7.6vw, 30px);
   --40px: clamp(38px, 10vw, 40px);
   --50px: clamp(48px, 13vw, 51px);
   --60px: clamp(58px, 15vw, 60px);
+  
+  --18pxFontSize: clamp(1.125rem, 4.3vw, 1.25rem);
+  --20pxFontSize: clamp(1.188rem, 4.8vw, 1.25rem);
   --dark-grey: rgb(47, 47, 41);
-  --18pxFontSize: clamp(1.125rem, 3vw, 1.25rem);
+  --paleViolet: #d87093;
+  --paleVioletDark: #9C2B51;
 }
 
 body{
@@ -143,7 +150,7 @@ a{
 #list-container{
   width: fit-content;
   padding: var(--10px);
-  border: solid 5px red;
+  
   background-color: #FAFFF4;
   
 }
@@ -155,7 +162,7 @@ a{
   text-align: center;
   letter-spacing: 0.1rem;
   padding: var(--10px);
-  border: solid 3px palevioletred;
+  margin-top: var(--40px);
   
 }
 .list-header h1{
@@ -206,7 +213,6 @@ a{
 }
 #folders-container{
   max-width: fit-content;
-  border: solid 3px orange;
   padding: var(--10px);
 }
 
@@ -233,14 +239,14 @@ a{
 }
 
 #list-wrapper{
-    gap: 20px;
+    gap: var(--20px);
 }
 
 
 
 .folder-div{
     border: solid 2px lightgreen;
-    padding: 10px;
+    padding: var(--10px);
 }
 .folders-statistik{
     display: flex;
@@ -248,17 +254,16 @@ a{
     gap: 7px;
 }
 .statistik-num{
-    width: 30px;
-    height: 30px;
+    width: var(--30px);
+    height: var(--30px);
     border: solid 2px gray;
 }
 
 
 #working-folders-container{
-    width: fit-content;
     height: fit-content;
     padding: var(--20px);
-    border: solid 2px royalblue;
+    
 }
 
 #rendering-folder-div{
@@ -271,29 +276,29 @@ a{
 }
 #folders-name-label{
   display: inline-block;
-  font-size: 20px;
+  font-size: var(--20pxFontSize);
   font-weight: 700;
-  margin-bottom: 15px;
-  margin-right: 10px;
+  margin-bottom: var(--15px);
+  margin-right: var(--10px);
 }
 #folders-name{
   max-width: 80%;
   border: solid 1px green;
-  border-radius: 4px;
-  font-size: 20px;
+  border-radius: var(--5px);
+  font-size: var(--20pxFontSize);
   height: fit-content;
   margin-bottom: 15px;
 }
 #create-folder-btn, #close-add-folder{
-  margin-bottom: 15px;
-  margin-right: 10px;
+  margin-bottom: var(--15px);
+  margin-right: var(--10px);
   letter-spacing: 0.1rem;
   color: rgb(48, 47, 47);
   font-weight: 600;
   display: inline-block;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: var(--5px);
+  padding: var(--10px) var(--20px);
 }
 #create-folder-btn{
   background-color: #d6ebe3;
@@ -301,6 +306,51 @@ a{
 #close-add-folder{
   max-width: fit-content;
 }
+
+/*Only Task Container*/
+
+#only-task-header h3, h4{
+  letter-spacing: normal;
+  margin-bottom: var(--10px);
+}
+
+#only-task-header {
+  margin-top: var(--10px);
+  margin-bottom: var(--20px);
+  background-color: var(--paleVioletDark);
+  color: white;
+  padding: var(--15px);
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  border-radius: var(--5px);
+}
+#only-task-input-div{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#push-only-task-btn {
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  height: var(--25px);
+  width: var(--25px);
+}
+#only-task-header label, #input-only-task-name{
+  font-size: var(--20pxFontSize);
+}
+#input-only-task-name{
+  max-width: 70%;
+}
+#only-task-list{
+  height: 100px;
+  background-color: #ede1e5;
+  margin-bottom: var(--20px);
+  border-radius: var(--5px);
+}
+
+
 .task-container{
     height: 250px;
     width: 250px;
@@ -330,10 +380,14 @@ a{
   align-items: center;
   width: 30px;
   height: 30px;
-  font-size: 20px;
+  font-size: 25px;
   transform: rotate(45deg);
+  border: none;
+  background-color: white;
+  color: grey;
   border-radius: 100%;
   cursor: pointer;
+  margin-left: auto;
 }
 
 

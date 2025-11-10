@@ -76,16 +76,19 @@
 
                     <div id="working-folders-container">
                         <section id="only-task-container"  class="hide"> 
-                             <button class="close-btn-x" data-id="only-task-container">+</button>
+                             <button class="close-btn-x" data-id="only-task-container" type="button">+</button>
                              <div id="only-task-header"> 
                                 <h3>Neue Aufgabe hinzufügen</h3>
-                                <label for="input-only-task-name">Name </label>
-                                <input type="text" id="input-only-task-name" class="input-task-name"  required>
-                                <button type="button" id="push-only-task-btn" > <span> &#10003; </span> </button> 
-                                <ul id="only-task-list" data-id=""> </ul>
+                                <div id="only-task-input-div"> 
+                                    <label for="input-only-task-name">Name </label>
+                                    <input type="text" id="input-only-task-name" class="input-task-name"  required>
+                                    <button type="button" id="push-only-task-btn" >  &#10003;  </button> 
+                                </div>
+                                
                              </div>
+                             
+                            <ul id="only-task-list" data-id=""> </ul>
 
-                            
                             <div >
                                <h4> Auf der Liste: 0 </h4>
                                <h4> Drinnend zu erledigen: 0</h4>
