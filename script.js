@@ -14,6 +14,8 @@ const onlyTaskContainer = document.getElementById("only-task-container");
 const inputOnlyTaskName = document.getElementById("input-only-task-name");
 const pushOnlyTaskBtn = document.getElementById("push-only-task-btn");
 const onlyTaskList = document.getElementById("only-task-list");
+const onlyTaskWorkDiv = document.getElementById("only-task-work-div");
+const onlyTaskStataDiv = document.getElementById("only-task-stata-div");
 
 //Removing white spaces from string for taskId:
 /*let text = "Wash the dishes"
@@ -211,23 +213,33 @@ if(addFolderBtn || addTaskOnlyBtn) {
             liTask.textContent = newOnlyTask.name;
 
             onlyTaskList.appendChild(liTask);
-            
+            //div for buttons:
+
+            const liBtnDiv = document.createElement("div");
+            liBtnDiv.dataset.id = newOnlyTask.id;
+            liBtnDiv.classList.add("li-btn-div");
+
             //Buttons:
             const addTaskBadge = document.createElement("button");
             addTaskBadge.dataset.id = newOnlyTask.id;
             addTaskBadge.textContent = "Badge hinzufügen";
+            addTaskBadge.classList.add("li-add-badge-btn");
 
             const completedTaskBtn = document.createElement("button");
             completedTaskBtn.dataset.id = newOnlyTask.id;
-            completedTaskBtn.textContent = "Erledigt";
+            completedTaskBtn.innerHTML = `&#10003;`;
+            completedTaskBtn.classList.add("li-completed-btn");
 
             const delTaskBtn = document.createElement("button");
             delTaskBtn.dataset.id = newOnlyTask.id;
-            delTaskBtn.textContent = "Entfernen";
+            delTaskBtn.textContent = "+";
+            delTaskBtn.classList.add("close-btn-x");
 
-            liTask.appendChild(addTaskBadge);
-            liTask.appendChild(completedTaskBtn);
-            liTask.appendChild(delTaskBtn);
+            liTask.appendChild(liBtnDiv);
+            
+            liBtnDiv.appendChild(completedTaskBtn);
+            liBtnDiv.appendChild(addTaskBadge);
+            liBtnDiv.appendChild(delTaskBtn);
             }
             
             

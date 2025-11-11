@@ -22,6 +22,7 @@
   --paleViolet: #d87093;
   --paleVioletDark: #9C2B51;
   --paleYellow: #EBEBCB;
+  --paleRose: #ede1e5;
 }
 
 body{
@@ -151,7 +152,7 @@ a{
 #list-container{
   width: fit-content;
   padding: var(--10px);
-  background-color: #FAFFF4;
+  background-color: #fafcf8;
 }
 .list-wrapper{
   display: flex;
@@ -234,8 +235,6 @@ a{
 #list-wrapper{
     gap: var(--20px);
 }
-
-
 
 .folder-div{
     border: solid 2px lightgreen;
@@ -337,11 +336,56 @@ a{
   max-width: 70%;
 }
 #only-task-list{
-  height: 100px;
-  background-color: #ede1e5;
-  margin-bottom: var(--20px);
-  border-radius: var(--5px);
+  background-color: white;
+  
 }
+#only-task-list li{
+  list-style: none;
+  background-color: white;
+  padding: var(--5px) var(--10px);
+  margin-bottom: var(--10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--18pxFontSize);
+}
+
+.li-btn-div{
+  padding-right: var(--5px);
+  margin-left: var(--15px);
+  display: flex;
+  gap: var(--10px);
+  justify-content: center;
+  align-items: center;
+}
+.li-add-badge-btn, .li-completed-btn{
+  display: inline-block;
+  height: var(--20px);
+  cursor: pointer;
+  background-color: white;
+  border: solid 1px var(--paleVioletDark);
+  padding: 0 var(--5px);
+  border-radius: 2px;
+}
+.li-completed-btn{
+  color: white;
+  background-color: var(--paleVioletDark);
+}
+
+#only-task-work-div{
+  background-color: #ede1e5;
+  padding: var(--20px);
+  border-radius: var(--5px);
+  
+}
+#only-task-stata-div{
+  margin-top: var(--20px);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--dark-grey);
+}
+
+
 
 
 .task-container{
