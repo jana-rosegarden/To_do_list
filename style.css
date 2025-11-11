@@ -153,6 +153,7 @@ a{
   width: fit-content;
   padding: var(--10px);
   background-color: #fafcf8;
+  border: #d87093 solid 3px;
 }
 .list-wrapper{
   display: flex;
@@ -212,7 +213,7 @@ a{
   padding: var(--10px);
 }
 
-#add-folder-btn, #add-task-only-btn{
+.add-folder-btn, .task-only-btn{
     margin: var(--20px) auto 0;
     display: block;
     background-color: #2a6c55;
@@ -230,6 +231,9 @@ a{
   color: #2a6c55;
   background-color: white;
   border: solid 3px #2a6c55;
+}
+.task-only-btn .hide{
+  display: none;
 }
 
 #list-wrapper{

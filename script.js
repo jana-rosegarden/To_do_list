@@ -177,18 +177,22 @@ if(addFolderBtn || addTaskOnlyBtn) {
     addTaskOnlyBtn.addEventListener("click", function(){
         document.querySelector(".list-example-folder").classList.add("hide");
 
-        //HIER Feld ohne Ordner: 7.11.25
+        
         //Show Task-Ordner:
         onlyTaskContainer.classList.remove("hide");
-        addTaskOnlyBtn.style.display = "none";
+        addTaskOnlyBtn.classList.add("hide");
+        
+        //addTaskOnlyBtn.style.display = "none";
             //<ul class="only-task-list" data-id=""> </ul> -- hier neue Tasks platzieren
             
         onlyTaskContainer.addEventListener("click", function(e){
 
             //close container:
-            if(e.target.classList.contains("close-btn-x")){
+            if(e.target.classList.contains("close-btn-x") && e.target.dataset.id === "only-task-container"){
                 onlyTaskContainer.classList.add("hide");
                 myOnlyTaskList = [];
+                document.querySelector(".list-example-folder").classList.remove("hide");
+                 addTaskOnlyBtn.classList.remove("hide");
             }
 
             //Add Task in Only-Task-List:
