@@ -182,9 +182,6 @@ if(addFolderBtn || addTaskOnlyBtn) {
         onlyTaskContainer.classList.remove("hide");
         addTaskOnlyBtn.classList.add("hide");
         
-        //addTaskOnlyBtn.style.display = "none";
-            //<ul class="only-task-list" data-id=""> </ul> -- hier neue Tasks platzieren
-            
         onlyTaskContainer.addEventListener("click", function(e){
 
             //close container:
@@ -244,8 +241,30 @@ if(addFolderBtn || addTaskOnlyBtn) {
             liBtnDiv.appendChild(completedTaskBtn);
             liBtnDiv.appendChild(addTaskBadge);
             liBtnDiv.appendChild(delTaskBtn);
+            
+            //Badges Menu: 11.11 - hier weiter : 
+            
+            const badgeDiv = document.createElement("div");
+            badgeDiv.dataset.id = newOnlyTask.id;
+            badgeDiv.classList.add("badge-div-only-task");
+
+            //Funktion on adding badges + creating new badges
+            //datum-badge hinzufügen
+            //möglichkeit badges zu entfernen
+            //updating taskArray
+            //deleting tasks
+            //markieren als "Erledigt"
+
+            const badgeUrgentOnlyTask = document.createElement("button");
+            badgeUrgentOnlyTask.dataset.id = newOnlyTask.id;
+            badgeUrgentOnlyTask.classList.add(".badges-only-task");
+            badgeUrgentOnlyTask.textContent = "Urgent";
+            
+            addTaskBadge.appendChild(badgeDiv);
+            badgeDiv.appendChild(badgeUrgentOnlyTask);
             }
             
+           
             
 
             //HTML ergänzen:
@@ -264,35 +283,6 @@ if(addFolderBtn || addTaskOnlyBtn) {
 
                 })
             
-            
-            
-        
-        /* HTML Struktur:
-        <section class="task-only-container hide"> 
-            Input - Task-Name
-            Btn - Add new Task
-            Ul - wo die Tasks aufgelistet sind
-             Tasks:
-               Name + Badges + Remove Task
-             Statistik:
-               Completed:
-               Urgent:
-               Optional:
-               Mit Datum
-        </section>
-        
-        JS Logik: 
-            taskOnly = []
-            jede Task = {
-                id:
-                name:
-                isOn:
-                isUrgent:
-                isCompleted: 
-                badges: []
-            }
-        
-        */
     });
 };
 

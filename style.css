@@ -375,7 +375,14 @@ a{
   color: white;
   background-color: var(--paleVioletDark);
 }
-
+.badge-div-only-task{
+  position: absolute;
+}
+.badges-only-task{
+  padding: 0 var(--5px);
+  background-color: white;
+  border: solid 3px #FBFB86;
+}
 #only-task-work-div{
   background-color: #ede1e5;
   padding: var(--20px);
