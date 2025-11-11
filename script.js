@@ -178,7 +178,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
         //HIER Feld ohne Ordner: 7.11.25
         //Show Task-Ordner:
         onlyTaskContainer.classList.remove("hide");
-        
+        addTaskOnlyBtn.style.display = "none";
             //<ul class="only-task-list" data-id=""> </ul> -- hier neue Tasks platzieren
             
         onlyTaskContainer.addEventListener("click", function(e){
@@ -196,7 +196,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
             let randomNumber = Math.floor((Math.random() * 10) + 1);
            
             const newOnlyTask = {
-                id: inputOnlyTaskName.value + randomNumber,
+                id: inputOnlyTaskName.value.replace(/\s/g, "").slice(0,6) + randomNumber,
                 name: inputOnlyTaskName.value,
                 isOn: true,
                 isCompleted: false,

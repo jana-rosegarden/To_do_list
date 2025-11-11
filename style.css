@@ -21,6 +21,7 @@
   --dark-grey: rgb(47, 47, 41);
   --paleViolet: #d87093;
   --paleVioletDark: #9C2B51;
+  --paleYellow: #EBEBCB;
 }
 
 body{
@@ -150,9 +151,7 @@ a{
 #list-container{
   width: fit-content;
   padding: var(--10px);
-  
   background-color: #FAFFF4;
-  
 }
 .list-wrapper{
   display: flex;
@@ -163,7 +162,6 @@ a{
   letter-spacing: 0.1rem;
   padding: var(--10px);
   margin-top: var(--40px);
-  
 }
 .list-header h1{
   font-size: 1.625rem;
@@ -178,13 +176,11 @@ a{
   font-weight: 400;
 }
 
-
 .list-example-folder-content{
-  background-color: #d9d9d9;
+  background-color: var(--paleYellow);
   max-width: 80%;
   padding: var(--10px);
   margin: 0 auto;
-  border: grey 1.5px dotted;
   border-radius: 5px;
   font-family: "Delius Swash Caps", cursive;
 }
@@ -212,12 +208,10 @@ a{
   
 }
 #folders-container{
-  max-width: fit-content;
   padding: var(--10px);
 }
 
 #add-folder-btn, #add-task-only-btn{
-    
     margin: var(--20px) auto 0;
     display: block;
     background-color: #2a6c55;
@@ -232,7 +226,6 @@ a{
     width: 90%;
 }
 #add-task-only-btn.task-only-btn{
-  
   color: #2a6c55;
   background-color: white;
   border: solid 3px #2a6c55;
