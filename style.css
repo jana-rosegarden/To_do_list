@@ -355,6 +355,7 @@ a{
 }
 
 .li-btn-div{
+  
   padding-right: var(--5px);
   margin-left: var(--15px);
   display: flex;
@@ -376,7 +377,17 @@ a{
   background-color: var(--paleVioletDark);
 }
 .badge-div-only-task{
-  position: absolute;
+  position: relative;
+  background-color: lightskyblue;
+  padding: var(--10px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--10px);
+  border-radius: var(--5px);
+}
+.badge-div-only-task .close-btn-x{
+  background-color: #69D7D5;
+  
 }
 .badges-only-task{
   padding: 0 var(--5px);
