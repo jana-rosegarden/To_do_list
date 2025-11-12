@@ -407,17 +407,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 //updating DOM:
                 document.querySelector(`li[data-id=${taskId}]`).remove();
                }
-            //Add badges logik:
             
-            
-            //Funktion on adding badges + creating new badges
-            //datum-badge hinzufügen
-            //möglichkeit badges zu entfernen
-            //updating taskArray
-            //deleting tasks
-            //markieren als "Erledigt"
-            
-
                 })
             
     });
