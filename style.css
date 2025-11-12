@@ -153,7 +153,6 @@ a{
   width: fit-content;
   padding: var(--10px);
   background-color: #fafcf8;
-  border: #d87093 solid 3px;
 }
 .list-wrapper{
   display: flex;
@@ -179,12 +178,13 @@ a{
 }
 
 .list-example-folder-content{
-  background-color: var(--paleYellow);
+  background-color: #EDE1E5;
   max-width: 80%;
   padding: var(--10px);
   margin: 0 auto;
   border-radius: 5px;
   font-family: "Delius Swash Caps", cursive;
+  border-left: solid var(--5px) #D87093;
 }
 .list-example-folder-content p{
   margin-bottom: var(--10px);
@@ -355,7 +355,6 @@ a{
 }
 
 .li-btn-div{
-  
   padding-right: var(--5px);
   margin-left: var(--15px);
   display: flex;
@@ -376,30 +375,47 @@ a{
   color: white;
   background-color: var(--paleVioletDark);
 }
-.badge-div-only-task{
-  position: relative;
-  background-color: lightskyblue;
-  padding: var(--10px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--10px);
-  border-radius: var(--5px);
-}
-.badge-div-only-task .close-btn-x{
-  background-color: #69D7D5;
-  
-}
-.badges-only-task{
-  padding: 0 var(--5px);
-  background-color: white;
-  border: solid 3px #FBFB86;
-}
 #only-task-work-div{
   background-color: #ede1e5;
   padding: var(--20px);
   border-radius: var(--5px);
   
 }
+.badge-div-only-task{
+  position: relative;
+  background-color: white;
+  border: solid 3px #68697C;
+  padding: var(--10px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--10px);
+  border-radius: var(--5px);
+}
+
+.badge-urgent, .badge-optional, .badge-datum{
+  display: inline-block;
+  border-radius: var(--10px);
+  padding: var(--5px);
+  border: none;
+  font-weight: 500;
+}
+.badge-urgent{
+  background-color: #f7f79e;
+}
+.badge-optional{
+  background-color: #a9dac1;
+}
+.badge-datum{
+  background-color: #68697C;
+  color: white;
+}
+/*
+.badges-only-task{
+  padding: 0 var(--5px);
+  background-color: white;
+  border: solid 3px #FBFB86;
+}*/
+
 #only-task-stata-div{
   margin-top: var(--20px);
   font-size: 1rem;

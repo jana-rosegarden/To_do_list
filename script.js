@@ -64,17 +64,17 @@ function createBadges(e, parent){
                   //Urgent:
                  const badgeUrgent = document.createElement("button");
                  badgeUrgent.dataset.id = taskId;
-                 badgeUrgent.classList.add(".badge-urgent");
+                 badgeUrgent.classList.add("badge-urgent");
                  badgeUrgent.textContent = "Urgent";
                   //Optional:
                  const badgeOptional = document.createElement("button");
                  badgeOptional.dataset.id = taskId;
-                 badgeOptional.classList.add(".badge-optional");
+                 badgeOptional.classList.add("badge-optional");
                  badgeOptional.textContent = "Optional";
                   //Datum:
                  const badgeDatum = document.createElement("button");
                  badgeDatum.dataset.id = taskId;
-                 badgeDatum.classList.add(".badge-datum");
+                 badgeDatum.classList.add("badge-datum");
                  badgeDatum.textContent = "Datum";
 
                  const closeBadgeDivBtn = document.createElement("div");
@@ -339,7 +339,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
             if(e.target.id === "push-only-task-btn") {
                 if(!inputOnlyTaskName.value) return
             
-                //Update only-task array:
+            //Update only-task array:
             let randomNumber = Math.floor((Math.random() * 10) + 1);
             const newOnlyTask = {
                 id: inputOnlyTaskName.value.replace(/\s/g, "").slice(0,6) + randomNumber,
@@ -351,11 +351,12 @@ if(addFolderBtn || addTaskOnlyBtn) {
             };
             myOnlyTaskList.push(newOnlyTask);
             inputOnlyTaskName.value = "";
-                //create new HTML-elements:
+
+            //create new HTML-elements:
             const liTask = document.createElement("li");
             liTask.dataset.id = newOnlyTask.id;
             liTask.textContent = newOnlyTask.name;
-
+            
             onlyTaskList.appendChild(liTask);
 
             //div for buttons:
@@ -376,6 +377,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
 
             const delTaskBtn = document.createElement("button");
             delTaskBtn.dataset.id = newOnlyTask.id;
+            delTaskBtn.dataset.role = "closeLi";
             delTaskBtn.textContent = "+";
             delTaskBtn.classList.add("close-btn-x");
 
@@ -384,19 +386,27 @@ if(addFolderBtn || addTaskOnlyBtn) {
             liBtnDiv.appendChild(completedTaskBtn);
             liBtnDiv.appendChild(addTaskBadge);
             liBtnDiv.appendChild(delTaskBtn);
-
-            
-            
-            }
+            };
+            //showing badges:
             if(e.target.classList.contains("li-add-badge-btn")){
-               
                const taskId = e.target.dataset.id;
                const parentBadge = document.querySelector(`.li-add-badge-btn[data-id=${taskId}]`);
-               
                createBadges(e, parentBadge);
                parentBadge.disabled = true;
-               
-            }
+            };
+            //deleting task fron onlyTask array:
+            if(e.target.matches(`.close-btn-x[data-role="closeLi"]`)){
+                const taskId = e.target.dataset.id;
+                //updating array:
+                const currentTask = myOnlyTaskList.find(item =>{
+                    return item.id === taskId;
+                });
+                myOnlyTaskList = myOnlyTaskList.filter(item =>{
+                    return item.id !== currentTask.id
+                });
+                //updating DOM:
+                document.querySelector(`li[data-id=${taskId}]`).remove();
+               }
             //Add badges logik:
             
             
