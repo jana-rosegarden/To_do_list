@@ -195,7 +195,7 @@ function createBadges(e, parent){
 function countOnTask(e){
     //For only-task:
     if(!e.target.dataset.folder){
-        //Hier zu arbeiten next - 13.11
+        
             onOnlyTaskAmount = myOnlyTaskList.filter(item=>{
                 return item.isOn === true
             }).length
