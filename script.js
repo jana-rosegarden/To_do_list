@@ -38,8 +38,11 @@ let newTaskInput = ""
 let newTask = {}
 let targetTaskBadge = ""
 
-//statistik
+//STATISTIK
 
+ //Only-Task:
+ let onOnlyTaskAmount = 0;
+ //With folders:
 let folderOnTasks = ""; //???
 let folderCompletedTasks = ""; ///??
 
@@ -190,9 +193,22 @@ function createBadges(e, parent){
 
 
 function countOnTask(e){
+    //For only-task:
+    if(!e.target.dataset.folder){
+        //Hier zu arbeiten next - 13.11
+            onOnlyTaskAmount = myOnlyTaskList.filter(item=>{
+                return item.isOn === true
+            }).length
+            document.querySelector(".only-task-stata-on").textContent = "Auf der Liste: " + onOnlyTaskAmount;
+        }
+        
+        
+    
+    //for folders:
+    else{
     const targetFolderId = e.target.dataset.folder;
     const targetFolder = myFolders.find(item =>{
-        return item.id === targetFolderId
+    return item.id === targetFolderId
     });
     
     onTaskAmount = targetFolder.tasks.filter(task =>{
@@ -202,6 +218,8 @@ function countOnTask(e){
     document.querySelector(`.folder-on-stata[data-id=${targetFolderId}]`).innerHTML = `
             To do: ${onTaskAmount} tasks
     `
+    };
+    
 }
 
 function countCompletedTask(e) {
@@ -339,7 +357,9 @@ if(addFolderBtn || addTaskOnlyBtn) {
             //Add Task in Only-Task-List:
             if(e.target.id === "push-only-task-btn") {
                 if(!inputOnlyTaskName.value) return
+
             
+
             //Update only-task array:
             let randomNumber = Math.floor((Math.random() * 10) + 1);
             const newOnlyTask = {
@@ -389,7 +409,11 @@ if(addFolderBtn || addTaskOnlyBtn) {
             liBtnDiv.appendChild(completedTaskBtn);
             liBtnDiv.appendChild(addTaskBadge);
             liBtnDiv.appendChild(delTaskBtn);
+
+            countOnTask(e);
             };
+            
+
             //showing badges:
             if(e.target.classList.contains("li-add-badge-btn")){
                const taskId = e.target.dataset.id;
@@ -418,7 +442,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 onlyTaskCompletedList.appendChild(completedOnlyTaskLi);
 
                 document.querySelector(`li[data-role="li-only-task"][data-id=${taskId}]`).remove();
-                
+                countOnTask(e);
             };
             //deleting task fron onlyTask array:
             if(e.target.matches(`.close-btn-x[data-role="closeLi"]`)){
@@ -432,8 +456,9 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 });
                 //updating DOM:
                 document.querySelector(`li[data-id=${taskId}]`).remove();
+                countOnTask(e);
                }
-            
+               
                 })
             
     });
@@ -619,7 +644,7 @@ if(workingFoldersContainer) {
                     </div>
             `;
             //how many on tasks?:
-               countOnTask(e)
+            countOnTask(e)
             document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
             //clear the input
             document.querySelector(`.input-task[data-id=${folderId}]`).value = ""
