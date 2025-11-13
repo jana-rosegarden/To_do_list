@@ -14,6 +14,7 @@ const onlyTaskContainer = document.getElementById("only-task-container");
 const inputOnlyTaskName = document.getElementById("input-only-task-name");
 const pushOnlyTaskBtn = document.getElementById("push-only-task-btn");
 const onlyTaskList = document.getElementById("only-task-list");
+const onlyTaskCompletedList = document.getElementById("only-task-completed-list");
 const onlyTaskWorkDiv = document.getElementById("only-task-work-div");
 const onlyTaskStataDiv = document.getElementById("only-task-stata-div");
 
@@ -355,6 +356,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
             //create new HTML-elements:
             const liTask = document.createElement("li");
             liTask.dataset.id = newOnlyTask.id;
+            liTask.dataset.role ="li-only-task";
             liTask.textContent = newOnlyTask.name;
             
             onlyTaskList.appendChild(liTask);
@@ -372,6 +374,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
 
             const completedTaskBtn = document.createElement("button");
             completedTaskBtn.dataset.id = newOnlyTask.id;
+            completedTaskBtn.dataset.role = "completedOnlyTask"
             completedTaskBtn.innerHTML = `&#10003;`;
             completedTaskBtn.classList.add("li-completed-btn");
 
@@ -393,6 +396,29 @@ if(addFolderBtn || addTaskOnlyBtn) {
                const parentBadge = document.querySelector(`.li-add-badge-btn[data-id=${taskId}]`);
                createBadges(e, parentBadge);
                parentBadge.disabled = true;
+            };
+            //mark task as completed and update array:
+            if(e.target.matches(`.li-completed-btn[data-role="completedOnlyTask"]`)){
+                const taskId = e.target.dataset.id;
+                const currentTask = myOnlyTaskList.find(item=>{
+                    return item.id === taskId
+                });
+                myOnlyTaskList.forEach(item =>{
+                    if(item.id === taskId)
+                    {item.isCompleted = true
+                     item.isOn = false
+                    }
+                });
+
+                onlyTaskCompletedList.classList.remove("hide");
+                const completedOnlyTaskLi = document.createElement("li");
+                completedOnlyTaskLi.dataset.id = taskId;
+                completedOnlyTaskLi.classList.add("completed-only-task-li");
+                completedOnlyTaskLi.innerHTML = `${currentTask.name} - erledigt! &#127881;`;
+                onlyTaskCompletedList.appendChild(completedOnlyTaskLi);
+
+                document.querySelector(`li[data-role="li-only-task"][data-id=${taskId}]`).remove();
+                
             };
             //deleting task fron onlyTask array:
             if(e.target.matches(`.close-btn-x[data-role="closeLi"]`)){

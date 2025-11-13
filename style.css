@@ -341,13 +341,13 @@ a{
 }
 #only-task-list{
   background-color: white;
-  
+  padding: var(--10px);
+  margin-bottom: var(--20px);
 }
 #only-task-list li{
   list-style: none;
   background-color: white;
   padding: var(--5px) var(--10px);
-  margin-bottom: var(--10px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -374,6 +374,16 @@ a{
 .li-completed-btn{
   color: white;
   background-color: var(--paleVioletDark);
+}
+#only-task-completed-list{
+  background-color: white;
+  padding: var(--10px);
+  border-radius: var(--5px);
+  border: solid 2px #76B998;
+}
+#only-task-completed-list li{
+  list-style: none;
+  margin-bottom: var(--5px);
 }
 #only-task-work-div{
   background-color: #ede1e5;
