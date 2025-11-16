@@ -429,8 +429,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
             };
             //work with badges:
             if (e.target.matches('.close-btn-x[data-role="close-badge-div"]')) {
-              console.log("Close Badge Div Button:", e.target);
-              
+              e.target.parentNode.remove();
               };
            
             //mark task as completed and update array:
