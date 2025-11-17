@@ -355,12 +355,14 @@ a{
 }
 
 .li-btn-div{
+  position: relative;
   padding-right: var(--5px);
   margin-left: var(--15px);
   display: flex;
   gap: var(--10px);
   justify-content: center;
   align-items: center;
+  
 }
 .li-add-badge-btn, .li-completed-btn{
   display: inline-block;
@@ -393,6 +395,7 @@ a{
 }
 .badge-div-only-task{
   position: relative;
+  right: clamp(120px, 30vw, 126px);
   background-color: white;
   border: solid 3px #68697C;
   padding: var(--10px);

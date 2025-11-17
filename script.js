@@ -425,7 +425,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                const taskId = e.target.dataset.id;
                const parentBadge = document.querySelector(`.li-btn-div[data-id=${taskId}]`);
                createBadges(e, parentBadge);
-               parentBadge.disabled = true;
+               document.querySelector(`.li-add-badge-btn[data-id=${taskId}]`).disabled = true;
             };
             //work with badges:
             if (e.target.matches('.close-btn-x[data-role="close-badge-div"]')) {
