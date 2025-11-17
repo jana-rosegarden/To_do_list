@@ -16,7 +16,7 @@
   --50px: clamp(48px, 13vw, 51px);
   --60px: clamp(58px, 15vw, 60px);
   
-  --18pxFontSize: clamp(1.125rem, 4.3vw, 1.25rem);
+  --18pxFontSize: clamp(1.063, 4.3vw, 1.125rem);
   --20pxFontSize: clamp(1.188rem, 4.8vw, 1.25rem);
   --dark-grey: rgb(47, 47, 41);
   --paleViolet: #d87093;
@@ -340,6 +340,7 @@ a{
   max-width: 70%;
 }
 #only-task-list{
+  position: relative;
   background-color: white;
   padding: var(--10px);
   margin-bottom: var(--20px);
@@ -349,25 +350,29 @@ a{
   background-color: white;
   padding: var(--5px) var(--10px);
   display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   font-size: var(--18pxFontSize);
 }
+.li-task-name-h4{
+  margin-bottom: 0;
+}
 
 .li-btn-div{
-  position: relative;
   padding-right: var(--5px);
   margin-left: var(--15px);
   display: flex;
   gap: var(--10px);
   justify-content: center;
   align-items: center;
-  
 }
 .li-add-badge-btn, .li-completed-btn{
   display: inline-block;
   height: var(--20px);
   cursor: pointer;
+  
   background-color: white;
   border: solid 1px var(--paleVioletDark);
   padding: 0 var(--5px);
@@ -394,8 +399,7 @@ a{
   
 }
 .badge-div-only-task{
-  position: relative;
-  right: clamp(120px, 30vw, 126px);
+  position: absolute;
   background-color: white;
   border: solid 3px #68697C;
   padding: var(--10px);
@@ -403,6 +407,7 @@ a{
   flex-direction: column;
   gap: var(--10px);
   border-radius: var(--5px);
+  z-index: 999;
 }
 
 .badge-urgent, .badge-optional, .badge-datum{
@@ -421,6 +426,22 @@ a{
 .badge-datum{
   background-color: #68697C;
   color: white;
+}
+.chosen-badges-div-only-task{
+  
+  display: flex;
+  gap: var(--10px);
+  padding: var(--5px);
+  
+}
+.badge-container{
+  
+  display: flex;
+  gap: var(--5px);
+}
+.chosen-badge-span{
+  box-shadow: 0 0 10px grey;
+  font-size: var(--18pxFontSize);
 }
 /*
 .badges-only-task{
