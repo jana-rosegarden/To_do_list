@@ -43,6 +43,7 @@ let targetTaskBadge = ""
  //Only-Task:
  let onOnlyTaskAmount = 0;
  let completedOnlyTaskAmount = 0;
+ let urgentOnlyTaskAmount = 0;
  //With folders:
 let folderOnTasks = ""; //???
 let folderCompletedTasks = ""; ///??
@@ -54,7 +55,10 @@ let completedTaskAmount = ""
 
 function createBadges(e, parent){
     const taskId = e.target.dataset.id;
-                  
+    const currentTask = myOnlyTaskList.filter(item=>{
+        return item.id === taskId
+    })[0];
+    
     //create badge set on the target task:
     const badgeDiv = document.createElement("div");
     badgeDiv.dataset.id = taskId;
@@ -69,16 +73,19 @@ function createBadges(e, parent){
     //Urgent:
     const badgeUrgent = document.createElement("button");
     badgeUrgent.dataset.id = taskId;
+    badgeUrgent.dataset.role = "badge-menu-btn";
     badgeUrgent.classList.add("badge-urgent");
     badgeUrgent.textContent = "Urgent";
     //Optional:
     const badgeOptional = document.createElement("button");
     badgeOptional.dataset.id = taskId;
+    badgeOptional.dataset.role = "badge-menu-btn";
     badgeOptional.classList.add("badge-optional");
     badgeOptional.textContent = "Optional";
     //Datum:
     const badgeDatum = document.createElement("button");
     badgeDatum.dataset.id = taskId;
+    badgeDatum.dataset.role = "badge-menu-btn";
     badgeDatum.classList.add("badge-datum");
     badgeDatum.textContent = "Datum";
 
@@ -92,7 +99,14 @@ function createBadges(e, parent){
     badgeDiv.appendChild(badgeUrgent);
     badgeDiv.appendChild(badgeOptional);
     badgeDiv.appendChild(badgeDatum);
-                 
+    
+    //check if badges were already chosen:
+    if(currentTask.badges.length >= 1){
+        currentTask.badges.forEach(item=>{
+            const currentBadge = item.toLowerCase();
+            document.querySelector(`.badge-${currentBadge}[data-role="badge-menu-btn"]`).disabled = true;
+        })
+    };
     //Funktion unter noch zu bearbeiten, 12.11.25
     function badgeDatumCreate(event, parent){
                 /*const currentFolderId = e.target.dataset.folder;
@@ -267,39 +281,51 @@ function countUrgentTask(e){
 //handling Badges  function:
 function addBadge(e){
     if(!e.target.dataset.folder){
-        //console.log("Only task badges!")
+        const taskId = e.target.dataset.id;         
+        const currentTask = myOnlyTaskList.find(item =>{
+            return item.id === taskId;
+        });
+        let badgeName = e.target.textContent.trim();
         
-        const taskId = e.target.dataset.id;
-                
-                const currentTask = myOnlyTaskList.filter(item =>{
-                    return item.id === taskId;
-                });
-                const targetEl = document.querySelector(`.badge-urgent[data-id=${taskId}]`);
-                const badgeName = targetEl.textContent.trim();
-                
-                //container for a badge:
-                const badgeContainer = document.createElement("div");
-                badgeContainer.dataset.id;
-                badgeContainer.classList.add("badge-container");
+        //Updating array:
+        currentTask.badges.push(badgeName);
+        if(badgeName === "Urgent"){
+            currentTask.isUrgent = true;
+            urgentOnlyTaskAmount += 1;
+            document.querySelector(`.only-task-stata-urgent`).textContent = `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`
+        };
 
-                //badge:
-                const badgeSpan = document.createElement("span");
-                badgeSpan.dataset.id = taskId;
-                badgeSpan.textContent = badgeName;
-                badgeSpan.classList.add(`badge-${badgeName.toLowerCase()}`);
-                badgeSpan.classList.add("chosen-badge-span");
-                
-                //close badge btn:
-                const badgeCloseBtn = document.createElement("button");
-                badgeCloseBtn.dataset.id = taskId;
-                badgeCloseBtn.dataset.role ="close-badge";
-                badgeCloseBtn.textContent = "+";
-                badgeCloseBtn.classList.add("close-btn-x");
-                badgeCloseBtn.classList.add("chosen-badge-span");
+        //container for a badge:
+        const badgeContainer = document.createElement("div");
+        badgeContainer.dataset.id = taskId;
+        badgeContainer.dataset.content = badgeName;
+        badgeContainer.classList.add("badge-container");
 
-                document.querySelector(`.chosen-badges-div-only-task[data-id=${taskId}]`).appendChild(badgeContainer);
-                badgeContainer.appendChild(badgeSpan);
-                badgeContainer.appendChild(badgeCloseBtn);
+        //badge-span - name of the badge:
+        const badgeSpan = document.createElement("span");
+        badgeSpan.dataset.id = taskId;
+        badgeSpan.dataset.content = badgeName;
+        badgeSpan.textContent = badgeName;
+        badgeSpan.classList.add(`badge-${badgeName.toLowerCase()}`);
+        badgeSpan.classList.add("chosen-badge-span");
+                
+        //close badge btn:
+        const badgeCloseBtn = document.createElement("button");
+        badgeCloseBtn.dataset.id = taskId;
+        badgeCloseBtn.dataset.role ="close-badge";
+        badgeCloseBtn.dataset.content = badgeName;
+        badgeCloseBtn.textContent = "+";
+        badgeCloseBtn.classList.add("close-btn-x");
+        badgeCloseBtn.classList.add("chosen-badge-span");
+
+        document.querySelector(`.chosen-badges-div-only-task[data-id=${taskId}]`).appendChild(badgeContainer);
+        badgeContainer.appendChild(badgeSpan);
+        badgeContainer.appendChild(badgeCloseBtn);
+
+        //diasble choosing the same badge:
+        const badgeFromMenu = document.querySelector(`.badge-${badgeName.toLowerCase()}[data-role="badge-menu-btn"]`).disabled = true;
+                
+
     } else {
     const folderId = e.target.dataset.folder;   
     const taskId   = e.target.dataset.id;
@@ -406,13 +432,14 @@ if(addFolderBtn || addTaskOnlyBtn) {
             //Update only-task array:
             let randomNumber = Math.floor((Math.random() * 10) + 1);
             const newOnlyTask = {
-                id: inputOnlyTaskName.value.replace(/\s/g, "").slice(0,6) + randomNumber,
+                id: inputOnlyTaskName.value.replace(/\s/g, "").slice(0,6) + (randomNumber * inputOnlyTaskName.value.length),
                 name: inputOnlyTaskName.value,
                 isOn: true,
                 isCompleted: false,
                 isUrgent: false,
                 badges:[]
             };
+            console.log(newOnlyTask.id)
             myOnlyTaskList.push(newOnlyTask);
             inputOnlyTaskName.value = "";
 
@@ -484,8 +511,37 @@ if(addFolderBtn || addTaskOnlyBtn) {
              //adding different badges - will be executed below with addBadge();??
             if(e.target.matches(".badge-urgent")){
                 addBadge(e);
-            }
+            };
+            if(e.target.matches(".badge-optional")){
+                addBadge(e);
+            };
+             //closing differnet badges:
+             if(e.target.matches(`.close-btn-x[data-role="close-badge"]`)){
+                
+                const taskId = e.target.dataset.id; //works
+                const currentBadge = e.target.dataset.content; // works, returns string, "Urgent"/"Optional"
+                
+                const currentTask = myOnlyTaskList.find(item =>{
+                    return item.id === taskId;
+                }); 
+                currentTask.badges = currentTask.badges.filter(item=>{
+                    return item !== currentBadge
+                }); 
+                //Updating stata info:
+                if(currentBadge === "Urgent"){
+                    urgentOnlyTaskAmount -= 1;
+                    document.querySelector(`.only-task-stata-urgent`).textContent = `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`
+                };
+                //disable buttons in btn menu:
+                if(document.querySelector(`.badge-div-only-task`)){
+                    document.querySelector(`.badge-${currentBadge.toLowerCase()}[data-id=${taskId}][data-role="badge-menu-btn"]`).disabled = false;
+                };
 
+                const targetBadgeDiv = document.querySelector(`div.badge-container[data-id=${taskId}][data-content=${currentBadge}]`);
+                
+                targetBadgeDiv.remove();
+
+                };
             //mark task as completed and update array:
             if(e.target.matches(`.li-completed-btn[data-role="completedOnlyTask"]`)){
             const taskId = e.target.dataset.id;
@@ -725,10 +781,10 @@ if(workingFoldersContainer) {
         if(e.target.classList.contains("badge-urgent") && !e.target.parentNode.classList.contains("badge-div-only-task")){
                     addBadge(e)
                    };
-        if(e.target.classList.contains("badge-optional")){
+        if(e.target.classList.contains("badge-optional") && !e.target.parentNode.classList.contains("badge-div-only-task")){
                     addBadge(e)
                    };             
-         if(e.target.classList.contains("badge-datum")){
+         if(e.target.classList.contains("badge-datum") && !e.target.parentNode.classList.contains("badge-div-only-task")){
                     addBadge(e)
                     
                     const currentFolderId = e.target.dataset.folder;
