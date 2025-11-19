@@ -241,10 +241,10 @@ function countCompletedTask(e) {
         const taskId = e.target.dataset.id;
         completedOnlyTaskAmount = myOnlyTaskList.filter(item=>{
             return item.isCompleted
-        })
+        }).length;
         document.querySelector(".only-task-stata-done").innerHTML = `
-        Erledigt! &#127882;: ${completedOnlyTaskAmount}
-        `;
+        Erledigt! &#127882;: ${completedOnlyTaskAmount}`;
+        console.log(completedOnlyTaskAmount)
     } else{
     const targetFolderId = e.target.dataset.folder;
     const targetFolder = myFolders.find(item =>{
@@ -264,6 +264,17 @@ function countCompletedTask(e) {
 };
 
 function countUrgentTask(e){
+    if(!e.target.dataset.folder){
+        //checking array for urgent task:
+        
+        urgentOnlyTaskAmount = myOnlyTaskList.filter(item=>{
+            return item.isUrgent === true
+        }).length;
+        console.log("Count Function Only Task!" + urgentOnlyTaskAmount)
+        //updating DOM:
+        document.querySelector(".only-task-stata-urgent").textContent = 
+            `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`;
+    } else {
     const targetFolderId = e.target.dataset.folder;
     const targetTaskId = e.target.dataset.id;
     const targetFolder = myFolders.find(item=>{
@@ -276,7 +287,8 @@ function countUrgentTask(e){
     document.querySelector(`.folder-urgent-stata[data-id=${targetFolderId}]`).innerHTML = `
             Urgent: ${urgentTaskAmount} tasks
     `;
-}
+    }
+};
 
 //handling Badges  function:
 function addBadge(e){
@@ -292,7 +304,9 @@ function addBadge(e){
         if(badgeName === "Urgent"){
             currentTask.isUrgent = true;
             urgentOnlyTaskAmount += 1;
-            document.querySelector(`.only-task-stata-urgent`).textContent = `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`
+            /*
+            document.querySelector(`.only-task-stata-urgent`).textContent = `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`*/
+            countUrgentTask(e);
         };
 
         //container for a badge:
@@ -439,7 +453,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 isUrgent: false,
                 badges:[]
             };
-            console.log(newOnlyTask.id)
+            
             myOnlyTaskList.push(newOnlyTask);
             inputOnlyTaskName.value = "";
 
@@ -507,7 +521,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
               e.target.parentNode.remove();
               document.querySelector(`.li-add-badge-btn[data-id=${taskId}]`).disabled = false;
               };
-           
+              
              //adding different badges - will be executed below with addBadge();??
             if(e.target.matches(".badge-urgent")){
                 addBadge(e);
@@ -527,11 +541,13 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 currentTask.badges = currentTask.badges.filter(item=>{
                     return item !== currentBadge
                 }); 
-                //Updating stata info:
+                //Updating array and stata info:
                 if(currentBadge === "Urgent"){
-                    urgentOnlyTaskAmount -= 1;
-                    document.querySelector(`.only-task-stata-urgent`).textContent = `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`
+                    currentTask.isUrgent = false;
+                    countUrgentTask(e);
                 };
+                
+
                 //disable buttons in btn menu:
                 if(document.querySelector(`.badge-div-only-task`)){
                     document.querySelector(`.badge-${currentBadge.toLowerCase()}[data-id=${taskId}][data-role="badge-menu-btn"]`).disabled = false;
@@ -542,6 +558,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 targetBadgeDiv.remove();
 
                 };
+            //WORK with tasks
             //mark task as completed and update array:
             if(e.target.matches(`.li-completed-btn[data-role="completedOnlyTask"]`)){
             const taskId = e.target.dataset.id;
@@ -550,8 +567,9 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 });
             myOnlyTaskList.forEach(item =>{
                     if(item.id === taskId)
-                    {item.isCompleted = true
-                     item.isOn = false
+                    {item.isCompleted = true;
+                     item.isOn = false;
+                     item.isUrgent = false;
                     }
                 });
 
@@ -563,8 +581,10 @@ if(addFolderBtn || addTaskOnlyBtn) {
             onlyTaskCompletedList.appendChild(completedOnlyTaskLi);
 
             document.querySelector(`li[data-role="li-only-task"][data-id=${taskId}]`).remove();
+            
             countOnTask(e);
             countCompletedTask(e); 
+            countUrgentTask(e);
             };
             //deleting task fron onlyTask array:
             if(e.target.matches(`.close-btn-x[data-role="closeLi"]`)){
@@ -579,6 +599,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 //updating DOM:
                 document.querySelector(`li[data-id=${taskId}]`).remove();
                 countOnTask(e);
+                countUrgentTask(e);
                }
            
                
