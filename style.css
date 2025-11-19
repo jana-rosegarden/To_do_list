@@ -213,9 +213,7 @@ a{
   border-radius: 1px;
   
 }
-#folders-container{
-  
-}
+
 
 .add-folder-btn, .task-only-btn{
     margin: 0 auto var(--20px);
