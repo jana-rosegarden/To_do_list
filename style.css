@@ -150,22 +150,26 @@ a{
 /* Stile List-Seite */
 
 #list-container{
-  width: fit-content;
-  padding: var(--10px);
+  width: 100%;
   background-color: #fafcf8;
 }
-.list-wrapper{
+#list-wrapper{
+  width: fit-content;
+  margin: auto;
   display: flex;
   flex-direction: column;
+  
 }
 .list-header{
+  width: fit-content;
+  margin: var(--20px) auto 0;
   text-align: center;
   letter-spacing: 0.1rem;
   padding: var(--10px);
-  margin-top: var(--40px);
 }
 .list-header h1{
-  font-size: 1.625rem;
+  font-size: 30px;
+  
 }
 
 .list-example-folder > h2{
@@ -210,11 +214,11 @@ a{
   
 }
 #folders-container{
-  padding: var(--10px);
+  
 }
 
 .add-folder-btn, .task-only-btn{
-    margin: var(--20px) auto 0;
+    margin: 0 auto var(--20px);
     display: block;
     background-color: #2a6c55;
     color: white;
@@ -225,7 +229,7 @@ a{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 90%;
+    width: 80%;
 }
 #add-task-only-btn.task-only-btn{
   color: #2a6c55;
@@ -255,25 +259,26 @@ a{
     border: solid 2px gray;
 }
 
-
 #working-folders-container{
     height: fit-content;
     padding: var(--20px);
-    
 }
 
 #rendering-folder-div{
   max-width: 80%;
-  margin-top: 20px;
-  margin-left: 30px;
-  padding: 10px;
-  letter-spacing: 0.1rem;
+  margin: auto;
+  padding: var(--15px);
+  
   color: var(--dark-grey);
+  border: solid var(--10px) #D87093;
+  background-color: var(--paleRose);
+  border-radius: var(--5px);
 }
 #folders-name-label{
   display: inline-block;
   font-size: var(--20pxFontSize);
   font-weight: 700;
+  letter-spacing: 0.1rem;
   margin-bottom: var(--15px);
   margin-right: var(--10px);
 }
@@ -295,6 +300,7 @@ a{
   border: none;
   border-radius: var(--5px);
   padding: var(--10px) var(--20px);
+  box-shadow: 0 0 10px lightgray;
 }
 #create-folder-btn{
   background-color: #d6ebe3;
@@ -428,11 +434,9 @@ a{
   color: white;
 }
 .chosen-badges-div-only-task{
-  
   display: flex;
   gap: var(--10px);
   padding: var(--5px);
-  
 }
 .badge-container{
   
@@ -456,9 +460,6 @@ a{
   font-weight: 400;
   color: var(--dark-grey);
 }
-
-
-
 
 .task-container{
     height: 250px;
@@ -499,7 +500,9 @@ a{
   margin-left: auto;
 }
 
-
+.display-folder-el{
+  border: solid 3px red;
+}
 /*Media Query*/
 
 /*Mobile */

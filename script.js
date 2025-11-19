@@ -602,7 +602,6 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 countUrgentTask(e);
                }
            
-               
                 })
             
     });
@@ -677,10 +676,10 @@ if (renderingFolderDiv) {
         displayFolderEl.classList.add("display-folder-el");
         displayFolderEl.dataset.id = newFolder.id;
 
-        //Bag hier? 31.10.25
+        
         folderDisplayDiv.appendChild(displayFolderEl);
 
-        const displayFolderHeader = document.createElement("h3");
+        const displayFolderHeader = document.createElement("h2");
         displayFolderHeader.classList.add("display-folder-header");
         displayFolderHeader.dataset.id = newFolder.id;
         displayFolderHeader.textContent = `${newFolder.name}`;
