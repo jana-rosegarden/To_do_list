@@ -107,90 +107,89 @@ function createBadges(e, parent){
             document.querySelector(`.badge-${currentBadge}[data-role="badge-menu-btn"]`).disabled = true;
         })
     };
-    //Funktion unter noch zu bearbeiten, 12.11.25
-    function badgeDatumCreate(event, parent){
-                /*const currentFolderId = e.target.dataset.folder;
-                    const currentFolder = myFolders.find(item =>{
-                        return item.id === currentFolderId
-                    });
-                */
-                const taskId = e.target.dataset.id;
-                /*
-                const currentTask = currentFolder.tasks.find(item =>{
-                        return item.id === taskId
-                    });
-                document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
-                const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
-                */
-
-                //create form element for datum-badge:
-                const datumForm = document.createElement("form");
-                datumForm.classList.add("datum-form");
-                datumForm.dataset.id = taskId;
-
-                const datumLabel = document.createElement("label");
-                datumLabel.classList.add("datum-label");
-                datumLabel.dataset.id = taskId;
-                datumLabel.htmlFor = taskId;
-                datumLabel.textContent = "Choose date:";
-
-                const datumInput = document.createElement("input");
-                datumInput.type = "date";
-                datumInput.classList.add("datum-input");
-                datumInput.dataset.id = taskId;
-                    
-                const datumSubmitBtn = document.createElement("input");
-                datumSubmitBtn.type = "submit";
-                datumSubmitBtn.classList.add("datum-submit-btn");
-                datumSubmitBtn.value = "OK";
-                datumSubmitBtn.dataset.id = taskId;
-                    
-                const userDate = document.createElement("h5");
-                userDate.classList.add("users-datum-el");
-                userDate.dataset.id = taskId;
-                    
-                datumForm.appendChild(datumLabel);
-                datumForm.appendChild(datumInput);
-                datumForm.appendChild(datumSubmitBtn);
-
-                parent.appendChild(datumForm);
-                parent.appendChild(userDate);
-
-                const date = new Date()
-                const currentYear = date.getFullYear()
-                const currentMonth = date.getMonth() + 1
-                const currentDay = date.getDate()
-                const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
-                datumInput.setAttribute("min", `${dayToday}`)
-
-                const removeBtn = document.createElement("button");
-                removeBtn.classList.add("remove-badge-btn");
-                removeBtn.type = "button";
-                removeBtn.dataset.id= "Datum".trim();
-                removeBtn.textContent = "*";
+    
+                 
+    };
+//Funktion unter noch zu bearbeiten, 12.11.25
+function badgeDatumAdd(e){
                 
-                //getting users data:
-                let chosenDate = "";
-                datumForm.addEventListener("submit", function(e){
-                e.preventDefault()
+    const taskId = e.target.dataset.id;
+                
+    //create form element for datum-badge:
+    const datumForm = document.createElement("form");
+    datumForm.classList.add("datum-form");
+    datumForm.dataset.id = taskId;
 
-                chosenDate = datumInput.value;
-                if(!chosenDate) return;
-                const usersDay = new Date(`${chosenDate}`)
-                const milisec = usersDay.getTime() - date.getTime()
-                const dayTill = Math.ceil(milisec / 86400000)
+    const datumLabel = document.createElement("label");
+    datumLabel.classList.add("datum-label");
+    datumLabel.dataset.id = taskId;
+    datumLabel.htmlFor = taskId;
+    datumLabel.textContent = "Choose date:";
 
-                const datumH3 = document.createElement("h3");
-                datumH3.textContent = `Datum: ${chosenDate}`;
+    const datumInput = document.createElement("input");
+    datumInput.type = "date";
+    datumInput.classList.add("datum-input");
+    datumInput.dataset.id = taskId;
+                    
+    const datumSubmitBtn = document.createElement("input");
+    datumSubmitBtn.type = "submit";
+    datumSubmitBtn.classList.add("datum-submit-btn");
+    datumSubmitBtn.value = "OK";
+    datumSubmitBtn.dataset.id = taskId;
+                    
+    const usersDatumDivShow = document.createElement("div");
+    usersDatumDivShow.classList.add("users-datum-el");
+    usersDatumDivShow.dataset.id = taskId;
+                    
+    datumForm.appendChild(datumLabel);
+    datumForm.appendChild(datumInput);
+    datumForm.appendChild(datumSubmitBtn);
 
-                const datumH4 = document.createElement("h4");
-                datumH4.textContent = `${dayTill} days left`;
+    const parentDivForm = document.querySelector(`.chosen-badges-div-only-task[data-id=${taskId}]`);
+    
+    parentDivForm.appendChild(datumForm);
+    parentDivForm.appendChild(usersDatumDivShow);
 
-                userDate.appendChild(datumH3);
-                userDate.appendChild(datumH4);
-                userDate.appendChild(removeBtn);
+    //add users data in form:
+    const date = new Date()
+    const currentYear = date.getFullYear()
+    const currentMonth = date.getMonth() + 1
+    const currentDay = date.getDate()
+    const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
+    datumInput.setAttribute("min", `${dayToday}`)
+
+    const removeDatumBtn = document.createElement("button");
+    //removeDatumBtn.dataset.id= "Datum".trim(); //?? vielleicht umschreiben
+    removeDatumBtn.dataset.id = taskId;
+    removeDatumBtn.dataset.role= "close-badge";
+    removeDatumBtn.classList.add("close-btn-x");
+    removeDatumBtn.type = "button";
+    removeDatumBtn.textContent = "+";
+                
+    //getting users data:
+    let chosenDate = "";
+    datumForm.addEventListener("submit", function(e){
+    e.preventDefault()
+
+    chosenDate = datumInput.value;
+    if(!chosenDate) return;
+    const usersDay = new Date(`${chosenDate}`)
+    const milisec = usersDay.getTime() - date.getTime()
+    const dayTill = Math.ceil(milisec / 86400000)
+
+    const chosenUsersDatumShow = document.createElement("h3");
+    chosenUsersDatumShow.classList.add("chosen-user-datum");
+    chosenUsersDatumShow.textContent = `Datum: ${chosenDate}`;
+
+    const datumLeftShow = document.createElement("h4");
+    datumLeftShow.classList.add("datum-left-show");
+    datumLeftShow.textContent = `${dayTill} days left`;
+
+    usersDatumDivShow.appendChild(chosenUsersDatumShow);
+    usersDatumDivShow.appendChild(datumLeftShow);
+    usersDatumDivShow.appendChild(removeDatumBtn);
                         
-                datumForm.remove()
+    datumForm.remove()
                 });
                          
                          /*
@@ -204,9 +203,6 @@ function createBadges(e, parent){
                          }) */
                          
                  }
-                 
-    };
-
 
 function countOnTask(e){
     //For only-task:
@@ -515,7 +511,9 @@ if(addFolderBtn || addTaskOnlyBtn) {
                createBadges(e, parentBadge);
                document.querySelector(`.li-add-badge-btn[data-id=${taskId}]`).disabled = true;
             };
+
             //WORK with badges:
+            //closing badge menu div:
             if (e.target.matches('.close-btn-x[data-role="close-badge-div"]')) {
               const taskId = e.target.dataset.id;
               e.target.parentNode.remove();
@@ -528,6 +526,9 @@ if(addFolderBtn || addTaskOnlyBtn) {
             };
             if(e.target.matches(".badge-optional")){
                 addBadge(e);
+            };
+            if(e.target.matches(".badge-datum")){
+                badgeDatumAdd(e);
             };
              //closing differnet badges:
              if(e.target.matches(`.close-btn-x[data-role="close-badge"]`)){
@@ -558,6 +559,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 targetBadgeDiv.remove();
 
                 };
+
             //WORK with tasks
             //mark task as completed and update array:
             if(e.target.matches(`.li-completed-btn[data-role="completedOnlyTask"]`)){
