@@ -455,6 +455,27 @@ a{
 }*/
 
 /*Datum Badge */
+.datum-form{
+  border: solid 2px #215543;
+  padding: var(--10px);
+  border-radius: var(--5px);
+  display: flex;
+  gap: var(--10px);
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 7px #2a6c55;
+}
+.datum-label, .datum-input{
+  color: #222524;
+  font-weight: 600;
+}
+.datum-submit-btn{
+  background-color: #215543;
+  color: white;
+  padding: var(--5px);
+  border: none;
+  border-radius: var(--5px);
+}
 .users-datum-el{
   display: flex;
   gap: var(--10px);
@@ -465,11 +486,15 @@ a{
   padding: var(--5px);
   letter-spacing: normal;
   margin: 0;
-  padding: 0;
+  padding: var(--10px);
   color:var(--dark-grey);
+  border-radius: var(--5px);
+}
+.chosen-user-datum{
+  border: solid 2px #e2e2e2;
 }
 .datum-left-show{
-
+ background-color: #e2e2e2;
 }
 
 #only-task-stata-div{
