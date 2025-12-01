@@ -265,14 +265,13 @@ body{
 
 #working-folders-container{
     height: fit-content;
-    padding: var(--20px);
+    padding: 0 var(--20px);
 }
 
 #rendering-folder-div{
   max-width: 80%;
   margin: auto;
   padding: var(--15px);
-  
   color: var(--dark-grey);
   border: solid var(--10px) #D87093;
   background-color: var(--paleRose);
@@ -557,12 +556,17 @@ body{
   padding: var(--10px);
 }
 .display-folder-el{
-  border: solid 3px yellowgreen;
+  border: solid 3px orange;
   max-width: 80%;
   margin: 0 auto;
   padding: var(--15px);
+  background-color: #a9dac1;
+  border-radius: var(--5px);
 }
-
+.display-folder-el h2{
+  margin-bottom: var(--20px);
+  text-align: center;
+}
 
 /*Media Query*/
 

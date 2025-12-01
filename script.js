@@ -653,10 +653,12 @@ if (renderingFolderDiv) {
         };
 
         myFolders.push(newFolder);
+
         const renderFolder = document.createElement("div");
         renderFolder.classList.add("folder-div");
         renderFolder.dataset.id = newFolder.id;
 
+        /*
         renderFolder.innerHTML = `
             
                     <h2>${newFolder.name}</h2>
@@ -675,22 +677,22 @@ if (renderingFolderDiv) {
                             <h3 class="completed-statistik" data-id=${newFolder.id}>Completed: ${newFolder.completedTasks}</h3>
                         </div>
                         
-                        
-                
                     </div>
           
         `
-        /*Diese Abschnitt rausgemonnem:
+        //Diese Abschnitt rausgemonnem:
 
-        <div class="folders-statistik" data-id=${newFolder.id}>
-                            <h3 class="on-statistik" data-id=${newFolder.id}>To do: ${newFolder.onTasks}</h3>
-                        </div> */
+        //<div class="folders-statistik" data-id=${newFolder.id}>
+          //                  <h3 class="on-statistik" data-id=${newFolder.id}>To do: ${newFolder.onTasks}</h3>
+                       // </div> 
 
-        workingFoldersContainer.appendChild(renderFolder) 
+        workingFoldersContainer.appendChild(renderFolder) */
+        
         foldersNameInput.value = ""
         
-        //Stattistik Folder:
+        //Folder Task-Board mit Buttons und Statistik:
 
+        
         const displayFolderEl = document.createElement("div");
         displayFolderEl.classList.add("display-folder-el");
         displayFolderEl.dataset.id = newFolder.id;
@@ -701,26 +703,30 @@ if (renderingFolderDiv) {
         const displayFolderHeader = document.createElement("h2");
         displayFolderHeader.classList.add("display-folder-header");
         displayFolderHeader.dataset.id = newFolder.id;
-        displayFolderHeader.textContent = `${newFolder.name}`;
+        displayFolderHeader.textContent = `Folder: "${newFolder.name}"`;
         
         displayFolderEl.appendChild(displayFolderHeader);
+
+        //in  displayFolderEl drei btn hinzufügen: Folder öffnen/ schließen/ entfernen 
+
+        // in  displayFolderEl Struktur neu organisieren 
 
         //add Statistik Data:
 
         const folderUrgentStata = document.createElement("h4");
         folderUrgentStata.classList.add("folder-urgent-stata");
         folderUrgentStata.dataset.id = newFolder.id;
-        folderUrgentStata.textContent = `Urgent task: `;
+        folderUrgentStata.textContent = `Drinned: 0`;
 
         const folderOnStata = document.createElement("h4");
         folderOnStata.classList.add("folder-on-stata");
         folderOnStata.dataset.id = newFolder.id;
-        folderOnStata.textContent = `To do:  task`;
+        folderOnStata.textContent = `Zu erledigen:  0`;
 
         const folderCompletedStata = document.createElement("h4");
         folderCompletedStata.classList.add("folder-completed-stata");
         folderCompletedStata.dataset.id = newFolder.id;
-        folderCompletedStata.textContent = `Completed task: `;
+        folderCompletedStata.textContent = `Erledigt!: 0`;
 
         displayFolderEl.appendChild(folderUrgentStata);
         displayFolderEl.appendChild(folderOnStata);
