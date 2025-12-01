@@ -148,10 +148,13 @@ a{
   }
 
 /* Stile List-Seite */
-
-#list-container{
-  width: 100%;
+body{
   background-color: #fafcf8;
+}
+#list-container{
+  width: fit-content;
+  background-color: #fafcf8;
+  margin: 0 auto;
 }
 #list-wrapper{
   width: fit-content;
@@ -161,11 +164,14 @@ a{
   
 }
 .list-header{
-  margin: 0 auto 0;
+  max-width: 90%;
+  margin: var(--30px) auto var(--10px);
   text-align: center;
   letter-spacing: 0.1rem;
-  padding: var(--10px);
-  background-color: var(--paleRose);
+  padding: var(--10px) 0;
+  background: #6cdaa3;
+  border-bottom-left-radius: var(--20px);
+  border-bottom-right-radius: var(--20px);
 }
 .list-header h1{
   font-size: 30px;
@@ -216,7 +222,7 @@ a{
 
 
 .add-folder-btn, .task-only-btn{
-    margin: 0 auto var(--20px);
+    margin: var(--30px) auto var(--20px);
     display: block;
     background-color: #2a6c55;
     color: white;
@@ -544,9 +550,20 @@ a{
   box-shadow: 0 0 10px lightgrey;
 }
 
-.display-folder-el{
-  border: solid 3px red;
+
+/*Work with FOLDERS */
+#folders-container{
+  border: solid 3px darkblue;
+  padding: var(--10px);
 }
+.display-folder-el{
+  border: solid 3px yellowgreen;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: var(--15px);
+}
+
+
 /*Media Query*/
 
 /*Mobile */
@@ -594,6 +611,7 @@ a{
   }
   #folders-container{
     padding: var(--20px);
+    
   }
 }
 
