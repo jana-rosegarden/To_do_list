@@ -152,12 +152,13 @@ body{
   background-color: #fafcf8;
 }
 #list-container{
+  border: solid 3px red;
   width: fit-content;
   background-color: #fafcf8;
   margin: 0 auto;
 }
 #list-wrapper{
-  width: fit-content;
+  
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -168,7 +169,7 @@ body{
   margin: var(--30px) auto var(--10px);
   text-align: center;
   letter-spacing: 0.1rem;
-  padding: var(--10px) 0;
+  padding: var(--10px) ;
   background: #6cdaa3;
   border-bottom-left-radius: var(--20px);
   border-bottom-right-radius: var(--20px);
@@ -188,11 +189,9 @@ body{
 }
 
 .list-example-folder-content{
-  background-color: #EDE1E5;
   max-width: 80%;
-  padding: var(--10px);
+  padding: var(--20px);
   margin: 0 auto;
-  border-radius: 5px;
   font-family: "Delius Swash Caps", cursive;
   border-left: solid var(--5px) #D87093;
 }
@@ -217,23 +216,22 @@ body{
   border: solid 1px gray;
   padding: 0 0.2rem;
   border-radius: 1px;
-  
 }
 
 
 .add-folder-btn, .task-only-btn{
     margin: var(--30px) auto var(--20px);
     display: block;
-    background-color: #2a6c55;
+    background-color: #286250;
     color: white;
     font-size: var(--18pxFontSize);
     font-weight: 600;
     letter-spacing: 0.1rem;
     padding: var(--10px) var(--30px);
     border: none;
-    border-radius: 5px;
+    border-radius: var(--15px);
     cursor: pointer;
-    width: 80%;
+    
 }
 #add-task-only-btn.task-only-btn{
   color: #2a6c55;
@@ -269,13 +267,13 @@ body{
 }
 
 #rendering-folder-div{
-  max-width: 80%;
+  max-width: 90%;
   margin: auto;
   padding: var(--15px);
   color: var(--dark-grey);
-  border: solid var(--10px) #D87093;
-  background-color: var(--paleRose);
+  box-shadow: 0 0 var(--10px) #D87093;
   border-radius: var(--5px);
+ 
 }
 #folders-name-label{
   display: inline-block;
@@ -303,7 +301,7 @@ body{
   border: none;
   border-radius: var(--5px);
   padding: var(--10px) var(--20px);
-  box-shadow: 0 0 10px lightgray;
+  box-shadow: 0 0 var(--5px) gray;
 }
 #create-folder-btn{
   background-color: #d6ebe3;
@@ -553,9 +551,10 @@ body{
 /*Work with FOLDERS */
 #folders-container{
   padding: var(--10px);
+  
+  border: solid 3px darkorange;
 }
 .display-folder-el{
-  max-width: 80%;
   margin: 0 auto var(--15px);
   padding: var(--15px);
   background-color: #a9dac1;
@@ -587,6 +586,7 @@ body{
   border-radius: var(--10px);
   letter-spacing: 0.1rem;
   box-shadow: 0 0 var(--5px) #2a6c55;
+  cursor: pointer;
 }
 /*Media Query*/
 
@@ -613,7 +613,6 @@ body{
   }
   .wrapper-mobile{
     padding: var(--50px);
-    
     background-position: left bottom;
   }
   .main-mobile{
@@ -635,7 +634,6 @@ body{
   }
   #folders-container{
     padding: var(--20px);
-    
   }
 }
 
@@ -653,7 +651,6 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vw;
-    
   }
   .wrapper-desktop, .desktop-btn{
     display: block;

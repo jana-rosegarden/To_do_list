@@ -425,8 +425,13 @@ function badgeDatumAdd(e){
 //Ordner erstellen oder mit Only-Task List erstellen:
 if(addFolderBtn || addTaskOnlyBtn) {
     addFolderBtn.addEventListener("click", function(){
-    renderingFolderDiv.classList.remove("hide")
-    document.querySelector(".list-example-folder").classList.add("hide") //entfernt Example folder wenn btn klicked
+    renderingFolderDiv.classList.remove("hide");
+
+    //hide #add-folder-btn and #add-only-folder-btn:
+
+    document.querySelector("#add-folder-btn").classList.add("hide");
+    document.querySelector("#add-task-only-btn").classList.add("hide");
+    document.querySelector(".list-example-folder").classList.add("hide"); //entfernt Example folder wenn btn klicked
 });
     //Only-Task List initialisieren:
     addTaskOnlyBtn.addEventListener("click", function(){
@@ -630,7 +635,7 @@ if(closeAddFolder) {
     closeAddFolder.addEventListener("click", function(){
     renderingFolderDiv.classList.add("hide")
     foldersNameInput.value = ""
-
+    document.querySelector("#add-folder-btn").classList.remove("hide");
 })
 }
 
@@ -692,7 +697,6 @@ if (renderingFolderDiv) {
         
         //Folder Task-Board mit Buttons und Statistik:
 
-        
         const displayFolderEl = document.createElement("div");
         displayFolderEl.classList.add("display-folder-el");
         displayFolderEl.dataset.id = newFolder.id;
@@ -739,10 +743,6 @@ if (renderingFolderDiv) {
         displayFolderEl.appendChild(displayFolderHeader);
         displayFolderEl.appendChild(displayFolderBtnDiv);
         
-
-        //in  displayFolderEl drei btn hinzufügen: Folder öffnen/ schließen/ entfernen 
-
-        // in  displayFolderEl Struktur neu organisieren 
 
         //add Statistik Data:
 
