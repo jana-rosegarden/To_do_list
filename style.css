@@ -552,13 +552,11 @@ body{
 
 /*Work with FOLDERS */
 #folders-container{
-  border: solid 3px darkblue;
   padding: var(--10px);
 }
 .display-folder-el{
-  border: solid 3px orange;
   max-width: 80%;
-  margin: 0 auto;
+  margin: 0 auto var(--15px);
   padding: var(--15px);
   background-color: #a9dac1;
   border-radius: var(--5px);
@@ -566,8 +564,30 @@ body{
 .display-folder-el h2{
   margin-bottom: var(--20px);
   text-align: center;
+  text-shadow: 0 0 var(--15px) #d6ebe3;
+  background-color: #d6ebe3;
+  padding: var(--5px);
+  border-radius: var(--5px);
 }
-
+.display-folder-btn-div{
+  
+  margin-bottom: var(--15px);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--10px);
+}
+.display-folder-btn-div .close-btn-x{
+  margin: 0;
+}
+.display-folder-btn-div .folder-btn{
+  display: inline-block;
+  border: none;
+  padding: var(--5px) var(--15px);
+  border-radius: var(--10px);
+  letter-spacing: 0.1rem;
+  box-shadow: 0 0 var(--5px) #2a6c55;
+}
 /*Media Query*/
 
 /*Mobile */

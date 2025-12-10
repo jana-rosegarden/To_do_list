@@ -643,7 +643,7 @@ if (renderingFolderDiv) {
 
         const newFolder = {
             name: folderName,
-            id: foldersNameInput.value + myFolders.length,
+            id: foldersNameInput.value.replace(/\s/g, "").slice(0,6) + myFolders.length,
             isOn: true,
             isCancelled: false,
             isCompleted: false,
@@ -704,8 +704,41 @@ if (renderingFolderDiv) {
         displayFolderHeader.classList.add("display-folder-header");
         displayFolderHeader.dataset.id = newFolder.id;
         displayFolderHeader.textContent = `Folder: "${newFolder.name}"`;
-        
+
+        //buttons in displayFolderEl:
+
+        const openFolderBtn = document.createElement("button");
+        openFolderBtn.dataset.id = newFolder.id;
+        openFolderBtn.type = "button";
+        openFolderBtn.classList.add("folder-btn");
+        openFolderBtn.textContent = "öffnen";
+
+        const closeFolderBtn = document.createElement("button");
+        closeFolderBtn.dataset.id = newFolder.id;
+        closeFolderBtn.type = "button";
+        closeFolderBtn.classList.add("folder-btn");
+        closeFolderBtn.textContent = "schließen";
+
+        const removeFolderBtn = document.createElement("button");
+        removeFolderBtn.dataset.id = newFolder.id;
+        removeFolderBtn.type = "button";
+        removeFolderBtn.classList.add("close-btn-x");
+        removeFolderBtn.dataset.role = "remove-folder";
+        removeFolderBtn.textContent = "+";
+
+        //div for buttons:
+
+        const displayFolderBtnDiv = document.createElement("div");
+        displayFolderBtnDiv.dataset.id = newFolder.id;
+        displayFolderBtnDiv.classList.add("display-folder-btn-div");
+
+        displayFolderBtnDiv.appendChild(openFolderBtn);
+        displayFolderBtnDiv.appendChild(closeFolderBtn);
+        displayFolderBtnDiv.appendChild(removeFolderBtn);
+
         displayFolderEl.appendChild(displayFolderHeader);
+        displayFolderEl.appendChild(displayFolderBtnDiv);
+        
 
         //in  displayFolderEl drei btn hinzufügen: Folder öffnen/ schließen/ entfernen 
 
