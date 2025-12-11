@@ -53,6 +53,10 @@ let completedTaskAmount = ""
 
 //Functions:
 
+
+
+
+
 function createBadges(e, parent){
     const taskId = e.target.dataset.id;
     const currentTask = myOnlyTaskList.filter(item=>{
@@ -695,14 +699,28 @@ if (renderingFolderDiv) {
         
         foldersNameInput.value = ""
         
-        //Folder Task-Board mit Buttons und Statistik:
+        //Folder und Task Struktur:
+
+        //folder-wrapper for each new folder -> displayFolderEl + displayTaskBoardEl
+
+        const folderWrapper = document.createElement("div");
+        folderWrapper.dataset.id = newFolder.id;
+        folderWrapper.classList.add("folder-wrapper");
 
         const displayFolderEl = document.createElement("div");
         displayFolderEl.classList.add("display-folder-el");
         displayFolderEl.dataset.id = newFolder.id;
 
+        const displayTaskBoardEl = document.createElement("div");
+        displayTaskBoardEl.dataset.id = newFolder.id;
+        displayTaskBoardEl.classList.add("display-task-board-el");
+        displayTaskBoardEl.classList.add("hide"); //wird nur mit Klick geöffnet
         
-        folderDisplayDiv.appendChild(displayFolderEl);
+        folderDisplayDiv.appendChild(folderWrapper);
+        folderWrapper.appendChild(displayFolderEl);
+        folderWrapper.appendChild(displayTaskBoardEl);
+
+        //Structure of displayFolderEl:
 
         const displayFolderHeader = document.createElement("h2");
         displayFolderHeader.classList.add("display-folder-header");
@@ -715,10 +733,12 @@ if (renderingFolderDiv) {
         openFolderBtn.dataset.id = newFolder.id;
         openFolderBtn.type = "button";
         openFolderBtn.classList.add("folder-btn");
+        openFolderBtn.dataset.role = "folder-öffnen";
         openFolderBtn.textContent = "öffnen";
 
         const closeFolderBtn = document.createElement("button");
         closeFolderBtn.dataset.id = newFolder.id;
+        closeFolderBtn.dataset.role = "folder-schließen"; //taskBoard vom Folder schließen
         closeFolderBtn.type = "button";
         closeFolderBtn.classList.add("folder-btn");
         closeFolderBtn.textContent = "schließen";
@@ -764,6 +784,84 @@ if (renderingFolderDiv) {
         displayFolderEl.appendChild(folderUrgentStata);
         displayFolderEl.appendChild(folderOnStata);
         displayFolderEl.appendChild(folderCompletedStata);
+
+        //displayTaskBoardEl -> STRUCTURE:
+        
+        const taskBoardBtnDiv = document.createElement("div");
+        taskBoardBtnDiv.classList.add("task-board-btn-div");
+
+        displayTaskBoardEl.appendChild(taskBoardBtnDiv);
+
+        //taskBoardBtnDiv with two buttons:
+        const addTaskBtn = document.createElement("button");
+        addTaskBtn.dataset.id = newFolder.id;
+        addTaskBtn.type = "button";
+        addTaskBtn.classList.add("folder-add-task-btn");
+        addTaskBtn.textContent = "Aufgabe hinzufügen";
+
+        const closeTaskBoardBtn = document.createElement("button");
+        closeTaskBoardBtn.dataset.id = newFolder.id;
+        closeTaskBoardBtn.type = "button";
+        closeTaskBoardBtn.classList.add("close-task-board-btn");
+        closeTaskBoardBtn.textContent = "schließen";
+
+        taskBoardBtnDiv.appendChild(addTaskBtn);
+        taskBoardBtnDiv.appendChild(closeTaskBoardBtn);
+
+        //structure von task-input-board: div -> label + input + button:
+        const taskInputBoardDiv = document.createElement("div");
+        taskInputBoardDiv.dataset.id = newFolder.id;
+        taskInputBoardDiv.classList.add("task-input-board-div");
+        taskInputBoardDiv.classList.add("hide");
+
+        const labelTaskInput = document.createElement("label");
+        labelTaskInput.dataset.id = newFolder.id;
+        labelTaskInput.classList.add("label-task-input");
+        labelTaskInput.textContent = "Name der Aufgabe";
+        labelTaskInput.setAttribute("for", newFolder.id);
+
+        const taskInput = document.createElement("input");
+        taskInput.setAttribute("type", "text");
+        taskInput.setAttribute("required", true);
+        taskInput.classList.add("input-task");
+        taskInput.dataset.id = newFolder.id;
+
+        const newTaskBtn = document.createElement("button");
+        newTaskBtn.type = "button";
+        newTaskBtn.dataset.id = newFolder.id;
+        newTaskBtn.classList.add("new-task-btn");
+        newTaskBtn.textContent = "+";
+
+        taskInputBoardDiv.appendChild(labelTaskInput);
+        taskInputBoardDiv.appendChild(taskInput);
+        taskInputBoardDiv.appendChild(newTaskBtn);
+
+        displayTaskBoardEl.appendChild(taskInputBoardDiv);
+
+
+
+
+        /*
+        <h2>${newFolder.name}</h2>
+                    <button type="button" data-id=${newFolder.id} class="folder-delete-btn"> Delete Folder </button>
+                    <button type="button" data-id=${newFolder.id} class="folder-add-task-btn"> Create task </button>
+
+                    <div class="task-container hide" data-id=${newFolder.id}> 
+
+                        <input type="text" class="input-task" data-id=${newFolder.id} required>
+                        <button type="button" class="add-task-btn" data-id=${newFolder.id} data-folder=${newFolder.id}> add </button> 
+                        <ul class="task-list" data-id=${newFolder.id}> </ul>
+
+                    </div>
+                        <ul class="completed-task-ul" data-id=${newFolder.id}> </ul>
+                        <div class="folders-statistik" data-id=${newFolder.id}>
+                            <h3 class="completed-statistik" data-id=${newFolder.id}>Completed: ${newFolder.completedTasks}</h3>
+                        </div>
+                        
+                    </div> */
+
+        //append displayFolderEl and displayTaskBoardEl to folderWrapper:
+        
         
         /*
             div
@@ -787,9 +885,26 @@ if(workingFoldersContainer) {
         let folderId = e.target.dataset.id
 
         let folderAddTaskBtn = document.querySelector(`.folder-add-task-btn[data-id=${folderId}]`)
+
+        //taskBoardEl öffnen:
+        if(e.target.matches(`.folder-btn[data-role="folder-öffnen"]`)){
+            const folderId = e.target.dataset.id;
+            document.querySelector(`.display-task-board-el[data-id=${folderId}]`).classList.remove("hide");
+        };
+
+        //taskBoardEl schließen aber Folder nicht entfernen:
+        if(e.target.matches(`.folder-btn[data-role="folder-schließen"]`)){
+            const folderId = e.target.dataset.id;
+            document.querySelector(`.display-task-board-el[data-id=${folderId}]`).classList.add("hide");
+        };
+
+        
         
         if(e.target.classList.contains("folder-add-task-btn")){
-            document.querySelector(`.task-container[data-id=${folderId}]`).classList.remove("hide")
+            //document.querySelector(`.task-container[data-id=${folderId}]`).classList.remove("hide")
+            document.querySelector(`.task-input-board-div[data-id=${folderId}]`).classList.remove("hide");
+            
+
         }
         // Delete Folder
         if(e.target.classList.contains("folder-delete-btn")){

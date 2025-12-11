@@ -152,7 +152,7 @@ body{
   background-color: #fafcf8;
 }
 #list-container{
-  border: solid 3px red;
+  
   width: fit-content;
   background-color: #fafcf8;
   margin: 0 auto;
@@ -169,7 +169,7 @@ body{
   margin: var(--30px) auto var(--10px);
   text-align: center;
   letter-spacing: 0.1rem;
-  padding: var(--10px) ;
+  padding: var(--10px) var(--20px);
   background: #6cdaa3;
   border-bottom-left-radius: var(--20px);
   border-bottom-right-radius: var(--20px);
@@ -190,6 +190,7 @@ body{
 
 .list-example-folder-content{
   max-width: 80%;
+  width: 500px;
   padding: var(--20px);
   margin: 0 auto;
   font-family: "Delius Swash Caps", cursive;
@@ -220,8 +221,8 @@ body{
 
 
 .add-folder-btn, .task-only-btn{
-    margin: var(--30px) auto var(--20px);
-    display: block;
+    margin: 0;
+    display: inline-block;
     background-color: #286250;
     color: white;
     font-size: var(--18pxFontSize);
@@ -552,7 +553,9 @@ body{
 #folders-container{
   padding: var(--10px);
   
-  border: solid 3px darkorange;
+}
+.folder-wrapper{
+  
 }
 .display-folder-el{
   margin: 0 auto var(--15px);
@@ -588,6 +591,52 @@ body{
   box-shadow: 0 0 var(--5px) #2a6c55;
   cursor: pointer;
 }
+.task-board-btn-div, .task-input-board-div{
+  padding: var(--15px);
+  display: flex;
+  gap: var(--20px);
+  align-items: center;
+}
+.task-board-btn-div button{
+  display: inline-block;
+  padding: var(--10px) var(--15px);
+  border-radius: var(--10px);
+  letter-spacing: 0.1rem;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 0 var(--10px) lightgrey;
+  cursor: pointer;
+}
+.task-input-board-div{
+  padding-top: var(--20px);
+  margin-top: var(--20px);
+  border: solid 5px #d6ebe3;
+  border-radius: var(--10px);
+  
+}
+.task-input-board-div button{
+  height: var(--30px);
+  width: var(--30px);
+  border-radius: 100%;
+  font-size: var(--20pxFontSize);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  box-shadow: 0 0 var(--10px) gray;
+  cursor: pointer;
+}
+.input-task{
+  font-weight: 600;
+}
+button.folder-add-task-btn {
+  background: linear-gradient(to right, #a5d9c8, #f3f3ba, #f384bf);
+}
+button.close-task-board-btn{
+  
+  
+}
+
 /*Media Query*/
 
 /*Mobile */
