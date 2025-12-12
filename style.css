@@ -33,6 +33,8 @@ a{
   text-decoration: none;
 }
 
+
+
 /*  Stil Index-Seite  */
 
 .wrapper-desktop {
@@ -189,12 +191,12 @@ body{
 }
 
 .list-example-folder-content{
-  max-width: 80%;
-  width: 500px;
+  max-width: 70%;
   padding: var(--20px);
-  margin: 0 auto;
+  margin: 0 var(--20px);
   font-family: "Delius Swash Caps", cursive;
-  border-left: solid var(--5px) #D87093;
+  box-shadow: 0 0 var(--15px) #ede1e5;
+  border-radius: var(--20px);
 }
 .list-example-folder-content p{
   margin-bottom: var(--10px);
@@ -221,7 +223,8 @@ body{
 
 
 .add-folder-btn, .task-only-btn{
-    margin: 0;
+    box-sizing: border-box;
+    margin: var(--30px) var(--20px);
     display: inline-block;
     background-color: #286250;
     color: white;
@@ -235,9 +238,10 @@ body{
     
 }
 #add-task-only-btn.task-only-btn{
+  margin: 0 var(--20px);
   color: #2a6c55;
   background-color: white;
-  border: solid 3px #2a6c55;
+  box-shadow: 0 0 var(--5px) #2a6c55;
 }
 .task-only-btn .hide{
   display: none;
@@ -268,20 +272,17 @@ body{
 }
 
 #rendering-folder-div{
-  max-width: 90%;
-  margin: auto;
-  padding: var(--15px);
+  margin:  var(--15px) auto 0;
+  padding: 0 var(--15px);
   color: var(--dark-grey);
-  box-shadow: 0 0 var(--10px) #D87093;
   border-radius: var(--5px);
- 
 }
 #folders-name-label{
   display: inline-block;
   font-size: var(--20pxFontSize);
   font-weight: 700;
   letter-spacing: 0.1rem;
-  margin-bottom: var(--15px);
+  margin-bottom: var(--10px);
   margin-right: var(--10px);
 }
 #folders-name{
@@ -294,7 +295,7 @@ body{
 }
 #create-folder-btn, #close-add-folder{
   margin-bottom: var(--15px);
-  margin-right: var(--10px);
+  margin-right: var(--15px);
   letter-spacing: 0.1rem;
   color: rgb(48, 47, 47);
   font-weight: 600;
@@ -302,13 +303,16 @@ body{
   border: none;
   border-radius: var(--5px);
   padding: var(--10px) var(--20px);
-  box-shadow: 0 0 var(--5px) gray;
+  
 }
 #create-folder-btn{
   background-color: #d6ebe3;
+  background-color: #98C6E9;
 }
 #close-add-folder{
   max-width: fit-content;
+  background-color: white;
+  border: solid 1px #98C6E9;
 }
 
 /*Only Task Container*/
@@ -597,6 +601,7 @@ body{
   gap: var(--20px);
   align-items: center;
 }
+/* 12.12 entfernen - testen 
 .task-board-btn-div button{
   display: inline-block;
   padding: var(--10px) var(--15px);
@@ -607,12 +612,13 @@ body{
   box-shadow: 0 0 var(--10px) lightgrey;
   cursor: pointer;
 }
+  */
 .task-input-board-div{
-  padding-top: var(--20px);
-  margin-top: var(--20px);
+  padding: var(--20px);
+  margin: var(--10px) 0;
   border: solid 5px #d6ebe3;
   border-radius: var(--10px);
-  
+  display: flex;
 }
 .task-input-board-div button{
   height: var(--30px);
@@ -627,14 +633,18 @@ body{
   cursor: pointer;
 }
 .input-task{
-  font-weight: 600;
+  margin-top: var(--5px);
+  padding: var(--5px);
 }
-button.folder-add-task-btn {
-  background: linear-gradient(to right, #a5d9c8, #f3f3ba, #f384bf);
+.label-task-input{
+  font-size: var(--20pxFontSize);
 }
-button.close-task-board-btn{
-  
-  
+
+/*active classes */
+
+.margin-top-bottom-reduce{
+  margin-top: var(--5px);
+  margin-bottom: 0;
 }
 
 /*Media Query*/

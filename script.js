@@ -636,10 +636,13 @@ if(addFolderBtn || addTaskOnlyBtn) {
 };
 
 if(closeAddFolder) {
-    closeAddFolder.addEventListener("click", function(){
+    closeAddFolder.addEventListener("click", function(e){
+    const folderId = e.target.dataset.id;
     renderingFolderDiv.classList.add("hide")
     foldersNameInput.value = ""
     document.querySelector("#add-folder-btn").classList.remove("hide");
+    document.querySelector(`#add-folder-btn`).classList.add("margin-top-bottom-reduce")
+    
 })
 }
 
@@ -787,11 +790,13 @@ if (renderingFolderDiv) {
 
         //displayTaskBoardEl -> STRUCTURE:
         
+        /* 12.12 dieser div entfernen - testen 
         const taskBoardBtnDiv = document.createElement("div");
         taskBoardBtnDiv.classList.add("task-board-btn-div");
 
         displayTaskBoardEl.appendChild(taskBoardBtnDiv);
 
+        
         //taskBoardBtnDiv with two buttons:
         const addTaskBtn = document.createElement("button");
         addTaskBtn.dataset.id = newFolder.id;
@@ -806,7 +811,7 @@ if (renderingFolderDiv) {
         closeTaskBoardBtn.textContent = "schließen";
 
         taskBoardBtnDiv.appendChild(addTaskBtn);
-        taskBoardBtnDiv.appendChild(closeTaskBoardBtn);
+        taskBoardBtnDiv.appendChild(closeTaskBoardBtn); */
 
         //structure von task-input-board: div -> label + input + button:
         const taskInputBoardDiv = document.createElement("div");
@@ -837,8 +842,6 @@ if (renderingFolderDiv) {
         taskInputBoardDiv.appendChild(newTaskBtn);
 
         displayTaskBoardEl.appendChild(taskInputBoardDiv);
-
-
 
 
         /*
@@ -896,30 +899,40 @@ if(workingFoldersContainer) {
         if(e.target.matches(`.folder-btn[data-role="folder-schließen"]`)){
             const folderId = e.target.dataset.id;
             document.querySelector(`.display-task-board-el[data-id=${folderId}]`).classList.add("hide");
+            
         };
 
         
-        
+        /*12.12 - element vom DOM entfernt - testen 
         if(e.target.classList.contains("folder-add-task-btn")){
             //document.querySelector(`.task-container[data-id=${folderId}]`).classList.remove("hide")
             document.querySelector(`.task-input-board-div[data-id=${folderId}]`).classList.remove("hide");
             
+        } */
 
-        }
         // Delete Folder
-        if(e.target.classList.contains("folder-delete-btn")){
-
+        if(e.target.matches(`.close-btn-x[data-role="remove-folder"]`)){
+            const folderId = e.target.dataset.id;
             //delete folder from myFolders
             myFolders = myFolders.filter(item =>{
                 return (item.id !== folderId)
             })
             //delete Element from DOM
-            document.querySelector(`div .folder-div[data-id=${folderId}]`).remove()          
-        }
+            document.querySelector(`div .folder-wrapper[data-id=${folderId}]`).remove()     
+        };
 
         // Add Task Btn
-        if(e.target.classList.contains("add-task-btn")){
-            
+        if(e.target.matches(".new-task-btn")){
+
+            /*
+            const newTaskBtn = document.createElement("button");
+           newTaskBtn.type = "button";
+           newTaskBtn.dataset.id = newFolder.id;
+           newTaskBtn.classList.add("new-task-btn");
+            newTaskBtn.textContent = "+";  */
+            console.log("Task")
+            const folderId = e.target.dataset.id;
+            console.log(folderId)
             newTaskInput = document.querySelector(`.input-task[data-id=${folderId}]`).value.trim();
             if(!newTaskInput) return
 
