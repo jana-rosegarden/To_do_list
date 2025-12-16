@@ -273,9 +273,15 @@ body{
 
 #rendering-folder-div{
   margin:  var(--15px) auto 0;
-  padding: 0 var(--15px);
+  padding: var(--15px);
   color: var(--dark-grey);
   border-radius: var(--5px);
+  background-color: #e9f4ef;
+  background: url(images/deko-mobile-two.png);
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: left;
+  
 }
 #folders-name-label{
   display: inline-block;
@@ -384,7 +390,6 @@ body{
   display: inline-block;
   height: var(--20px);
   cursor: pointer;
-  
   background-color: white;
   border: solid 1px var(--paleVioletDark);
   padding: 0 var(--5px);
@@ -556,7 +561,6 @@ body{
 /*Work with FOLDERS */
 #folders-container{
   padding: var(--10px);
-  
 }
 .folder-wrapper{
   
@@ -595,6 +599,10 @@ body{
   box-shadow: 0 0 var(--5px) #2a6c55;
   cursor: pointer;
 }
+.display-task-board-el{
+  border-bottom: solid 5px #d6ebe3;
+  margin-bottom: var(--20px);
+}
 .task-board-btn-div, .task-input-board-div{
   padding: var(--15px);
   display: flex;
@@ -616,9 +624,10 @@ body{
 .task-input-board-div{
   padding: var(--20px);
   margin: var(--10px) 0;
-  border-bottom: solid 5px #d6ebe3;
   display: flex;
   flex-wrap: wrap;
+  border-radius: var(--5px);
+  background-color: #e9f4ef;
 }
 .folder-header-task-board{
   font-size: 1rem;
@@ -643,6 +652,38 @@ body{
 }
 .label-task-input{
   font-size: var(--20pxFontSize);
+}
+.ul-new-tasks-div {
+  list-style: none;
+  padding: var(--15px);
+  
+}
+.li-new-task{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: var(--10px);
+  
+}
+.button-new-task-div{
+  display: flex;
+  gap: var(--15px);
+  align-items: center;
+  justify-content: space-between;
+}
+.button-completed-task{
+  display: inline-block;
+  height: var(--30px);
+  cursor: pointer;
+  background-color: #f489ad;
+  border: none;
+  padding: 0 var(--10px);
+  border-radius: var(--5px);
+  box-shadow: 0 0 var(--5px) whitesmoke;
+}
+.badge-div{
+  background-color: aqua;
 }
 
 /*active classes */
@@ -732,6 +773,18 @@ body{
     display: inline-block;
     font-size: clamp(3rem, 5.8vw, 3.75rem);
     transform: rotate(90deg);
+  }
+  .folder-wrapper{
+    display: flex;
+    gap: var(--15px);
+  }
+  .display-folder-el{
+    margin: 0 0 var(--20px);
+    height: fit-content;
+    
+  }
+  .task-input-board-div{
+    margin-top: 0;
   }
 }
 

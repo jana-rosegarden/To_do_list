@@ -849,6 +849,23 @@ if (renderingFolderDiv) {
 
         displayTaskBoardEl.appendChild(taskInputBoardDiv);
 
+        //Div for new tasks:
+        const newTaskDiv = document.createElement("div");
+        newTaskDiv.dataset.id = newFolder.id;
+        newTaskDiv.classList.add("new-task-div");
+        displayTaskBoardEl.appendChild(newTaskDiv);
+            
+         //UL for new tasks:
+        const ulNewTasksDiv = document.createElement("ul");
+        ulNewTasksDiv.dataset.id = newFolder.id;
+        ulNewTasksDiv.classList.add("ul-new-tasks-div");
+        newTaskDiv.appendChild(ulNewTasksDiv);
+        
+        //Ul for completed tasks:
+        const ulcompletedTasksDiv = document.createElement("ul");
+        ulcompletedTasksDiv.dataset.id = newFolder.id;
+        ulcompletedTasksDiv.classList.add("ul-completed-tasks-div");
+        newTaskDiv.appendChild(ulcompletedTasksDiv);
 
         /*
         <h2>${newFolder.name}</h2>
@@ -871,7 +888,6 @@ if (renderingFolderDiv) {
 
         //append displayFolderEl and displayTaskBoardEl to folderWrapper:
         
-        
         /*
             div
               h3 Folder Name
@@ -880,10 +896,8 @@ if (renderingFolderDiv) {
               h4 Completed task: ...
         */ 
     })
-
     
 }
-
 
 
 //Aufgabe erteilen und mit Folder verknüpfen
@@ -936,9 +950,9 @@ if(workingFoldersContainer) {
            newTaskBtn.dataset.id = newFolder.id;
            newTaskBtn.classList.add("new-task-btn");
             newTaskBtn.textContent = "+";  */
-            console.log("Task")
+            
             const folderId = e.target.dataset.id;
-            console.log(folderId)
+            
             newTaskInput = document.querySelector(`.input-task[data-id=${folderId}]`).value.trim();
             if(!newTaskInput) return
 
@@ -955,13 +969,56 @@ if(workingFoldersContainer) {
                 isUrgent: false,
                 badge:[]
             };
-            
-            const targetTaskId = newTask.id;
+            document.querySelector(`.input-task[data-id=${folderId}]`).value = "";
+
+            //const targetTaskId = newTask.id;
 
             //update tasks array:
             targetFolder.tasks.push(newTask);
-             
-            //create new task element:
+
+            //16.12 - neue Struktur:  li: div (button-erledigt, badge-container, button-delete); -> ul: li
+            
+            //li for ul with tasks - one single task:
+            const liNewTask = document.createElement("li");
+            liNewTask.dataset.id = newTask.id;
+            liNewTask.dataset.folder = newTask.folder;
+            liNewTask.classList.add("li-new-task");
+            liNewTask.textContent = `${targetFolder.tasks.length}. ${newTask.name}`;
+            document.querySelector(`.ul-new-tasks-div[data-id=${targetFolder.id}]`).appendChild(liNewTask);
+
+            //div for buttons for every new task:
+            const buttonsNewTaskDiv = document.createElement("div");
+            buttonsNewTaskDiv.dataset.id = newTask.id;
+            buttonsNewTaskDiv.dataset.folder = newTask.folder;
+            buttonsNewTaskDiv.classList.add("button-new-task-div");
+            document.querySelector(`.li-new-task[data-id=${newTask.id}]`).appendChild(buttonsNewTaskDiv);
+            //button-erledigt in li for single task:
+
+            const buttonCompletedTask = document.createElement("button");
+            buttonCompletedTask.dataset.id = newTask.id;
+            buttonCompletedTask.dataset.folder = newTask.folder;
+            buttonCompletedTask.classList.add("button-completed-task");
+            buttonCompletedTask.textContent = "✔";
+            document.querySelector(`.button-new-task-div[data-id=${newTask.id}]`).appendChild(buttonCompletedTask);
+
+            //badge container zu Auswahl:
+            const badgeDiv = document.createElement("div");
+            badgeDiv.dataset.id = newTask.id;
+            badgeDiv.dataset.folder = newTask.folder;
+            badgeDiv.classList.add("badge-div");
+            document.querySelector(`.button-new-task-div[data-id=${newTask.id}]`).appendChild(badgeDiv);
+
+            //remove new task from ul:
+            const buttonRemoveTask = document.createElement("button");
+            buttonRemoveTask.dataset.id = newTask.id;
+            buttonRemoveTask.dataset.folder = newTask.folder;
+            buttonRemoveTask.classList.add("close-btn-x");
+            buttonRemoveTask.dataset.role = "remove-task-in-folder";
+            buttonRemoveTask.textContent = "+";
+            document.querySelector(`.button-new-task-div[data-id=${newTask.id}]`).appendChild(buttonRemoveTask);
+
+
+            //create new task element (ALTER Code):
             let newTaskElement= document.createElement("li");
             newTaskElement.classList.add(".task-li")
             newTaskElement.dataset.id = folderId
