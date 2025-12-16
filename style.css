@@ -664,7 +664,7 @@ body{
   justify-content: space-between;
   font-weight: 700;
   margin-bottom: var(--10px);
-  
+  flex-wrap: wrap;
 }
 .button-new-task-div{
   display: flex;
@@ -682,8 +682,15 @@ body{
   border-radius: var(--5px);
   box-shadow: 0 0 var(--5px) whitesmoke;
 }
+.add-badge-btn{
+  padding: var(--5px) var(--15px);
+  border: solid 2px #6cdaa3;
+  border-radius: var(--10px);
+  cursor: pointer;
+  background-color: white;
+}
 .badge-div{
-  background-color: aqua;
+  width: 100%;
 }
 
 /*active classes */

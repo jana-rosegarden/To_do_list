@@ -991,22 +991,24 @@ if(workingFoldersContainer) {
             buttonsNewTaskDiv.dataset.id = newTask.id;
             buttonsNewTaskDiv.dataset.folder = newTask.folder;
             buttonsNewTaskDiv.classList.add("button-new-task-div");
-            document.querySelector(`.li-new-task[data-id=${newTask.id}]`).appendChild(buttonsNewTaskDiv);
-            //button-erledigt in li for single task:
+            liNewTask.appendChild(buttonsNewTaskDiv);
 
+            //button-done-task in li for single task:
             const buttonCompletedTask = document.createElement("button");
             buttonCompletedTask.dataset.id = newTask.id;
             buttonCompletedTask.dataset.folder = newTask.folder;
             buttonCompletedTask.classList.add("button-completed-task");
             buttonCompletedTask.textContent = "✔";
-            document.querySelector(`.button-new-task-div[data-id=${newTask.id}]`).appendChild(buttonCompletedTask);
+            buttonsNewTaskDiv.appendChild(buttonCompletedTask);
 
-            //badge container zu Auswahl:
-            const badgeDiv = document.createElement("div");
-            badgeDiv.dataset.id = newTask.id;
-            badgeDiv.dataset.folder = newTask.folder;
-            badgeDiv.classList.add("badge-div");
-            document.querySelector(`.button-new-task-div[data-id=${newTask.id}]`).appendChild(badgeDiv);
+
+            //badge btn um badge zu wählen:
+            const addBadgeBtn = document.createElement("button");
+            addBadgeBtn.dataset.id = newTask.id;
+            addBadgeBtn.dataset.folder = newTask.folder;
+            addBadgeBtn.classList.add("add-badge-btn");
+            addBadgeBtn.textContent = "Badge"
+            buttonsNewTaskDiv.appendChild(addBadgeBtn);
 
             //remove new task from ul:
             const buttonRemoveTask = document.createElement("button");
@@ -1015,10 +1017,18 @@ if(workingFoldersContainer) {
             buttonRemoveTask.classList.add("close-btn-x");
             buttonRemoveTask.dataset.role = "remove-task-in-folder";
             buttonRemoveTask.textContent = "+";
-            document.querySelector(`.button-new-task-div[data-id=${newTask.id}]`).appendChild(buttonRemoveTask);
+            buttonsNewTaskDiv.appendChild(buttonRemoveTask);
 
+            
+            //badge container zu Auswahl:
+            const badgeDiv = document.createElement("div");
+            badgeDiv.dataset.id = newTask.id;
+            badgeDiv.dataset.folder = newTask.folder;
+            badgeDiv.classList.add("badge-div");
+            liNewTask.appendChild(badgeDiv);
 
             //create new task element (ALTER Code):
+            /*
             let newTaskElement= document.createElement("li");
             newTaskElement.classList.add(".task-li")
             newTaskElement.dataset.id = folderId
@@ -1034,7 +1044,7 @@ if(workingFoldersContainer) {
                         <button type="button" class="badge-datum" data-id=${newTask.id} data-folder=${folderId}> Datum  </button>
                         <button type="button" class="badge-optional" data-id=${newTask.id} data-folder=${folderId}> Optional </button>
                     </div>
-            `;
+            `; */
             //how many on tasks?:
             countOnTask(e)
             document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
@@ -1044,7 +1054,13 @@ if(workingFoldersContainer) {
 
         //show badges container:
         if(e.target.classList.contains("add-badge-btn")){
-            document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide");
+        
+            const taskId = e.target.dataset.id;
+            const targetBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
+
+            createBadges(e, targetBadgeContainer); //nach 16.12 - hier weiter arbeiten
+            
+            //document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide");
         }
         //handling Badges
         if(e.target.classList.contains("badge-urgent") && !e.target.parentNode.classList.contains("badge-div-only-task")){
