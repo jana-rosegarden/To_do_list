@@ -616,9 +616,14 @@ body{
 .task-input-board-div{
   padding: var(--20px);
   margin: var(--10px) 0;
-  border: solid 5px #d6ebe3;
-  border-radius: var(--10px);
+  border-bottom: solid 5px #d6ebe3;
   display: flex;
+  flex-wrap: wrap;
+}
+.folder-header-task-board{
+  font-size: 1rem;
+  width: 100%;
+  font-weight: 400;
 }
 .task-input-board-div button{
   height: var(--30px);

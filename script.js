@@ -819,6 +819,11 @@ if (renderingFolderDiv) {
         taskInputBoardDiv.classList.add("task-input-board-div");
         taskInputBoardDiv.classList.add("hide");
 
+        const folderHeaderTaskBoard = document.createElement("h2");
+        folderHeaderTaskBoard.dataset.id = newFolder.id;
+        folderHeaderTaskBoard.classList.add("folder-header-task-board");
+        folderHeaderTaskBoard.textContent = `In ${newFolder.name}`;
+
         const labelTaskInput = document.createElement("label");
         labelTaskInput.dataset.id = newFolder.id;
         labelTaskInput.classList.add("label-task-input");
@@ -837,6 +842,7 @@ if (renderingFolderDiv) {
         newTaskBtn.classList.add("new-task-btn");
         newTaskBtn.textContent = "+";
 
+        taskInputBoardDiv.appendChild(folderHeaderTaskBoard);
         taskInputBoardDiv.appendChild(labelTaskInput);
         taskInputBoardDiv.appendChild(taskInput);
         taskInputBoardDiv.appendChild(newTaskBtn);
