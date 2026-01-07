@@ -417,6 +417,7 @@ body{
 }
 .badge-div-only-task{
   position: absolute;
+  right: 0px;
   background-color: white;
   border: solid 3px #68697C;
   padding: var(--10px);

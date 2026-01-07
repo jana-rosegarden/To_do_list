@@ -58,10 +58,20 @@ let completedTaskAmount = ""
 
 
 function createBadges(e, parent){
+    //For only-task version
     const taskId = e.target.dataset.id;
     const currentTask = myOnlyTaskList.filter(item=>{
         return item.id === taskId
     })[0];
+
+    //For work with Folders:
+    const folderName = e.target.dataset.folder;
+    const currentFolder = myFolders.find(item=>{
+        return item.name === folderName
+    });
+    const currentTaskInFolder = currentFolder.tasks.find(item=>{
+        return item.id === taskId
+    });
     
     //create badge set on the target task:
     const badgeDiv = document.createElement("div");
@@ -105,11 +115,21 @@ function createBadges(e, parent){
     badgeDiv.appendChild(badgeDatum);
     
     //check if badges were already chosen:
+    //for only-task AND Folders:
+    if(!folderName) {
     if(currentTask.badges.length >= 1){
         currentTask.badges.forEach(item=>{
             const currentBadge = item.toLowerCase();
             document.querySelector(`.badge-${currentBadge}[data-role="badge-menu-btn"]`).disabled = true;
         })
+    };
+    } else{
+        if(currentTaskInFolder.badge.length >=1){
+            currentTaskInFolder.badge.forEach(item=>{
+            const currentBadge = item.toLowerCase();
+            document.querySelector(`.badge-${currentBadge}[data-role="badge-menu-btn"]`).disabled = true;
+        })
+        }
     };
     
                  
@@ -533,6 +553,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
             };
 
             //WORK with badges:
+
             //closing badge menu div:
             if (e.target.matches('.close-btn-x[data-role="close-badge-div"]')) {
               const taskId = e.target.dataset.id;
@@ -1047,7 +1068,7 @@ if(workingFoldersContainer) {
             `; */
             //how many on tasks?:
             countOnTask(e)
-            document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
+            //document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
             //clear the input
             document.querySelector(`.input-task[data-id=${folderId}]`).value = ""
         }
