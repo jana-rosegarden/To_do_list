@@ -88,18 +88,21 @@ function createBadges(e, parent){
     const badgeUrgent = document.createElement("button");
     badgeUrgent.dataset.id = taskId;
     badgeUrgent.dataset.role = "badge-menu-btn";
+    badgeUrgent.dataset.folder = folderName? folderName : "";
     badgeUrgent.classList.add("badge-urgent");
     badgeUrgent.textContent = "Urgent";
     //Optional:
     const badgeOptional = document.createElement("button");
     badgeOptional.dataset.id = taskId;
     badgeOptional.dataset.role = "badge-menu-btn";
+    badgeOptional.dataset.folder = folderName? folderName : "";
     badgeOptional.classList.add("badge-optional");
     badgeOptional.textContent = "Optional";
     //Datum:
     const badgeDatum = document.createElement("button");
     badgeDatum.dataset.id = taskId;
     badgeDatum.dataset.role = "badge-menu-btn";
+    badgeDatum.dataset.folder = folderName? folderName : "";
     badgeDatum.classList.add("badge-datum");
     badgeDatum.textContent = "Datum";
 
@@ -275,7 +278,10 @@ function addBadge(e){
     } else {
     const folderId = e.target.dataset.folder;   
     const taskId   = e.target.dataset.id;
-    let chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+    //let chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+
+    let chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
+
     let urgentTaskAmount = 0;
     // richtigen Folder aus myFolders finden
     const currentFolder = myFolders.find(f => f.id === folderId);
@@ -1084,9 +1090,18 @@ if(workingFoldersContainer) {
             //document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide");
         }
         //handling Badges
+        //TEST - 7.1.26:
+        /*
         if(e.target.classList.contains("badge-urgent") && !e.target.parentNode.classList.contains("badge-div-only-task")){
+                    console.log(e.target)
+                    addBadge(e)
+                   };*/
+
+        if(e.target.classList.contains("badge-urgent") ){
+                    console.log(e.target)
                     addBadge(e)
                    };
+        
         if(e.target.classList.contains("badge-optional") && !e.target.parentNode.classList.contains("badge-div-only-task")){
                     addBadge(e)
                    };             
