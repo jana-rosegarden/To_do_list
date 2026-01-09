@@ -693,6 +693,8 @@ body{
 .badge-div{
   width: 100%;
   border: solid 5px olive;
+  position: relative;
+  
 }
 
 /*active classes */

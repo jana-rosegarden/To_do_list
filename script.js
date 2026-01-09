@@ -54,25 +54,39 @@ let completedTaskAmount = ""
 //Functions:
 
 
-
-
-
 function createBadges(e, parent){
-    //For only-task version
-    const taskId = e.target.dataset.id;
-    const currentTask = myOnlyTaskList.filter(item=>{
+    let taskId = "";
+    let folderName = "";
+    let currentFolder = "";
+    let currentTaskInFolder = "";
+    let currentTask = "";
+    let onlyTaskVersion = "";
+    let foldersVersion = "";
+
+    //Check what version - with folders or only tasks:
+    if(e.target.hasAttribute("data-folder")){
+        //For work with Folders:
+        foldersVersion = true;
+        taskId = e.target.dataset.id;
+        folderName = e.target.dataset.folder;
+        currentFolder = myFolders.find(item=>{
+        return item.name === folderName
+        });
+        currentTaskInFolder = currentFolder.tasks.find(item=>{
+        return item.id === taskId
+        });
+        
+    } else {
+        //For only-task version
+        onlyTaskVersion = true;
+        taskId = e.target.dataset.id;
+        currentTask = myOnlyTaskList.filter(item=>{
         return item.id === taskId
     })[0];
-
-    //For work with Folders:
-    const folderName = e.target.dataset.folder;
-    const currentFolder = myFolders.find(item=>{
-        return item.name === folderName
-    });
-    const currentTaskInFolder = currentFolder.tasks.find(item=>{
-        return item.id === taskId
-    });
+    };
     
+    //The badges are created for BOTH VERSIONS:
+
     //create badge set on the target task:
     const badgeDiv = document.createElement("div");
     badgeDiv.dataset.id = taskId;
@@ -88,21 +102,21 @@ function createBadges(e, parent){
     const badgeUrgent = document.createElement("button");
     badgeUrgent.dataset.id = taskId;
     badgeUrgent.dataset.role = "badge-menu-btn";
-    badgeUrgent.dataset.folder = folderName? folderName : "";
+    foldersVersion ? badgeUrgent.dataset.folder = folderName : null;
     badgeUrgent.classList.add("badge-urgent");
     badgeUrgent.textContent = "Urgent";
     //Optional:
     const badgeOptional = document.createElement("button");
     badgeOptional.dataset.id = taskId;
     badgeOptional.dataset.role = "badge-menu-btn";
-    badgeOptional.dataset.folder = folderName? folderName : "";
+    foldersVersion ? badgeOptional.dataset.folder = folderName : null;
     badgeOptional.classList.add("badge-optional");
     badgeOptional.textContent = "Optional";
     //Datum:
     const badgeDatum = document.createElement("button");
     badgeDatum.dataset.id = taskId;
     badgeDatum.dataset.role = "badge-menu-btn";
-    badgeDatum.dataset.folder = folderName? folderName : "";
+    foldersVersion? badgeDatum.dataset.folder = folderName: null;
     badgeDatum.classList.add("badge-datum");
     badgeDatum.textContent = "Datum";
 
@@ -133,9 +147,7 @@ function createBadges(e, parent){
             document.querySelector(`.badge-${currentBadge}[data-role="badge-menu-btn"]`).disabled = true;
         })
         }
-    };
-    
-                 
+    };          
     };
 //Funktion unter noch zu bearbeiten, 12.11.25
 
@@ -1084,7 +1096,6 @@ if(workingFoldersContainer) {
         
             const taskId = e.target.dataset.id;
             const targetBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
-
             createBadges(e, targetBadgeContainer); //nach 16.12 - hier weiter arbeiten
             
             //document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide");
@@ -1099,8 +1110,9 @@ if(workingFoldersContainer) {
 
         if(e.target.classList.contains("badge-urgent") ){
                     console.log(e.target)
-                    addBadge(e)
-                   };
+                    //addBadge(e)
+                   }; 
+       
         
         if(e.target.classList.contains("badge-optional") && !e.target.parentNode.classList.contains("badge-div-only-task")){
                     addBadge(e)
