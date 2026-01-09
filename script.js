@@ -56,7 +56,7 @@ let completedTaskAmount = ""
 
 function createBadges(e, parent){
     let taskId = "";
-    let folderName = "";
+    let folderId = "";
     let currentFolder = "";
     let currentTaskInFolder = "";
     let currentTask = "";
@@ -68,9 +68,9 @@ function createBadges(e, parent){
         //For work with Folders:
         foldersVersion = true;
         taskId = e.target.dataset.id;
-        folderName = e.target.dataset.folder;
+        folderId = e.target.dataset.folder;
         currentFolder = myFolders.find(item=>{
-        return item.name === folderName
+        return item.id === folderId
         });
         currentTaskInFolder = currentFolder.tasks.find(item=>{
         return item.id === taskId
@@ -102,21 +102,21 @@ function createBadges(e, parent){
     const badgeUrgent = document.createElement("button");
     badgeUrgent.dataset.id = taskId;
     badgeUrgent.dataset.role = "badge-menu-btn";
-    foldersVersion ? badgeUrgent.dataset.folder = folderName : null;
+    foldersVersion ? badgeUrgent.dataset.folder = folderId : null;
     badgeUrgent.classList.add("badge-urgent");
     badgeUrgent.textContent = "Urgent";
     //Optional:
     const badgeOptional = document.createElement("button");
     badgeOptional.dataset.id = taskId;
     badgeOptional.dataset.role = "badge-menu-btn";
-    foldersVersion ? badgeOptional.dataset.folder = folderName : null;
+    foldersVersion ? badgeOptional.dataset.folder = folderId : null;
     badgeOptional.classList.add("badge-optional");
     badgeOptional.textContent = "Optional";
     //Datum:
     const badgeDatum = document.createElement("button");
     badgeDatum.dataset.id = taskId;
     badgeDatum.dataset.role = "badge-menu-btn";
-    foldersVersion? badgeDatum.dataset.folder = folderName: null;
+    foldersVersion? badgeDatum.dataset.folder = folderId: null;
     badgeDatum.classList.add("badge-datum");
     badgeDatum.textContent = "Datum";
 
@@ -133,7 +133,7 @@ function createBadges(e, parent){
     
     //check if badges were already chosen:
     //for only-task AND Folders:
-    if(!folderName) {
+    if(!folderId) {
     if(currentTask.badges.length >= 1){
         currentTask.badges.forEach(item=>{
             const currentBadge = item.toLowerCase();
@@ -1001,7 +1001,7 @@ if(workingFoldersContainer) {
 
             newTask = {
                 name: newTaskInput,
-                folder: targetFolder.name,
+                folder: targetFolder.id,
                 id: newTaskInput.replace(/\s/g, "").slice(0,6) + targetFolder.tasks.length,
                 isOn: true,
                 isCompleted: false,
@@ -1093,7 +1093,7 @@ if(workingFoldersContainer) {
 
         //show badges container:
         if(e.target.classList.contains("add-badge-btn")){
-        
+            console.log(e.target)
             const taskId = e.target.dataset.id;
             const targetBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
             createBadges(e, targetBadgeContainer); //nach 16.12 - hier weiter arbeiten
@@ -1108,9 +1108,8 @@ if(workingFoldersContainer) {
                     addBadge(e)
                    };*/
 
-        if(e.target.classList.contains("badge-urgent") ){
-                    console.log(e.target)
-                    //addBadge(e)
+        if(e.target.classList.contains("badge-urgent") && e.target.hasAttribute("data-folder") ){
+                    addBadge(e)
                    }; 
        
         
