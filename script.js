@@ -290,6 +290,8 @@ function addBadge(e){
     } else {
     const folderId = e.target.dataset.folder;   
     const taskId   = e.target.dataset.id;
+    const newBadge = e.target.textContent.trim();
+
     //let chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
 
     let chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
@@ -299,8 +301,7 @@ function addBadge(e){
     const currentFolder = myFolders.find(f => f.id === folderId);
     // richtigen Task in diesem Folder finden
     const currentTask = currentFolder.tasks.find(t => t.id === taskId);
-    const newBadge = e.target.textContent.trim();
-
+    
     if (!currentTask.badge.includes(newBadge)) {
                     currentTask.badge.push(newBadge);
                     if (newBadge === "Urgent"){
@@ -316,6 +317,7 @@ function addBadge(e){
                     }
                 };
 
+     /* am 12.02.2026 - dieser Abschnitt entfernt worden, um neue Struktur für einen Badge einzurichten
     const spanBadge = document.createElement("span");
     spanBadge.dataset.id = taskId;
     spanBadge.classList.add("spanBadge");
@@ -329,16 +331,58 @@ function addBadge(e){
     //remove badge Option:
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-badge-btn");
+    removeBtn.classList.add("close-btn-x");
     removeBtn.type = "button";
     removeBtn.dataset.id= newBadge;
     removeBtn.textContent = "*";
 
     spanBadge.appendChild(removeBtn);
+    */
 
-    removeBtn.addEventListener("click", function(e){
+    //neue Struktur - berabeiten:
+
+    //container for a badge:
+    const badgeContainer = document.createElement("div");
+    badgeContainer.dataset.id = taskId;
+    badgeContainer.dataset.folder = folderId;
+    badgeContainer.dataset.content = newBadge;
+    badgeContainer.classList.add("badge-container");
+
+    //badge-span - name of the badge:
+    const badgeSpan = document.createElement("span");
+    badgeSpan.dataset.id = taskId;
+    badgeSpan.dataset.folder = folderId;
+    //badgeSpan.dataset.content = newBadge;
+    badgeSpan.textContent = newBadge;
+    badgeSpan.classList.add(`badge-${newBadge.toLowerCase()}`);
+    badgeSpan.classList.add("chosen-badge-span");
+                
+    //close badge btn:
+    const badgeCloseBtn = document.createElement("button");
+    badgeCloseBtn.dataset.id = taskId;
+    badgeCloseBtn.dataset.folder = folderId;
+    badgeCloseBtn.dataset.role ="close-badge";
+    //badgeCloseBtn.dataset.content = newBadge;
+    badgeCloseBtn.textContent = "+";
+    badgeCloseBtn.classList.add("close-btn-x");
+    badgeCloseBtn.classList.add("chosen-badge-span");
+
+    document.querySelector(`.badge-div[data-id=${taskId}]`).appendChild(badgeContainer);
+    badgeContainer.appendChild(badgeSpan);
+    badgeContainer.appendChild(badgeCloseBtn);
+
+    //bis jetzt bearbeiten
+
+    //diasble choosing the same badge:
+    document.querySelector(`.badge-${newBadge.toLowerCase()}[data-role="badge-menu-btn"]`).disabled = true;
+        
+    //close badge menu when choosing a badge: 
+
+    document.querySelector(`.badge-div-only-task[data-id=${taskId}]`).remove();
+
+    badgeCloseBtn.addEventListener("click", function(e){
         if(newBadge === "Urgent"){
             currentTask.isUrgent = false
-            console.log(currentTask)
         }
         currentTask.badge = currentTask.badge.filter(item =>{
             return item !== newBadge

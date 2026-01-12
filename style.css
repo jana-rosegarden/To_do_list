@@ -694,7 +694,9 @@ body{
   width: 100%;
   border: solid 5px olive;
   position: relative;
-  
+  display: flex;
+  gap: var(--10px); 
+  flex-wrap: wrap;
 }
 
 /*active classes */
