@@ -660,12 +660,14 @@ body{
   
 }
 .li-new-task{
+  padding-bottom: var(--20px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-weight: 700;
   margin-bottom: var(--10px);
   flex-wrap: wrap;
+  border-bottom: solid 2px lightgray;
 }
 .button-new-task-div{
   display: flex;
@@ -691,8 +693,8 @@ body{
   background-color: white;
 }
 .badge-div{
+  margin-top: var(--15px);
   width: 100%;
-  border: solid 5px olive;
   position: relative;
   display: flex;
   gap: var(--10px); 

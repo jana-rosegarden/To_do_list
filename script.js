@@ -616,13 +616,13 @@ if(addFolderBtn || addTaskOnlyBtn) {
               };
               
              //adding different badges - will be executed below with addBadge();??
-            if(e.target.matches(".badge-urgent")){
+            if(e.target.matches(`button.badge-urgent`)){
                 addBadge(e);
             };
-            if(e.target.matches(".badge-optional")){
+            if(e.target.matches(`button.badge-optional`)){
                 addBadge(e);
             };
-            if(e.target.matches(".badge-datum")){
+            if(e.target.matches(`button.badge-datum`)){
                 badgeDatumAdd(e);
             };
              //closing differnet badges:
@@ -654,7 +654,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 
                 targetBadgeDiv.remove(); 
 
-                console.log(myOnlyTaskList);
+                //console.log(myOnlyTaskList);
                 };
              if(e.target.matches(`.close-btn-x[data-role="close-form-btn-only-task"]`)){
                 const taskId = e.target.dataset.id;
@@ -1146,14 +1146,14 @@ if(workingFoldersContainer) {
                     addBadge(e)
                    };*/
 
-        if(e.target.classList.contains("badge-urgent") && e.target.hasAttribute("data-folder") ){
+        if(e.target.matches(`button.badge-urgent`) && e.target.hasAttribute("data-folder") ){
                     addBadge(e)
                    }; 
        
-        if(e.target.classList.contains("badge-optional") && e.target.hasAttribute("data-folder")){
+        if(e.target.matches(`button.badge-optional`) && e.target.hasAttribute("data-folder")){
                     addBadge(e)
                    };             
-         if(e.target.classList.contains("badge-datum") && e.target.hasAttribute("data-folder")){
+         if(e.target.matches(`button.badge-datum`) && e.target.hasAttribute("data-folder")){
                     addBadge(e)
                     
                     const currentFolderId = e.target.dataset.folder;
@@ -1167,7 +1167,9 @@ if(workingFoldersContainer) {
 
                     document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
 
-                    const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+                    //const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+
+                    const chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
 
                     const datumForm = document.createElement("form");
                     datumForm.classList.add("datum-form");
@@ -1273,38 +1275,37 @@ if(workingFoldersContainer) {
 
         // Removing badges:
 
-        if(e.target.matches(`.close-btn-x[data-role="close-badge"]`))
+        if(e.target.matches(`.close-btn-x[data-role="close-badge"]`) && e.target.hasAttribute("data-folder"))
         {
+            const folderId = e.target.dataset.folder;
+            const taskId = e.target.dataset.id;
+            const badgeName = e.target.parentNode.dataset.content;
+            const classPart = badgeName.toLowerCase();
+            const currentFolder = myFolders.find(item =>{
+                return(item.id === folderId)
+            });
+            const currentTask = currentFolder.tasks.find(item =>{
+                return (item.id === taskId)
+            });
+           
+
+            //updating badge state in currentTask:
+            if(badgeName === "Urgent"){
+                currentTask.isUrgent = false
+            };
+            currentTask.badge = currentTask.badge.filter(item =>{
+            return item !== badgeName
+            });
             
-            console.log(e.target)
-        }
+            //remove parent badge div (span + btn):
+            e.target.parentNode.remove();
 
-        /* 
-        
-
-        const badgeCloseBtn = document.createElement("button");
-    badgeCloseBtn.dataset.id = taskId;
-    badgeCloseBtn.dataset.folder = folderId;
-    badgeCloseBtn.dataset.role ="close-badge";
-    //badgeCloseBtn.dataset.content = newBadge;
-    badgeCloseBtn.textContent = "+";
-    badgeCloseBtn.classList.add("close-btn-x");
-    badgeCloseBtn.classList.add("chosen-badge-span");
-
-         badgeCloseBtn.addEventListener("click", function(e){
-        if(newBadge === "Urgent"){
-            currentTask.isUrgent = false
-        }
-        currentTask.badge = currentTask.badge.filter(item =>{
-            return item !== newBadge
-        })
-        
-        e.target.parentNode.remove()
-        console.log(document.querySelector(`.badge-${classPart}`))
-        //document.querySelector(`.badge-${classPart}[data-role="badge-menu-btn"]`).disabled = false;
-    })
-        
-        */
+            //make choosing of the removed badge possible again:
+            if(document.querySelector(`.badge-div-only-task`)){
+                    document.querySelector(`.badge-${classPart}[data-id=${taskId}][data-role="badge-menu-btn"]`).disabled = false;
+                };
+            
+        };
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){
