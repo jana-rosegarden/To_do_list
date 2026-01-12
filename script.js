@@ -90,6 +90,7 @@ function createBadges(e, parent){
     //create badge set on the target task:
     const badgeDiv = document.createElement("div");
     badgeDiv.dataset.id = taskId;
+    badgeDiv.dataset.folder = folderId;
     badgeDiv.classList.add("badge-div-only-task");
 
     //append badge div:
@@ -291,6 +292,7 @@ function addBadge(e){
     const folderId = e.target.dataset.folder;   
     const taskId   = e.target.dataset.id;
     const newBadge = e.target.textContent.trim();
+    let classPart = newBadge.toLowerCase().trim();
 
     //let chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
 
@@ -380,17 +382,7 @@ function addBadge(e){
 
     document.querySelector(`.badge-div-only-task[data-id=${taskId}]`).remove();
 
-    badgeCloseBtn.addEventListener("click", function(e){
-        if(newBadge === "Urgent"){
-            currentTask.isUrgent = false
-        }
-        currentTask.badge = currentTask.badge.filter(item =>{
-            return item !== newBadge
-        })
-        
-        e.target.parentNode.remove()
-        document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = false;
-    })
+   
     /*
     // Badge im DOM anzeigen
                 document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML +=
@@ -1137,14 +1129,16 @@ if(workingFoldersContainer) {
 
         //show badges container:
         if(e.target.classList.contains("add-badge-btn")){
-            console.log(e.target)
             const taskId = e.target.dataset.id;
             const targetBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
             createBadges(e, targetBadgeContainer); //nach 16.12 - hier weiter arbeiten
             
             //document.querySelector(`.task-badge-container[data-id=${e.target.dataset.id}]`).classList.remove("hide");
         }
+
         //handling Badges
+
+
         //TEST - 7.1.26:
         /*
         if(e.target.classList.contains("badge-urgent") && !e.target.parentNode.classList.contains("badge-div-only-task")){
@@ -1156,11 +1150,10 @@ if(workingFoldersContainer) {
                     addBadge(e)
                    }; 
        
-        
-        if(e.target.classList.contains("badge-optional") && !e.target.parentNode.classList.contains("badge-div-only-task")){
+        if(e.target.classList.contains("badge-optional") && e.target.hasAttribute("data-folder")){
                     addBadge(e)
                    };             
-         if(e.target.classList.contains("badge-datum") && !e.target.parentNode.classList.contains("badge-div-only-task")){
+         if(e.target.classList.contains("badge-datum") && e.target.hasAttribute("data-folder")){
                     addBadge(e)
                     
                     const currentFolderId = e.target.dataset.folder;
@@ -1261,7 +1254,10 @@ if(workingFoldersContainer) {
                         
                    };          
         
-
+        // schließen geöffneten badge-menu container:
+        if(e.target.matches(`.close-btn-x[data-role="close-badge-div"]`)){
+            e.target.parentNode.remove();
+        }
                     /*
                     document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML += 
                     `
@@ -1275,6 +1271,40 @@ if(workingFoldersContainer) {
                     ` ;
                     */
 
+        // Removing badges:
+
+        if(e.target.matches(`.close-btn-x[data-role="close-badge"]`))
+        {
+            
+            console.log(e.target)
+        }
+
+        /* 
+        
+
+        const badgeCloseBtn = document.createElement("button");
+    badgeCloseBtn.dataset.id = taskId;
+    badgeCloseBtn.dataset.folder = folderId;
+    badgeCloseBtn.dataset.role ="close-badge";
+    //badgeCloseBtn.dataset.content = newBadge;
+    badgeCloseBtn.textContent = "+";
+    badgeCloseBtn.classList.add("close-btn-x");
+    badgeCloseBtn.classList.add("chosen-badge-span");
+
+         badgeCloseBtn.addEventListener("click", function(e){
+        if(newBadge === "Urgent"){
+            currentTask.isUrgent = false
+        }
+        currentTask.badge = currentTask.badge.filter(item =>{
+            return item !== newBadge
+        })
+        
+        e.target.parentNode.remove()
+        console.log(document.querySelector(`.badge-${classPart}`))
+        //document.querySelector(`.badge-${classPart}[data-role="badge-menu-btn"]`).disabled = false;
+    })
+        
+        */
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){
