@@ -364,7 +364,7 @@ function addBadge(e){
     badgeCloseBtn.dataset.id = taskId;
     badgeCloseBtn.dataset.folder = folderId;
     badgeCloseBtn.dataset.role ="close-badge";
-    //badgeCloseBtn.dataset.content = newBadge;
+    badgeCloseBtn.dataset.content = newBadge;
     badgeCloseBtn.textContent = "+";
     badgeCloseBtn.classList.add("close-btn-x");
     badgeCloseBtn.classList.add("chosen-badge-span");
@@ -1156,105 +1156,131 @@ if(workingFoldersContainer) {
          if(e.target.matches(`button.badge-datum`) && e.target.hasAttribute("data-folder")){
                     addBadge(e)
                     
-                    const currentFolderId = e.target.dataset.folder;
-                    const currentFolder = myFolders.find(item =>{
-                        return item.id === currentFolderId
+            const currentFolderId = e.target.dataset.folder;
+            const currentFolder = myFolders.find(item =>{
+                return item.id === currentFolderId
+                });
+            const taskId = e.target.dataset.id;
+            const currentTask = currentFolder.tasks.find(item =>{
+                return item.id === taskId
+                });
+
+            document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
+            //document.querySelector(`button.close-btn-x[data-id=${taskId}][data-content="Datum"]`).remove();
+            document.querySelector(`.badge-container[data-id=${taskId}][data-folder=${currentFolderId}][data-content="Datum"]`).remove();
+
+            //const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
+
+            const chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
+
+            const datumForm = document.createElement("form");
+            datumForm.classList.add("datum-form");
+            datumForm.dataset.id = taskId;
+
+            const datumLabel = document.createElement("label");
+            datumLabel.classList.add("datum-label");
+            datumLabel.dataset.id = taskId;
+            datumLabel.htmlFor = taskId;
+            datumLabel.textContent = "Choose date:";
+
+            const datumInput = document.createElement("input");
+            datumInput.type = "date";
+            datumInput.classList.add("datum-input");
+            datumInput.dataset.id = taskId;
+                    
+            const datumSubmitBtn = document.createElement("input");
+            datumSubmitBtn.type = "submit";
+            datumSubmitBtn.classList.add("datum-submit-btn");
+            datumSubmitBtn.value = "OK";
+            datumSubmitBtn.dataset.id = taskId;
+                    
+            const userDate = document.createElement("div");
+            userDate.classList.add("users-datum-el");
+            userDate.dataset.id = taskId;
+            userDate.dataset.folder = currentFolderId;
+            userDate.dataset.content = "Datum";
+                    
+            datumForm.appendChild(datumLabel);
+            datumForm.appendChild(datumInput);
+            datumForm.appendChild(datumSubmitBtn);
+
+            chosenBadgeContainer.appendChild(datumForm);
+            chosenBadgeContainer.appendChild(userDate);
+
+            const date = new Date()
+            const currentYear = date.getFullYear()
+            const currentMonth = date.getMonth() + 1
+            const currentDay = date.getDate()
+            const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
+            datumInput.setAttribute("min", `${dayToday}`)
+
+            const removeBtn = document.createElement("button");
+            removeBtn.classList.add("remove-badge-btn");
+            removeBtn.type = "button";
+            removeBtn.dataset.id= "Datum".trim();
+            removeBtn.textContent = "*";
+                        
+            //getting users data:
+            let chosenDate = "";
+
+            //showing a datum badge after submitting a form: 
+            datumForm.addEventListener("submit", function(e){
+                e.preventDefault()
+
+                chosenDate = datumInput.value;
+                if(!chosenDate) return;
+
+                const usersDay = new Date(`${chosenDate}`)
+                const milisec = usersDay.getTime() - date.getTime()
+                const dayTill = Math.ceil(milisec / 86400000)
+
+                const showDatumChosen = document.createElement("h3");
+                showDatumChosen.dataset.id = taskId;
+                showDatumChosen.dataset.folder = currentFolderId;
+                showDatumChosen.textContent = `Datum: ${chosenDate}`;
+                showDatumChosen.classList.add("chosen-user-datum");
+
+                const showDayLeft = document.createElement("h4");
+                showDayLeft.dataset.id = taskId;
+                showDayLeft.dataset.folder = currentFolderId;
+                showDayLeft.textContent = `${dayTill} days left`;
+                showDayLeft.classList.add("datum-left-show");
+
+                const removeBtn = document.createElement("button");
+                removeBtn.classList.add("close-btn-x");
+                removeBtn.type = "button";
+                removeBtn.dataset.id= taskId;
+                removeBtn.dataset.folder = currentFolderId;
+                //removeBtn.dataset.role = "datum-badge-remove-btn";
+                removeBtn.dataset.role = "close-badge";
+                removeBtn.textContent = "+";
+                
+
+                userDate.appendChild(showDatumChosen);
+                userDate.appendChild(showDayLeft);
+                userDate.appendChild(removeBtn);
+                        
+                datumForm.remove()
+
+                //disabling setting datum badge if already chosen:
+                if(document.querySelector(`.badge-div-only-task`)){
+                    console.log("menu!")
+                }
+                });
+                         
+                         
+                /* TEST von 13.01.26:
+                removeBtn.addEventListener("click", ()=>{
+                    currentTask.badge = currentTask.badge.filter(item =>{
+                        return item !== removeBtn.dataset.id
                     });
-                    const taskId = e.target.dataset.id;
-                    const currentTask = currentFolder.tasks.find(item =>{
-                        return item.id === taskId
-                    });
-
-                    document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
-
-                    //const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
-
-                    const chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
-
-                    const datumForm = document.createElement("form");
-                    datumForm.classList.add("datum-form");
-                    datumForm.dataset.id = taskId;
-
-                    const datumLabel = document.createElement("label");
-                    datumLabel.classList.add("datum-label");
-                    datumLabel.dataset.id = taskId;
-                    datumLabel.htmlFor = taskId;
-                    datumLabel.textContent = "Choose date:";
-
-                    const datumInput = document.createElement("input");
-                    datumInput.type = "date";
-                    datumInput.classList.add("datum-input");
-                    datumInput.dataset.id = taskId;
-                    
-                    const datumSubmitBtn = document.createElement("input");
-                    datumSubmitBtn.type = "submit";
-                    datumSubmitBtn.classList.add("datum-submit-btn");
-                    datumSubmitBtn.value = "OK";
-                    datumSubmitBtn.dataset.id = taskId;
-                    
-                    const userDate = document.createElement("h4");
-                    userDate.classList.add("users-datum-el");
-                    userDate.dataset.id = taskId;
-                    
-                    datumForm.appendChild(datumLabel);
-                    datumForm.appendChild(datumInput);
-                    datumForm.appendChild(datumSubmitBtn);
-
-                    chosenBadgeContainer.appendChild(datumForm);
-                    chosenBadgeContainer.appendChild(userDate);
-
-                    const date = new Date()
-                    const currentYear = date.getFullYear()
-                    const currentMonth = date.getMonth() + 1
-                    const currentDay = date.getDate()
-                    const dayToday= `${currentYear}-0${currentMonth}-${currentDay}`
-                    datumInput.setAttribute("min", `${dayToday}`)
-
-                    const removeBtn = document.createElement("button");
-                        removeBtn.classList.add("remove-badge-btn");
-                        removeBtn.type = "button";
-                        removeBtn.dataset.id= "Datum".trim();
-                        removeBtn.textContent = "*";
+                    //console.log(currentTask.badge)
+                    document.querySelector(`.badge-datum[data-id=${taskId}]`).disabled = false;
+                    removeBtn.parentNode.remove();
+                    })
+                       */   
                         
-
-                        //getting users data:
-                    
-                    let chosenDate = "";
-                    
-                    datumForm.addEventListener("submit", function(e){
-                        e.preventDefault()
-
-                        chosenDate = datumInput.value;
-                        if(!chosenDate) return;
-                        const usersDay = new Date(`${chosenDate}`)
-                        const milisec = usersDay.getTime() - date.getTime()
-                        const dayTill = Math.ceil(milisec / 86400000)
-
-                        const datumH3 = document.createElement("h3");
-                        datumH3.textContent = `Datum: ${chosenDate}`;
-
-                        const datumH4 = document.createElement("h4");
-                        datumH4.textContent = `${dayTill} days left`;
-
-                        userDate.appendChild(datumH3);
-                        userDate.appendChild(datumH4);
-                        userDate.appendChild(removeBtn);
-                        
-                        datumForm.remove()
-                         });
-                         
-                         
-                         removeBtn.addEventListener("click", ()=>{
-                            currentTask.badge = currentTask.badge.filter(item =>{
-                                return item !== removeBtn.dataset.id
-                            });
-                            console.log(currentTask.badge)
-                            document.querySelector(`.badge-datum[data-id=${taskId}]`).disabled = false;
-                            removeBtn.parentNode.remove();
-                         })
-                         
-                        
-                   };          
+                   };         
         
         // schließen geöffneten badge-menu container:
         if(e.target.matches(`.close-btn-x[data-role="close-badge-div"]`)){
@@ -1274,7 +1300,7 @@ if(workingFoldersContainer) {
                     */
 
         // Removing badges:
-
+        //Urgent and Optional:
         if(e.target.matches(`.close-btn-x[data-role="close-badge"]`) && e.target.hasAttribute("data-folder"))
         {
             const folderId = e.target.dataset.folder;
@@ -1306,6 +1332,8 @@ if(workingFoldersContainer) {
                 };
             
         };
+        //Datum:
+
 
         //delete the task
         if(e.target.classList.contains("delete-task-btn")){

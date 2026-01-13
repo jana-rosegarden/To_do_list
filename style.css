@@ -453,7 +453,6 @@ body{
   padding: var(--5px);
 }
 .badge-container{
-  
   display: flex;
   gap: var(--5px);
 }
@@ -494,6 +493,7 @@ body{
   display: flex;
   gap: var(--10px);
   align-items: center;
+  justify-content: center;
 }
 .chosen-user-datum, .datum-left-show{
   font-size: 18px;
@@ -697,6 +697,7 @@ body{
   width: 100%;
   position: relative;
   display: flex;
+  align-items: center;
   gap: var(--10px); 
   flex-wrap: wrap;
 }
