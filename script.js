@@ -1336,14 +1336,14 @@ if(workingFoldersContainer) {
 
 
         //delete the task
-        if(e.target.classList.contains("delete-task-btn")){
+        if(e.target.matches(`.close-btn-x[data-role="remove-task-in-folder"`)){
             
             let targetTaskId = e.target.dataset.id;
-            let targetFolderId = e.target.parentNode.dataset.id;
+            let targetFolderId = e.target.dataset.folder;
             let targetFolder = myFolders.find(item=>{
                 return item.id === targetFolderId
             })
-            
+            console.log(targetTaskId, targetFolderId)
             //find in myFolders targetFolder:
             targetFolder = myFolders.filter(item => {
                 return item.id === targetFolderId
