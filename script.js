@@ -52,7 +52,12 @@ let onTaskAmount = ""
 let completedTaskAmount = ""
 
 //Functions:
-
+function increment(a){
+    return a = ++a;
+};
+function decrement(b){
+    return b = --b;
+}
 
 function createBadges(e, parent){
     let taskId = "";
@@ -153,7 +158,7 @@ function createBadges(e, parent){
 //Funktion unter noch zu bearbeiten, 12.11.25
 
 
-function countOnTask(e){
+function countOnTask(e, givenFunction){
     //For only-task:
     if(!e.target.dataset.folder){
         
@@ -163,25 +168,33 @@ function countOnTask(e){
             document.querySelector(".only-task-stata-on").textContent = "Auf der Liste: " + onOnlyTaskAmount;
         }
         
-    //for folders:
+    //For folders:
     else{
+    
+    const targetTaskId = e.target.dataset.id;
     const targetFolderId = e.target.dataset.folder;
     const targetFolder = myFolders.find(item =>{
     return item.id === targetFolderId
     });
     
+    
+    //myFolders aktualisieren:
+    let onTasks = targetFolder.onTasks;
+    targetFolder.onTasks = givenFunction(onTasks);
+    
+    /*
     onTaskAmount = targetFolder.tasks.filter(task =>{
                 return(task.isOn === true)
-            }).length;
-
+            }).length; */
+    //In DOM Anzahl von onTask anzeigen:
     document.querySelector(`.folder-on-stata[data-id=${targetFolderId}]`).innerHTML = `
-            To do: ${onTaskAmount} tasks
+            Zu erledigen: <span class="stata-numbers"> ${targetFolder.onTasks} </span>
     `
     };
     
 }
 
-function countCompletedTask(e) {
+function countCompletedTask(e, givenFunction) {
     if(!e.target.dataset.folder){
         const taskId = e.target.dataset.id;
         completedOnlyTaskAmount = myOnlyTaskList.filter(item=>{
@@ -195,6 +208,15 @@ function countCompletedTask(e) {
     const targetFolder = myFolders.find(item =>{
         return item.id === targetFolderId
     });
+
+    const completedTasksAmount = givenFunction(targetFolder.completedTasks)
+
+    //Aktualisieren targetFolder in myFolders:
+    targetFolder.completedTasks = completedTasksAmount;
+    
+    
+    //Old version:
+    /*
     completedTaskAmount = targetFolder.tasks.filter(task =>{
                 return task.isCompleted === true
             }).length;
@@ -204,6 +226,8 @@ function countCompletedTask(e) {
     document.querySelector(`.folder-completed-stata[data-id=${targetFolderId}]`).innerHTML = `
             Completed: ${completedTaskAmount} tasks
     `
+    */
+
     }
     
 };
@@ -736,6 +760,7 @@ if (renderingFolderDiv) {
             isCompleted: false,
             onTasks: 0,
             completedTasks: 0,
+            urgentTasks: 0,
             tasks: []
         };
 
@@ -913,7 +938,8 @@ if (renderingFolderDiv) {
 
         const newTaskBtn = document.createElement("button");
         newTaskBtn.type = "button";
-        newTaskBtn.dataset.id = newFolder.id;
+        //newTaskBtn.dataset.id = newFolder.id;
+        newTaskBtn.dataset.folder = newFolder.id;
         newTaskBtn.classList.add("new-task-btn");
         newTaskBtn.textContent = "+";
 
@@ -1011,9 +1037,9 @@ if(workingFoldersContainer) {
             //delete folder from myFolders
             myFolders = myFolders.filter(item =>{
                 return (item.id !== folderId)
-            })
+            });
             //delete Element from DOM
-            document.querySelector(`div .folder-wrapper[data-id=${folderId}]`).remove()     
+            document.querySelector(`div .folder-wrapper[data-id=${folderId}]`).remove();
         };
 
         // Add Task Btn
@@ -1026,7 +1052,7 @@ if(workingFoldersContainer) {
            newTaskBtn.classList.add("new-task-btn");
             newTaskBtn.textContent = "+";  */
             
-            const folderId = e.target.dataset.id;
+            const folderId = e.target.dataset.folder;
             
             newTaskInput = document.querySelector(`.input-task[data-id=${folderId}]`).value.trim();
             if(!newTaskInput) return
@@ -1121,7 +1147,7 @@ if(workingFoldersContainer) {
                     </div>
             `; */
             //how many on tasks?:
-            countOnTask(e)
+            countOnTask(e, increment)
             //document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
             //clear the input
             document.querySelector(`.input-task[data-id=${folderId}]`).value = ""
@@ -1342,8 +1368,8 @@ if(workingFoldersContainer) {
             let targetFolderId = e.target.dataset.folder;
             let targetFolder = myFolders.find(item=>{
                 return item.id === targetFolderId
-            })
-            console.log(targetTaskId, targetFolderId)
+            });
+            
             //find in myFolders targetFolder:
             targetFolder = myFolders.filter(item => {
                 return item.id === targetFolderId
@@ -1355,40 +1381,65 @@ if(workingFoldersContainer) {
             });
 
             //delete li element from the DOM:
-            e.target.parentNode.remove();
-
-            countOnTask(e);
+            //e.target.parentNode.remove();
+            document.querySelector(`.li-new-task[data-id=${targetTaskId}][data-folder=${targetFolderId}]`).remove();
+            
+            countOnTask(e, decrement);
             countCompletedTask(e);
             countUrgentTask(e);
         }
 
         //mark the task as "Done"
-        if(e.target.classList.contains("done-task-btn")){
-            console.log(e.target.dataset.folder);
+        //Old version: if(e.target.classList.contains("done-task-btn"))
+        if(e.target.classList.contains("button-completed-task")){
+            const taskId = e.target.dataset.id;
+            const folderId = e.target.dataset.folder;
 
             const targetFolder = myFolders.find(item =>{
-                return item.id === e.target.dataset.folder
+                return item.id === folderId
             });
-            
+            const currentTask = targetFolder.tasks.find(task =>{
+                return task.id === taskId
+            });
+
             //update myFolders arr:
             targetFolder.tasks.forEach(item =>{
-                if(item.id === e.target.dataset.id) {
+                if(item.id === taskId) {
                         item.isCompleted = true
                         item.isOn = false
                 }
             });
 
+            countOnTask(e, decrement);
+            countCompletedTask(e, increment);
+            //DOM aktualisieren:
 
-            countOnTask(e);
-            countCompletedTask(e);
-
+            //Old version:
+            /*
             let newCompletedTaskLi = document.createElement("li");
             newCompletedTaskLi.dataset.id = targetFolder.id;
             newCompletedTaskLi.innerHTML = `
                 ${document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).innerHTML}
             `
             document.querySelector(`.completed-task-ul[data-id=${targetFolder.id}]`).appendChild(newCompletedTaskLi);
-            document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).parentNode.remove();
+            document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).parentNode.remove();*/
+
+            //New version:
+            const completedTasksAmount = targetFolder.completedTasks;
+            const completedTasksArr = targetFolder.tasks.filter(item=>{
+                return item.isCompleted === true
+            });
+
+            let newCompletedTaskLi = document.createElement("li");
+            newCompletedTaskLi.dataset.id = taskId;
+            newCompletedTaskLi.dataset.folder = taskId;
+            newCompletedTaskLi.classList.add("completed-task-style");
+            newCompletedTaskLi.innerHTML = `
+                ${completedTasksArr.length} Aufgabe ${currentTask.name} ist erledigt! 🎉
+            `
+            document.querySelector(`.ul-completed-tasks-div`).appendChild(newCompletedTaskLi);
+            document.querySelector(`.li-new-task[data-id=${taskId}][data-folder=${folderId}]`).remove();
+            
         }
       
     })

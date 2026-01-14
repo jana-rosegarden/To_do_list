@@ -701,7 +701,16 @@ body{
   gap: var(--10px); 
   flex-wrap: wrap;
 }
-
+.stata-numbers{
+  display: inline-block;
+  margin-left: var(--5px);
+  background-color: #d6ebe3;
+  padding: var(--5px) var(--10px);
+  border-radius: 3px;
+}
+.completed-task-style{
+  
+}
 /*active classes */
 
 .margin-top-bottom-reduce{
