@@ -654,22 +654,25 @@ body{
 .label-task-input{
   font-size: var(--20pxFontSize);
 }
-.ul-new-tasks-div {
-  list-style: none;
-  padding: var(--15px);
-  
+.ol-new-tasks-div {
+  padding: var(--10px)  var(--15px) var(--5px);
+  list-style: decimal;
 }
 .li-new-task{
-  padding-bottom: var(--20px);
+  padding: var(--10px) 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  
   font-weight: 700;
-  margin-bottom: var(--10px);
   flex-wrap: wrap;
   border-bottom: solid 2px lightgray;
 }
+.li-new-task span{
+  display: inline-block;
+  margin-right: var(--10px);
+}
 .button-new-task-div{
+  margin-left: auto;
   display: flex;
   gap: var(--15px);
   align-items: center;
@@ -709,15 +712,21 @@ body{
   border-radius: 3px;
 }
 .completed-task-style{
+  list-style: none;
+  padding: var(--10px) var(--20px);
   
+
 }
+
 /*active classes */
 
 .margin-top-bottom-reduce{
   margin-top: var(--5px);
   margin-bottom: 0;
 }
-
+.new-task-div{
+  padding-bottom: var(--15px);
+}
 /*Media Query*/
 
 /*Mobile */

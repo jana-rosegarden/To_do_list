@@ -58,7 +58,14 @@ function increment(a){
 function decrement(b){
     return b = --b;
 }
-
+function getTaskIndex(e){
+    console.log("Get index!")
+    const folderId = e.target.dataset.folder;
+    const nodeList = document.querySelectorAll(`span[data-role="task-index"][data-folder=${folderId}]`);
+    nodeList.forEach((item, index)=>{
+        item.textContent = `${index +1}.`
+    })
+};
 function createBadges(e, parent){
     let taskId = "";
     let folderId = "";
@@ -957,10 +964,10 @@ if (renderingFolderDiv) {
         displayTaskBoardEl.appendChild(newTaskDiv);
             
          //UL for new tasks:
-        const ulNewTasksDiv = document.createElement("ul");
-        ulNewTasksDiv.dataset.id = newFolder.id;
-        ulNewTasksDiv.classList.add("ul-new-tasks-div");
-        newTaskDiv.appendChild(ulNewTasksDiv);
+        const olNewTasksDiv = document.createElement("ol");
+        olNewTasksDiv.dataset.id = newFolder.id;
+        olNewTasksDiv.classList.add("ol-new-tasks-div");
+        newTaskDiv.appendChild(olNewTasksDiv);
         
         //Ul for completed tasks:
         const ulcompletedTasksDiv = document.createElement("ul");
@@ -1084,8 +1091,25 @@ if(workingFoldersContainer) {
             liNewTask.dataset.id = newTask.id;
             liNewTask.dataset.folder = newTask.folder;
             liNewTask.classList.add("li-new-task");
-            liNewTask.textContent = `${targetFolder.tasks.length}. ${newTask.name}`;
-            document.querySelector(`.ul-new-tasks-div[data-id=${targetFolder.id}]`).appendChild(liNewTask);
+            //liNewTask.textContent = `${targetFolder.tasks.length}. ${newTask.name}`;
+            //liNewTask.textContent = `${newTask.name}`;
+            document.querySelector(`.ol-new-tasks-div[data-id=${targetFolder.id}]`).appendChild(liNewTask);
+
+            const taskIndex = document.createElement("span");
+            taskIndex.dataset.id = newTask.id;
+            taskIndex.dataset.folder = newTask.folder;
+            taskIndex.dataset.role = "task-index";
+            //taskIndex.textContent = `${targetFolder.tasks.length}`;
+            
+
+            const taskName = document.createElement("span");
+            taskName.dataset.id = newTask.id;
+            taskName.dataset.folder = newTask.folder;
+            taskName.textContent = `${newTask.name}`;
+
+            liNewTask.appendChild(taskIndex);
+            liNewTask.appendChild(taskName);
+            getTaskIndex(e);
 
             //div for buttons for every new task:
             const buttonsNewTaskDiv = document.createElement("div");
@@ -1358,9 +1382,7 @@ if(workingFoldersContainer) {
                 };
             
         };
-        //Datum:
-
-
+        
         //delete the task
         if(e.target.matches(`.close-btn-x[data-role="remove-task-in-folder"`)){
             
@@ -1387,6 +1409,7 @@ if(workingFoldersContainer) {
             countOnTask(e, decrement);
             countCompletedTask(e);
             countUrgentTask(e);
+            getTaskIndex(e);
         }
 
         //mark the task as "Done"
@@ -1425,6 +1448,17 @@ if(workingFoldersContainer) {
             document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).parentNode.remove();*/
 
             //New version:
+             
+
+            //get new index of onTasks:
+            //document.querySelector(`span[data-role="task-index"][data-folder=${folderId}]`).textContent = `${targetFolder.length}`;
+            /*const onTasksArr = targetFolder.tasks.filter(item=>{
+                return item.isOn ===  true
+            }); */
+
+            
+
+
             const completedTasksAmount = targetFolder.completedTasks;
             const completedTasksArr = targetFolder.tasks.filter(item=>{
                 return item.isCompleted === true
@@ -1439,6 +1473,14 @@ if(workingFoldersContainer) {
             `
             document.querySelector(`.ul-completed-tasks-div`).appendChild(newCompletedTaskLi);
             document.querySelector(`.li-new-task[data-id=${taskId}][data-folder=${folderId}]`).remove();
+
+            /*
+            const nodeList = document.querySelectorAll(`span[data-role="task-index"][data-folder=${folderId}]`);
+            nodeList.forEach((item,index) =>{
+                item.textContent = index + 1
+            }); */
+
+            getTaskIndex(e);
             
         }
       
