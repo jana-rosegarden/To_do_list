@@ -251,20 +251,19 @@ function countUrgentTask(e){
         document.querySelector(".only-task-stata-urgent").textContent = 
             `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`;
     } else {
+    
     const targetFolderId = e.target.dataset.folder;
     const targetTaskId = e.target.dataset.id;
     const targetFolder = myFolders.find(item=>{
         return item.id === targetFolderId
     });
-    let urgentTaskAmount = 0;
-    urgentTaskAmount = myFolders.filter(item=>{
+    let urgentTaskAmount = targetFolder.tasks.filter(item=>{
         return item.isUrgent === true
     }).length;
-    document.querySelector(`#folder-urgent-stata[data-id=${targetFolderId}]`).innerHTML = `
+    
+    document.querySelector(`.folder-urgent-stata[data-id=${targetFolderId}]`).innerHTML = `
             Drinnende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
     `;
-
-    
 
     }
 };
@@ -332,7 +331,7 @@ function addBadge(e){
 
     let chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
 
-    let urgentTaskAmount = 0;
+    
     // richtigen Folder aus myFolders finden
     const currentFolder = myFolders.find(f => f.id === folderId);
     // richtigen Task in diesem Folder finden
@@ -342,20 +341,17 @@ function addBadge(e){
         currentTask.badge.push(newBadge);
         if (newBadge === "Urgent"){
         currentTask.isUrgent = true
-        urgentTaskAmount = currentFolder.tasks.filter(item=>{
-        return item.isUrgent === true
-        }).length
-                        
-                        //Testen: 
-                        /*document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = 
-                        `Urgent task: ${urgentTaskAmount}  `*/
-
-        document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = `
-        Drinnende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
-    `;
-
     }
     };
+
+    let urgentTaskAmount = 0;
+    urgentTaskAmount = currentFolder.tasks.filter(item=>{
+        return item.isUrgent === true
+        }).length;
+        
+    document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = `
+        Drinnende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
+    `; 
 
      /* am 12.02.2026 - dieser Abschnitt entfernt worden, um neue Struktur für einen Badge einzurichten
     const spanBadge = document.createElement("span");
@@ -430,7 +426,7 @@ function addBadge(e){
                     let classPart = newBadge.toLowerCase().trim();
                     document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = true;
      */
-      
+     
      };
     }
 function badgeDatumAdd(e){
@@ -1443,6 +1439,7 @@ if(workingFoldersContainer) {
 
             countOnTask(e, decrement);
             countCompletedTask(e, increment);
+           
             //DOM aktualisieren:
 
             //Old version:
@@ -1479,7 +1476,7 @@ if(workingFoldersContainer) {
             newCompletedTaskLi.innerHTML = `
                 ${completedTasksArr.length}. Aufgabe: "${currentTask.name.slice(0,1).toUpperCase() + currentTask.name.slice(1)}" ist erledigt! 🎉
             `
-            document.querySelector(`.ul-completed-tasks-div`).appendChild(newCompletedTaskLi);
+            document.querySelector(`.ul-completed-tasks-div[data-id=${folderId}]`).appendChild(newCompletedTaskLi);
             document.querySelector(`.li-new-task[data-id=${taskId}][data-folder=${folderId}]`).remove();
 
             //update a folder statistik:
@@ -1491,6 +1488,10 @@ if(workingFoldersContainer) {
             }); */
 
             getTaskIndex(e);
+            if(currentTask.isUrgent === true){
+                currentTask.isUrgent = false;
+                countUrgentTask(e);
+            };
             
         }
       
@@ -1517,4 +1518,3 @@ if(workingFoldersContainer) {
     });
     }
     
-
