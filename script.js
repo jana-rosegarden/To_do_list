@@ -59,7 +59,6 @@ function decrement(b){
     return b = --b;
 }
 function getTaskIndex(e){
-    console.log("Get index!")
     const folderId = e.target.dataset.folder;
     const nodeList = document.querySelectorAll(`span[data-role="task-index"][data-folder=${folderId}]`);
     nodeList.forEach((item, index)=>{
@@ -234,6 +233,7 @@ function countCompletedTask(e, givenFunction) {
             Completed: ${completedTaskAmount} tasks
     `
     */
+     document.querySelector(`.folder-completed-stata[data-id=${targetFolderId}]`).innerHTML = `Erledigt: <span class="stata-numbers"> ${completedTasksAmount} </span>`;
 
     }
     
@@ -260,9 +260,12 @@ function countUrgentTask(e){
     urgentTaskAmount = myFolders.filter(item=>{
         return item.isUrgent === true
     }).length;
-    document.querySelector(`.folder-urgent-stata[data-id=${targetFolderId}]`).innerHTML = `
-            Urgent: ${urgentTaskAmount} tasks
+    document.querySelector(`#folder-urgent-stata[data-id=${targetFolderId}]`).innerHTML = `
+            Drinnende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
     `;
+
+    
+
     }
 };
 
@@ -336,19 +339,23 @@ function addBadge(e){
     const currentTask = currentFolder.tasks.find(t => t.id === taskId);
     
     if (!currentTask.badge.includes(newBadge)) {
-                    currentTask.badge.push(newBadge);
-                    if (newBadge === "Urgent"){
-                        currentTask.isUrgent = true
-                        urgentTaskAmount = currentFolder.tasks.filter(item=>{
-                            return item.isUrgent === true
-                        }).length
+        currentTask.badge.push(newBadge);
+        if (newBadge === "Urgent"){
+        currentTask.isUrgent = true
+        urgentTaskAmount = currentFolder.tasks.filter(item=>{
+        return item.isUrgent === true
+        }).length
                         
                         //Testen: 
-                        document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = 
-                        `Urgent task: ${urgentTaskAmount}  `
+                        /*document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = 
+                        `Urgent task: ${urgentTaskAmount}  `*/
 
-                    }
-                };
+        document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = `
+        Drinnende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
+    `;
+
+    }
+    };
 
      /* am 12.02.2026 - dieser Abschnitt entfernt worden, um neue Struktur für einen Badge einzurichten
     const spanBadge = document.createElement("span");
@@ -649,6 +656,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
              //adding different badges - will be executed below with addBadge();??
             if(e.target.matches(`button.badge-urgent`)){
                 addBadge(e);
+                countUrgentTask(e)
             };
             if(e.target.matches(`button.badge-optional`)){
                 addBadge(e);
@@ -889,7 +897,7 @@ if (renderingFolderDiv) {
         const folderCompletedStata = document.createElement("h4");
         folderCompletedStata.classList.add("folder-completed-stata");
         folderCompletedStata.dataset.id = newFolder.id;
-        folderCompletedStata.textContent = `Erledigt!: 0`;
+        folderCompletedStata.textContent = `Erledigt: 0`;
 
         displayFolderEl.appendChild(folderUrgentStata);
         displayFolderEl.appendChild(folderOnStata);
@@ -1407,7 +1415,7 @@ if(workingFoldersContainer) {
             document.querySelector(`.li-new-task[data-id=${targetTaskId}][data-folder=${targetFolderId}]`).remove();
             
             countOnTask(e, decrement);
-            countCompletedTask(e);
+            //countCompletedTask(e);
             countUrgentTask(e);
             getTaskIndex(e);
         }
@@ -1458,8 +1466,8 @@ if(workingFoldersContainer) {
 
             
 
-
-            const completedTasksAmount = targetFolder.completedTasks;
+            //Show list of completed tasks:
+            let completedTasksAmount = targetFolder.completedTasks;
             const completedTasksArr = targetFolder.tasks.filter(item=>{
                 return item.isCompleted === true
             });
@@ -1469,11 +1477,13 @@ if(workingFoldersContainer) {
             newCompletedTaskLi.dataset.folder = taskId;
             newCompletedTaskLi.classList.add("completed-task-style");
             newCompletedTaskLi.innerHTML = `
-                ${completedTasksArr.length} Aufgabe ${currentTask.name} ist erledigt! 🎉
+                ${completedTasksArr.length}. Aufgabe: "${currentTask.name.slice(0,1).toUpperCase() + currentTask.name.slice(1)}" ist erledigt! 🎉
             `
             document.querySelector(`.ul-completed-tasks-div`).appendChild(newCompletedTaskLi);
             document.querySelector(`.li-new-task[data-id=${taskId}][data-folder=${folderId}]`).remove();
 
+            //update a folder statistik:
+           
             /*
             const nodeList = document.querySelectorAll(`span[data-role="task-index"][data-folder=${folderId}]`);
             nodeList.forEach((item,index) =>{

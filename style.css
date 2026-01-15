@@ -292,6 +292,7 @@ body{
   margin-right: var(--10px);
 }
 #folders-name{
+  padding: var(--5px);
   max-width: 80%;
   border: solid 1px green;
   border-radius: var(--5px);
