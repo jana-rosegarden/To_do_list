@@ -251,7 +251,7 @@ function countUrgentTask(e){
         document.querySelector(".only-task-stata-urgent").textContent = 
             `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`;
     } else {
-    
+    console.log("Counting")
     const targetFolderId = e.target.dataset.folder;
     const targetTaskId = e.target.dataset.id;
     const targetFolder = myFolders.find(item=>{
@@ -1201,7 +1201,7 @@ if(workingFoldersContainer) {
                    };*/
 
         if(e.target.matches(`button.badge-urgent`) && e.target.hasAttribute("data-folder") ){
-                    addBadge(e)
+                    addBadge(e);
                    }; 
        
         if(e.target.matches(`button.badge-optional`) && e.target.hasAttribute("data-folder")){
@@ -1384,6 +1384,7 @@ if(workingFoldersContainer) {
             if(document.querySelector(`.badge-div-only-task`)){
                     document.querySelector(`.badge-${classPart}[data-id=${taskId}][data-role="badge-menu-btn"]`).disabled = false;
                 };
+            countUrgentTask(e);
             
         };
         
