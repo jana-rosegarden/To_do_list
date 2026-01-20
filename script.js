@@ -59,11 +59,23 @@ function decrement(b){
     return b = --b;
 }
 function getTaskIndex(e){
-    const folderId = e.target.dataset.folder;
-    const nodeList = document.querySelectorAll(`span[data-role="task-index"][data-folder=${folderId}]`);
-    nodeList.forEach((item, index)=>{
+    if (e.target.dataset.folder) {
+        const folderId = e.target.dataset.folder;
+        const nodeList = document.querySelectorAll(`span[data-role="task-index"][data-folder=${folderId}]`);
+        nodeList.forEach((item, index)=>{
         item.textContent = `${index +1}.`
     })
+    } else {
+        const nodeListOnlyTask = document.querySelectorAll(`span[data-role="task-index-only-task"]`);
+        nodeListOnlyTask.forEach((item, index)=>{
+            item.textContent = `${index +1}.`
+        });
+        /*
+        const spanTaskIndex = document.createElement("span");
+            spanTaskIndex.dataset.id = newOnlyTask.id;
+        */
+    }
+    
 };
 function createBadges(e, parent){
     let taskId = "";
@@ -115,8 +127,8 @@ function createBadges(e, parent){
     badgeUrgent.dataset.id = taskId;
     badgeUrgent.dataset.role = "badge-menu-btn";
     foldersVersion ? badgeUrgent.dataset.folder = folderId : null;
-    badgeUrgent.classList.add("badge-urgent");
-    badgeUrgent.textContent = "Urgent";
+    badgeUrgent.classList.add("badge-dringend");
+    badgeUrgent.textContent = "Dringend";
     //Optional:
     const badgeOptional = document.createElement("button");
     badgeOptional.dataset.id = taskId;
@@ -208,7 +220,7 @@ function countCompletedTask(e, givenFunction) {
         }).length;
         document.querySelector(".only-task-stata-done").innerHTML = `
         Erledigt! &#127882;: ${completedOnlyTaskAmount}`;
-        console.log(completedOnlyTaskAmount)
+    
     } else{
     const targetFolderId = e.target.dataset.folder;
     const targetFolder = myFolders.find(item =>{
@@ -249,9 +261,9 @@ function countUrgentTask(e){
         
         //updating DOM:
         document.querySelector(".only-task-stata-urgent").textContent = 
-            `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`;
+            `Dringend zu erledigen: ${urgentOnlyTaskAmount}`;
     } else {
-    console.log("Counting")
+    
     const targetFolderId = e.target.dataset.folder;
     const targetTaskId = e.target.dataset.id;
     const targetFolder = myFolders.find(item=>{
@@ -262,7 +274,7 @@ function countUrgentTask(e){
     }).length;
     
     document.querySelector(`.folder-urgent-stata[data-id=${targetFolderId}]`).innerHTML = `
-            Drinnende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
+            Dringende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
     `;
 
     }
@@ -279,7 +291,7 @@ function addBadge(e){
         
         //Updating array:
         currentTask.badges.push(badgeName);
-        if(badgeName === "Urgent"){
+        if(badgeName === "Dringend"){
             currentTask.isUrgent = true;
             urgentOnlyTaskAmount += 1;
             /*
@@ -339,7 +351,7 @@ function addBadge(e){
     
     if (!currentTask.badge.includes(newBadge)) {
         currentTask.badge.push(newBadge);
-        if (newBadge === "Urgent"){
+        if (newBadge === "Dringend"){
         currentTask.isUrgent = true
     }
     };
@@ -350,7 +362,7 @@ function addBadge(e){
         }).length;
         
     document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = `
-        Drinnende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
+        Dringende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
     `; 
 
      /* am 12.02.2026 - dieser Abschnitt entfernt worden, um neue Struktur für einen Badge einzurichten
@@ -448,7 +460,7 @@ function badgeDatumAdd(e){
     datumLabel.classList.add("datum-label");
     datumLabel.dataset.id = taskId;
     datumLabel.htmlFor = taskId;
-    datumLabel.textContent = "Choose date:";
+    datumLabel.textContent = "Datum auswählen:";
 
     const datumInput = document.createElement("input");
     datumInput.type = "date";
@@ -517,7 +529,7 @@ function badgeDatumAdd(e){
 
     const datumLeftShow = document.createElement("h4");
     datumLeftShow.classList.add("datum-left-show");
-    datumLeftShow.textContent = `${dayTill} days left`;
+    datumLeftShow.textContent = `${dayTill} Tage geblieben`;
 
     usersDatumDivShow.appendChild(chosenUsersDatumShow);
     usersDatumDivShow.appendChild(datumLeftShow);
@@ -588,12 +600,18 @@ if(addFolderBtn || addTaskOnlyBtn) {
             liTask.dataset.role ="li-only-task";
             //liTask.textContent = newOnlyTask.name;
 
+            //New Code - 19-01:
+
+            const topRow = document.createElement("div");
+            topRow.classList.add("task-top-row");
+
+            const spanTaskIndex = document.createElement("span");
+            spanTaskIndex.dataset.id = newOnlyTask.id;
+            spanTaskIndex.dataset.role = "task-index-only-task";
+
             const liTaskNameH4 = document.createElement("h4");
             liTaskNameH4.textContent = newOnlyTask.name;
             liTaskNameH4.classList.add("li-task-name-h4");
-            
-            onlyTaskList.appendChild(liTask);
-            liTask.appendChild(liTaskNameH4);
 
             //div for buttons:
             const liBtnDiv = document.createElement("div");
@@ -604,6 +622,26 @@ if(addFolderBtn || addTaskOnlyBtn) {
             const chosenBadgesDivOnlyTask = document.createElement("div");
             chosenBadgesDivOnlyTask.dataset.id = newOnlyTask.id;
             chosenBadgesDivOnlyTask.classList.add("chosen-badges-div-only-task");
+
+            topRow.appendChild(spanTaskIndex);
+            topRow.appendChild(liTaskNameH4);
+
+            liTask.appendChild(topRow);
+            liTask.appendChild(liBtnDiv);
+            liTask.appendChild(chosenBadgesDivOnlyTask);
+
+            onlyTaskList.appendChild(liTask);
+
+            /* New Code - 19.01 
+            
+            
+            liTask.appendChild(spanTaskIndex);
+            liTask.appendChild(liTaskNameH4); */
+            
+
+            
+
+            
 
             //Buttons:
             const addTaskBadge = document.createElement("button");
@@ -623,14 +661,15 @@ if(addFolderBtn || addTaskOnlyBtn) {
             delTaskBtn.textContent = "+";
             delTaskBtn.classList.add("close-btn-x");
 
-            liTask.appendChild(liBtnDiv);
-            liTask.appendChild(chosenBadgesDivOnlyTask);
+            //liTask.appendChild(liBtnDiv);
+            //liTask.appendChild(chosenBadgesDivOnlyTask);
 
             liBtnDiv.appendChild(completedTaskBtn);
             liBtnDiv.appendChild(addTaskBadge);
             liBtnDiv.appendChild(delTaskBtn);
 
             countOnTask(e);
+            getTaskIndex(e)
             };
             
             //showing badges:
@@ -650,7 +689,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
               };
               
              //adding different badges - will be executed below with addBadge();??
-            if(e.target.matches(`button.badge-urgent`)){
+            if(e.target.matches(`button.badge-dringend`)){
                 addBadge(e);
                 countUrgentTask(e)
             };
@@ -674,7 +713,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                     return item !== currentBadge
                 }); 
                 //Updating array and stata info:
-                if(currentBadge === "Urgent"){
+                if(currentBadge === "Dringend"){
                     currentTask.isUrgent = false;
                     countUrgentTask(e);
                 };
@@ -723,6 +762,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
             countOnTask(e);
             countCompletedTask(e); 
             countUrgentTask(e);
+            getTaskIndex(e);
             };
             //deleting task fron onlyTask array:
             if(e.target.matches(`.close-btn-x[data-role="closeLi"]`)){
@@ -738,6 +778,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 document.querySelector(`li[data-id=${taskId}]`).remove();
                 countOnTask(e);
                 countUrgentTask(e);
+                getTaskIndex(e);
                }
            
                 })
@@ -883,7 +924,7 @@ if (renderingFolderDiv) {
         const folderUrgentStata = document.createElement("h4");
         folderUrgentStata.classList.add("folder-urgent-stata");
         folderUrgentStata.dataset.id = newFolder.id;
-        folderUrgentStata.textContent = `Drinned: 0`;
+        folderUrgentStata.textContent = `Dringend: 0`;
 
         const folderOnStata = document.createElement("h4");
         folderOnStata.classList.add("folder-on-stata");
@@ -1200,7 +1241,7 @@ if(workingFoldersContainer) {
                     addBadge(e)
                    };*/
 
-        if(e.target.matches(`button.badge-urgent`) && e.target.hasAttribute("data-folder") ){
+        if(e.target.matches(`button.badge-dringend`) && e.target.hasAttribute("data-folder") ){
                     addBadge(e);
                    }; 
        
@@ -1235,7 +1276,7 @@ if(workingFoldersContainer) {
             datumLabel.classList.add("datum-label");
             datumLabel.dataset.id = taskId;
             datumLabel.htmlFor = taskId;
-            datumLabel.textContent = "Choose date:";
+            datumLabel.textContent = "Datum auswählen:";
 
             const datumInput = document.createElement("input");
             datumInput.type = "date";
@@ -1318,7 +1359,7 @@ if(workingFoldersContainer) {
 
                 //disabling setting datum badge if already chosen:
                 if(document.querySelector(`.badge-div-only-task`)){
-                    console.log("menu!")
+                    
                 }
                 });
                          
@@ -1370,7 +1411,7 @@ if(workingFoldersContainer) {
            
 
             //updating badge state in currentTask:
-            if(badgeName === "Urgent"){
+            if(badgeName === "Dringend"){
                 currentTask.isUrgent = false
             };
             currentTask.badge = currentTask.badge.filter(item =>{
