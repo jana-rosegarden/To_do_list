@@ -554,7 +554,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
     //hide #add-folder-btn and #add-only-folder-btn:
 
     document.querySelector("#add-folder-btn").classList.add("hide");
-    document.querySelector("#add-task-only-btn").classList.add("hide");
+    //document.querySelector("#add-task-only-btn").classList.add("hide");
     document.querySelector(".list-example-folder").classList.add("hide"); //entfernt Example folder wenn btn klicked
 });
     //Only-Task List initialisieren:

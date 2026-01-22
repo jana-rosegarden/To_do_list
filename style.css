@@ -444,7 +444,7 @@ body{
   background-color: #ede1e5;
   padding: var(--20px);
   border-radius: var(--5px);
-  
+  margin-bottom: var(--10px);
 }
 .badge-div-only-task{
   position: absolute;
@@ -699,7 +699,7 @@ body{
   padding: var(--10px) 0;
   display: flex;
   align-items: center;
-  
+  gap: var(--5px);
   font-weight: 700;
   flex-wrap: wrap;
   border-bottom: solid 2px lightgray;
