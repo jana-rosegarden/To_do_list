@@ -4,7 +4,7 @@ const renderingFolderDiv = document.getElementById("rendering-folder-div");
 const addFolderBtn = document.getElementById("add-folder-btn");
 const closeAddFolder = document.getElementById("close-add-folder");
 let foldersNameInput = document.getElementById("folders-name");
-//let usersFolderName = document.getElementById("users-folder-name")
+
 const createFolderBtn = document.getElementById("create-folder-btn");
 const folderDisplayDiv = document.getElementById("folder-display-div");
 
@@ -33,7 +33,6 @@ let renderedFolder = document.getElementById("rendered-folder");
 
 let myFolders = [];
 let myOnlyTaskList = [];
-//let targetFolder = ""
 let newTaskInput = ""
 let newTask = {}
 let targetTaskBadge = ""
@@ -70,10 +69,7 @@ function getTaskIndex(e){
         nodeListOnlyTask.forEach((item, index)=>{
             item.textContent = `${index +1}.`
         });
-        /*
-        const spanTaskIndex = document.createElement("span");
-            spanTaskIndex.dataset.id = newOnlyTask.id;
-        */
+        
     }
     
 };
@@ -173,8 +169,6 @@ function createBadges(e, parent){
         }
     };          
     };
-//Funktion unter noch zu bearbeiten, 12.11.25
-
 
 function countOnTask(e, givenFunction){
     //For only-task:
@@ -200,10 +194,6 @@ function countOnTask(e, givenFunction){
     let onTasks = targetFolder.onTasks;
     targetFolder.onTasks = givenFunction(onTasks);
     
-    /*
-    onTaskAmount = targetFolder.tasks.filter(task =>{
-                return(task.isOn === true)
-            }).length; */
     //In DOM Anzahl von onTask anzeigen:
     document.querySelector(`.folder-on-stata[data-id=${targetFolderId}]`).innerHTML = `
             Zu erledigen: <span class="stata-numbers"> ${targetFolder.onTasks} </span>
@@ -231,23 +221,9 @@ function countCompletedTask(e, givenFunction) {
 
     //Aktualisieren targetFolder in myFolders:
     targetFolder.completedTasks = completedTasksAmount;
-    
-    
-    //Old version:
-    /*
-    completedTaskAmount = targetFolder.tasks.filter(task =>{
-                return task.isCompleted === true
-            }).length;
-    document.querySelector(`.completed-statistik[data-id=${targetFolder.id}]`).innerHTML = `
-                Completed: ${completedTaskAmount}
-            `;
-    document.querySelector(`.folder-completed-stata[data-id=${targetFolderId}]`).innerHTML = `
-            Completed: ${completedTaskAmount} tasks
-    `
-    */
-     document.querySelector(`.folder-completed-stata[data-id=${targetFolderId}]`).innerHTML = `Erledigt: <span class="stata-numbers"> ${completedTasksAmount} </span>`;
+    document.querySelector(`.folder-completed-stata[data-id=${targetFolderId}]`).innerHTML = `Erledigt: <span class="stata-numbers"> ${completedTasksAmount} </span>`;
 
-    }
+    };
     
 };
 
@@ -294,8 +270,6 @@ function addBadge(e){
         if(badgeName === "Dringend"){
             currentTask.isUrgent = true;
             urgentOnlyTaskAmount += 1;
-            /*
-            document.querySelector(`.only-task-stata-urgent`).textContent = `Drinnend zu erledigen: ${urgentOnlyTaskAmount}`*/
             countUrgentTask(e);
         };
 
@@ -330,7 +304,6 @@ function addBadge(e){
         const badgeFromMenu = document.querySelector(`.badge-${badgeName.toLowerCase()}[data-role="badge-menu-btn"]`).disabled = true;
         
         //close badge menu when choosing a badge: 
-
         document.querySelector(`.badge-div-only-task[data-id=${taskId}]`).remove();
 
     } else {
@@ -338,9 +311,6 @@ function addBadge(e){
     const taskId   = e.target.dataset.id;
     const newBadge = e.target.textContent.trim();
     let classPart = newBadge.toLowerCase().trim();
-
-    //let chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
-
     let chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
 
     
@@ -364,30 +334,6 @@ function addBadge(e){
     document.querySelector(`.folder-urgent-stata[data-id=${folderId}]`).innerHTML = `
         Dringende: <span class="stata-numbers"> ${urgentTaskAmount} </span>
     `; 
-
-     /* am 12.02.2026 - dieser Abschnitt entfernt worden, um neue Struktur für einen Badge einzurichten
-    const spanBadge = document.createElement("span");
-    spanBadge.dataset.id = taskId;
-    spanBadge.classList.add("spanBadge");
-    spanBadge.textContent = newBadge;
-
-    chosenBadgeContainer.appendChild(spanBadge);
-    let classPart = newBadge.toLowerCase().trim();
-    document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = true;
-    spanBadge.classList.add("spanBadge", `badge-${classPart}`);
-
-    //remove badge Option:
-    const removeBtn = document.createElement("button");
-    removeBtn.classList.add("remove-badge-btn");
-    removeBtn.classList.add("close-btn-x");
-    removeBtn.type = "button";
-    removeBtn.dataset.id= newBadge;
-    removeBtn.textContent = "*";
-
-    spanBadge.appendChild(removeBtn);
-    */
-
-    //neue Struktur - berabeiten:
 
     //container for a badge:
     const badgeContainer = document.createElement("div");
@@ -419,26 +365,12 @@ function addBadge(e){
     badgeContainer.appendChild(badgeSpan);
     badgeContainer.appendChild(badgeCloseBtn);
 
-    //bis jetzt bearbeiten
-
     //diasble choosing the same badge:
     document.querySelector(`.badge-${newBadge.toLowerCase()}[data-role="badge-menu-btn"]`).disabled = true;
         
     //close badge menu when choosing a badge: 
-
     document.querySelector(`.badge-div-only-task[data-id=${taskId}]`).remove();
 
-   
-    /*
-    // Badge im DOM anzeigen
-                document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML +=
-                    `<span data-id=${taskId}>${newBadge}</span>`;
-
-                    
-                    let classPart = newBadge.toLowerCase().trim();
-                    document.querySelector(`.badge-${classPart}[data-id=${taskId}]`).disabled = true;
-     */
-     
      };
     }
 function badgeDatumAdd(e){
@@ -552,16 +484,13 @@ if(addFolderBtn || addTaskOnlyBtn) {
     renderingFolderDiv.classList.remove("hide");
 
     //hide #add-folder-btn and #add-only-folder-btn:
-
     document.querySelector("#add-folder-btn").classList.add("hide");
-    //document.querySelector("#add-task-only-btn").classList.add("hide");
     document.querySelector(".list-example-folder").classList.add("hide"); //entfernt Example folder wenn btn klicked
 });
     //Only-Task List initialisieren:
     addTaskOnlyBtn.addEventListener("click", function(){
         document.querySelector(".list-example-folder").classList.add("hide");
 
-        
         //Show Task-Ordner:
         onlyTaskContainer.classList.remove("hide");
         addTaskOnlyBtn.classList.add("hide");
@@ -632,17 +561,6 @@ if(addFolderBtn || addTaskOnlyBtn) {
 
             onlyTaskList.appendChild(liTask);
 
-            /* New Code - 19.01 
-            
-            
-            liTask.appendChild(spanTaskIndex);
-            liTask.appendChild(liTaskNameH4); */
-            
-
-            
-
-            
-
             //Buttons:
             const addTaskBadge = document.createElement("button");
             addTaskBadge.dataset.id = newOnlyTask.id;
@@ -660,9 +578,6 @@ if(addFolderBtn || addTaskOnlyBtn) {
             delTaskBtn.dataset.role = "closeLi";
             delTaskBtn.textContent = "+";
             delTaskBtn.classList.add("close-btn-x");
-
-            //liTask.appendChild(liBtnDiv);
-            //liTask.appendChild(chosenBadgesDivOnlyTask);
 
             liBtnDiv.appendChild(completedTaskBtn);
             liBtnDiv.appendChild(addTaskBadge);
@@ -702,10 +617,9 @@ if(addFolderBtn || addTaskOnlyBtn) {
              //closing differnet badges:
              if(e.target.matches(`.close-btn-x[data-role="close-badge"]`)){
                 
-                const taskId = e.target.dataset.id; //works
-                const currentBadge = e.target.dataset.content; // works, returns string, "Urgent"/"Optional"
+                const taskId = e.target.dataset.id; 
+                const currentBadge = e.target.dataset.content; 
                 
-
                 const currentTask = myOnlyTaskList.find(item =>{
                     return item.id === taskId;
                 }); 
@@ -718,7 +632,6 @@ if(addFolderBtn || addTaskOnlyBtn) {
                     countUrgentTask(e);
                 };
                 
-
                 //disable buttons in btn menu:
                 if(document.querySelector(`.badge-div-only-task`)){
                     document.querySelector(`.badge-${currentBadge.toLowerCase()}[data-id=${taskId}][data-role="badge-menu-btn"]`).disabled = false;
@@ -781,7 +694,7 @@ if(addFolderBtn || addTaskOnlyBtn) {
                 getTaskIndex(e);
                }
            
-                })
+                });
             
     });
 };
@@ -822,36 +735,6 @@ if (renderingFolderDiv) {
         renderFolder.classList.add("folder-div");
         renderFolder.dataset.id = newFolder.id;
 
-        /*
-        renderFolder.innerHTML = `
-            
-                    <h2>${newFolder.name}</h2>
-                    <button type="button" data-id=${newFolder.id} class="folder-delete-btn"> Delete Folder </button>
-                    <button type="button" data-id=${newFolder.id} class="folder-add-task-btn"> Create task </button>
-
-                    <div class="task-container hide" data-id=${newFolder.id}> 
-
-                        <input type="text" class="input-task" data-id=${newFolder.id} required>
-                        <button type="button" class="add-task-btn" data-id=${newFolder.id} data-folder=${newFolder.id}> add </button> 
-                        <ul class="task-list" data-id=${newFolder.id}> </ul>
-
-                    </div>
-                        <ul class="completed-task-ul" data-id=${newFolder.id}> </ul>
-                        <div class="folders-statistik" data-id=${newFolder.id}>
-                            <h3 class="completed-statistik" data-id=${newFolder.id}>Completed: ${newFolder.completedTasks}</h3>
-                        </div>
-                        
-                    </div>
-          
-        `
-        //Diese Abschnitt rausgemonnem:
-
-        //<div class="folders-statistik" data-id=${newFolder.id}>
-          //                  <h3 class="on-statistik" data-id=${newFolder.id}>To do: ${newFolder.onTasks}</h3>
-                       // </div> 
-
-        workingFoldersContainer.appendChild(renderFolder) */
-        
         foldersNameInput.value = ""
         
         //Folder und Task Struktur:
@@ -918,7 +801,6 @@ if (renderingFolderDiv) {
         displayFolderEl.appendChild(displayFolderHeader);
         displayFolderEl.appendChild(displayFolderBtnDiv);
         
-
         //add Statistik Data:
 
         const folderUrgentStata = document.createElement("h4");
@@ -939,31 +821,6 @@ if (renderingFolderDiv) {
         displayFolderEl.appendChild(folderUrgentStata);
         displayFolderEl.appendChild(folderOnStata);
         displayFolderEl.appendChild(folderCompletedStata);
-
-        //displayTaskBoardEl -> STRUCTURE:
-        
-        /* 12.12 dieser div entfernen - testen 
-        const taskBoardBtnDiv = document.createElement("div");
-        taskBoardBtnDiv.classList.add("task-board-btn-div");
-
-        displayTaskBoardEl.appendChild(taskBoardBtnDiv);
-
-        
-        //taskBoardBtnDiv with two buttons:
-        const addTaskBtn = document.createElement("button");
-        addTaskBtn.dataset.id = newFolder.id;
-        addTaskBtn.type = "button";
-        addTaskBtn.classList.add("folder-add-task-btn");
-        addTaskBtn.textContent = "Aufgabe hinzufügen";
-
-        const closeTaskBoardBtn = document.createElement("button");
-        closeTaskBoardBtn.dataset.id = newFolder.id;
-        closeTaskBoardBtn.type = "button";
-        closeTaskBoardBtn.classList.add("close-task-board-btn");
-        closeTaskBoardBtn.textContent = "schließen";
-
-        taskBoardBtnDiv.appendChild(addTaskBtn);
-        taskBoardBtnDiv.appendChild(closeTaskBoardBtn); */
 
         //structure von task-input-board: div -> label + input + button:
         const taskInputBoardDiv = document.createElement("div");
@@ -1020,37 +877,9 @@ if (renderingFolderDiv) {
         ulcompletedTasksDiv.classList.add("ul-completed-tasks-div");
         newTaskDiv.appendChild(ulcompletedTasksDiv);
 
-        /*
-        <h2>${newFolder.name}</h2>
-                    <button type="button" data-id=${newFolder.id} class="folder-delete-btn"> Delete Folder </button>
-                    <button type="button" data-id=${newFolder.id} class="folder-add-task-btn"> Create task </button>
-
-                    <div class="task-container hide" data-id=${newFolder.id}> 
-
-                        <input type="text" class="input-task" data-id=${newFolder.id} required>
-                        <button type="button" class="add-task-btn" data-id=${newFolder.id} data-folder=${newFolder.id}> add </button> 
-                        <ul class="task-list" data-id=${newFolder.id}> </ul>
-
-                    </div>
-                        <ul class="completed-task-ul" data-id=${newFolder.id}> </ul>
-                        <div class="folders-statistik" data-id=${newFolder.id}>
-                            <h3 class="completed-statistik" data-id=${newFolder.id}>Completed: ${newFolder.completedTasks}</h3>
-                        </div>
-                        
-                    </div> */
-
-        //append displayFolderEl and displayTaskBoardEl to folderWrapper:
-        
-        /*
-            div
-              h3 Folder Name
-              h4 Urgent task: ...
-              h4 To do: ... task
-              h4 Completed task: ...
-        */ 
-    })
+    });
     
-}
+};
 
 
 //Aufgabe erteilen und mit Folder verknüpfen
@@ -1075,14 +904,6 @@ if(workingFoldersContainer) {
             
         };
 
-        
-        /*12.12 - element vom DOM entfernt - testen 
-        if(e.target.classList.contains("folder-add-task-btn")){
-            //document.querySelector(`.task-container[data-id=${folderId}]`).classList.remove("hide")
-            document.querySelector(`.task-input-board-div[data-id=${folderId}]`).classList.remove("hide");
-            
-        } */
-
         // Delete Folder
         if(e.target.matches(`.close-btn-x[data-role="remove-folder"]`)){
             const folderId = e.target.dataset.id;
@@ -1096,14 +917,7 @@ if(workingFoldersContainer) {
 
         // Add Task Btn
         if(e.target.matches(".new-task-btn")){
-
-            /*
-            const newTaskBtn = document.createElement("button");
-           newTaskBtn.type = "button";
-           newTaskBtn.dataset.id = newFolder.id;
-           newTaskBtn.classList.add("new-task-btn");
-            newTaskBtn.textContent = "+";  */
-            
+  
             const folderId = e.target.dataset.folder;
             
             newTaskInput = document.querySelector(`.input-task[data-id=${folderId}]`).value.trim();
@@ -1123,8 +937,6 @@ if(workingFoldersContainer) {
                 badge:[]
             };
             document.querySelector(`.input-task[data-id=${folderId}]`).value = "";
-
-            //const targetTaskId = newTask.id;
 
             //update tasks array:
             targetFolder.tasks.push(newTask);
@@ -1146,7 +958,6 @@ if(workingFoldersContainer) {
             taskIndex.dataset.role = "task-index";
             //taskIndex.textContent = `${targetFolder.tasks.length}`;
             
-
             const taskName = document.createElement("span");
             taskName.dataset.id = newTask.id;
             taskName.dataset.folder = newTask.folder;
@@ -1171,7 +982,6 @@ if(workingFoldersContainer) {
             buttonCompletedTask.textContent = "✔";
             buttonsNewTaskDiv.appendChild(buttonCompletedTask);
 
-
             //badge btn um badge zu wählen:
             const addBadgeBtn = document.createElement("button");
             addBadgeBtn.dataset.id = newTask.id;
@@ -1189,7 +999,6 @@ if(workingFoldersContainer) {
             buttonRemoveTask.textContent = "+";
             buttonsNewTaskDiv.appendChild(buttonRemoveTask);
 
-            
             //badge container zu Auswahl:
             const badgeDiv = document.createElement("div");
             badgeDiv.dataset.id = newTask.id;
@@ -1197,27 +1006,8 @@ if(workingFoldersContainer) {
             badgeDiv.classList.add("badge-div");
             liNewTask.appendChild(badgeDiv);
 
-            //create new task element (ALTER Code):
-            /*
-            let newTaskElement= document.createElement("li");
-            newTaskElement.classList.add(".task-li")
-            newTaskElement.dataset.id = folderId
-            newTaskElement.innerHTML = `
-                    <h5 class="task-name" data-id=${newTask.id}> ${newTask.name}</h5>
-                    <div class="chosen-badge-container" data-id=${newTask.id}> </div> 
-                    <button type="button" class="done-task-btn" data-folder=${targetFolder.id} data-id=${newTask.id}> Done </button> 
-                    <button type="button" class="delete-task-btn" data-folder=${targetFolder.id} data-id=${newTask.id}> Delete </button>
-                    <button type="button" class="add-badge-btn" data-folder=${targetFolder.id} data-id=${newTask.id}> Add badge </button>
-
-                    <div class="task-badge-container hide" data-id=${newTask.id}> 
-                        <button type="button" class="badge-urgent" data-id=${newTask.id} data-folder=${folderId}> Urgent </button>
-                        <button type="button" class="badge-datum" data-id=${newTask.id} data-folder=${folderId}> Datum  </button>
-                        <button type="button" class="badge-optional" data-id=${newTask.id} data-folder=${folderId}> Optional </button>
-                    </div>
-            `; */
             //how many on tasks?:
-            countOnTask(e, increment)
-            //document.querySelector(`.task-list[data-id=${folderId}]`).appendChild(newTaskElement)
+            countOnTask(e, increment);
             //clear the input
             document.querySelector(`.input-task[data-id=${folderId}]`).value = ""
         }
@@ -1232,14 +1022,6 @@ if(workingFoldersContainer) {
         }
 
         //handling Badges
-
-
-        //TEST - 7.1.26:
-        /*
-        if(e.target.classList.contains("badge-urgent") && !e.target.parentNode.classList.contains("badge-div-only-task")){
-                    console.log(e.target)
-                    addBadge(e)
-                   };*/
 
         if(e.target.matches(`button.badge-dringend`) && e.target.hasAttribute("data-folder") ){
                     addBadge(e);
@@ -1261,10 +1043,8 @@ if(workingFoldersContainer) {
                 });
 
             document.querySelector(`.badge-datum[data-id=${taskId}]`).remove();
-            //document.querySelector(`button.close-btn-x[data-id=${taskId}][data-content="Datum"]`).remove();
+            
             document.querySelector(`.badge-container[data-id=${taskId}][data-folder=${currentFolderId}][data-content="Datum"]`).remove();
-
-            //const chosenBadgeContainer = document.querySelector(`.chosen-badge-container[data-id=${taskId}]`);
 
             const chosenBadgeContainer = document.querySelector(`.badge-div[data-id=${taskId}]`);
 
@@ -1350,7 +1130,6 @@ if(workingFoldersContainer) {
                 removeBtn.dataset.role = "close-badge";
                 removeBtn.textContent = "+";
                 
-
                 userDate.appendChild(showDatumChosen);
                 userDate.appendChild(showDayLeft);
                 userDate.appendChild(removeBtn);
@@ -1362,18 +1141,7 @@ if(workingFoldersContainer) {
                     
                 }
                 });
-                         
-                         
-                /* TEST von 13.01.26:
-                removeBtn.addEventListener("click", ()=>{
-                    currentTask.badge = currentTask.badge.filter(item =>{
-                        return item !== removeBtn.dataset.id
-                    });
-                    //console.log(currentTask.badge)
-                    document.querySelector(`.badge-datum[data-id=${taskId}]`).disabled = false;
-                    removeBtn.parentNode.remove();
-                    })
-                       */   
+                   
                         
                    };         
         
@@ -1381,19 +1149,7 @@ if(workingFoldersContainer) {
         if(e.target.matches(`.close-btn-x[data-role="close-badge-div"]`)){
             e.target.parentNode.remove();
         }
-                    /*
-                    document.querySelector(`.chosen-badge-container[data-id=${taskId}]`).innerHTML += 
-                    `
-                    <form action="" class="datum-form" data-id=${taskId}>
-                        <label for=${taskId} class="datum-label" data-id=${taskId}>Choose date: </label>
-
-                        <input type="date" class="datum-input" data-id=${taskId} min="">
-                        <input type="submit" class="datum-submit-btn" data-id=${taskId} >
-                    </form>
-                     <h4 class="users-datum-el" data-id=${taskId}></h4>
-                    ` ;
-                    */
-
+                    
         // Removing badges:
         //Urgent and Optional:
         if(e.target.matches(`.close-btn-x[data-role="close-badge"]`) && e.target.hasAttribute("data-folder"))
@@ -1409,7 +1165,6 @@ if(workingFoldersContainer) {
                 return (item.id === taskId)
             });
            
-
             //updating badge state in currentTask:
             if(badgeName === "Dringend"){
                 currentTask.isUrgent = false
@@ -1449,17 +1204,15 @@ if(workingFoldersContainer) {
             });
 
             //delete li element from the DOM:
-            //e.target.parentNode.remove();
             document.querySelector(`.li-new-task[data-id=${targetTaskId}][data-folder=${targetFolderId}]`).remove();
             
             countOnTask(e, decrement);
-            //countCompletedTask(e);
             countUrgentTask(e);
             getTaskIndex(e);
         }
 
         //mark the task as "Done"
-        //Old version: if(e.target.classList.contains("done-task-btn"))
+        
         if(e.target.classList.contains("button-completed-task")){
             const taskId = e.target.dataset.id;
             const folderId = e.target.dataset.folder;
@@ -1484,27 +1237,6 @@ if(workingFoldersContainer) {
            
             //DOM aktualisieren:
 
-            //Old version:
-            /*
-            let newCompletedTaskLi = document.createElement("li");
-            newCompletedTaskLi.dataset.id = targetFolder.id;
-            newCompletedTaskLi.innerHTML = `
-                ${document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).innerHTML}
-            `
-            document.querySelector(`.completed-task-ul[data-id=${targetFolder.id}]`).appendChild(newCompletedTaskLi);
-            document.querySelector(`.task-name[data-id=${e.target.dataset.id}]`).parentNode.remove();*/
-
-            //New version:
-             
-
-            //get new index of onTasks:
-            //document.querySelector(`span[data-role="task-index"][data-folder=${folderId}]`).textContent = `${targetFolder.length}`;
-            /*const onTasksArr = targetFolder.tasks.filter(item=>{
-                return item.isOn ===  true
-            }); */
-
-            
-
             //Show list of completed tasks:
             let completedTasksAmount = targetFolder.completedTasks;
             const completedTasksArr = targetFolder.tasks.filter(item=>{
@@ -1523,23 +1255,17 @@ if(workingFoldersContainer) {
 
             //update a folder statistik:
            
-            /*
-            const nodeList = document.querySelectorAll(`span[data-role="task-index"][data-folder=${folderId}]`);
-            nodeList.forEach((item,index) =>{
-                item.textContent = index + 1
-            }); */
-
             getTaskIndex(e);
             if(currentTask.isUrgent === true){
                 currentTask.isUrgent = false;
                 countUrgentTask(e);
             };
             
-        }
+        };
       
-    })
+    });
         
-}
+};
 
 /*Test Taschenlicht */
     const overlay = document.querySelector('.overlay-desktop');
