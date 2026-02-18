@@ -1,22 +1,25 @@
-# To Do App - Liste von Aufgaben erstellen
+# To Do App 
+Eine einfache To-Do-Anwendung zum Erstellen, Kategorisieren und Verwalten von Aufgaben.
 
 ## App hilft To Do Aufgaben erstellen, kategorisieren und markieren
 
-**Technoligien**
+**Technologien**
 -HTML5
 -CSS
 -JavaScript(Vanilla)
 
 **Funktionen**
--Aufgaben mit und ohne Folder (kategorisieren) schreiben
--Aufgaben mit Labels (Optional, Dringend) markieren
--Ausführungsdatum angeben
--Aufgaben bearbeiten (lösen und löschen) und Übersicht behalten
+- Aufgaben erstellen – mit oder ohne Kategorie (Ordner)
+- Aufgaben mit Labels kennzeichnen (z. B. „Optional“, „Dringend“)
+- Fälligkeitsdatum für Aufgaben festlegen
+- Aufgaben bearbeiten, als erledigt markieren oder löschen
+- Übersichtliche Darstellung der Aufgabenliste
+
 
 [Link zu To Do App](https://smart-to-do-list-full.netlify.app/)
 
 ##Screenshot von Hauptseite:
-(./screenshot.png)
+![Screenshot der To Do App](./screenshot.png)
 
 _Autorin_
 Jana Engenhorst
