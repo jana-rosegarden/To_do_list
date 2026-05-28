@@ -1,5 +1,6 @@
 # To Do App 
-Eine einfache To-Do-Anwendung zum Erstellen, Kategorisieren und Verwalten von Aufgaben.
+Responsive To-Do-List-Anwendung mit JavaScript.
+Benutzer können Aufgaben erstellen, bearbeiten und verwalten.
 
 ## App hilft To Do Aufgaben erstellen, kategorisieren und markieren
 
